@@ -40,4 +40,7 @@ app.add_url_rule('/api/v1/ansible_jeneric/<string:user_id>/<string:project_id>/<
 app.add_url_rule('/api/v1/ansible_playbook/<string:user_id>/<string:project_id>/<string:playbook_id>',
                  view_func=AnsiblePlaybook.as_view('ansible_playbook'))
 
+app.add_url_rule('/api/v1/ansible_playbook_manual/<string:user_id>/<string:project_id>/<string:playbook_id>',
+                 view_func=AnsiblePlaybookManual.as_view('ansible_playbook_manual'))
+
     #return app
