@@ -289,6 +289,8 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
                 private_key_file='/tmp/' + playbook_id + '_key',
                 forks=10
             ).run()
+            # delete tmp key file
+            os.remove('/tmp/' + playbook_id + '_key')
         else:
             play = ansible.playbook.PlayBook(
                 playbook='/tmp/' + playbook_id + '.yml',
@@ -318,7 +320,5 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
 
     # delete tmp playbook file
     os.remove('/tmp/' + playbook_id + '.yml')
-    # delete tmp key file
-    os.remove('/tmp/' + playbook_id + '_key')
 
     return play
