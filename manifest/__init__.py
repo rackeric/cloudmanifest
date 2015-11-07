@@ -2,7 +2,7 @@ from flask import Flask
 from celery import Celery
 from config import config
 from views import MainView
-from tasks import AnsibleJeneric, AnsiblePlaybook
+from tasks import AnsibleJeneric, AnsiblePlaybook, AnsiblePlaybookManual
 from celery.decorators import task
 
 def make_celery(app):
