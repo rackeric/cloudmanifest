@@ -262,7 +262,7 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
 
     # close file
     tmpPlay.close()
-    os.chmod("/tmp/" + playbook_id + '_key', 0600)
+
 
     # get ssh key file
     URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id
@@ -283,6 +283,9 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
             # set up ssh key in tmp
             tmpKey = open("/tmp/" + playbook_id + '_key', "w")
             tmpKey.write(ssh_key)
+            # close file
+            tmpKey.close()
+            os.chmod("/tmp/" + playbook_id + '_key', 0600)
 
             # now ansible playbook
             play = ansible.playbook.PlayBook(
@@ -294,8 +297,6 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
                 private_key_file='/tmp/' + playbook_id + '_key',
                 forks=10
             ).run()
-            # close file
-            tmpKey.close()
             # delete tmp key file
             os.remove('/tmp/' + playbook_id + '_key')
         else:
@@ -406,8 +407,6 @@ def run_ansible_playbook_manual(user_id, project_id, playbook_id):
     URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id
     ssh_key = myExternalData.get(URL, '/ssh_key')
 
-    os.chmod("/tmp/" + playbook_id + '_key', 0600)
-
     prev = sys.stdout
     prev2 = sys.stderr
     try:
@@ -423,6 +422,9 @@ def run_ansible_playbook_manual(user_id, project_id, playbook_id):
             # create ssh key file
             tmpKey = open("/tmp/" + playbook_id + '_key', "w")
             tmpKey.write(ssh_key)
+            # close file
+            tmpKey.close()
+            os.chmod("/tmp/" + playbook_id + '_key', 0600)
             # run playbook
             play = ansible.playbook.PlayBook(
                 playbook='/tmp/' + playbook_id + '.yml',
@@ -433,8 +435,6 @@ def run_ansible_playbook_manual(user_id, project_id, playbook_id):
                 private_key_file='/tmp/' + playbook_id + '_key',
                 forks=10
             ).run()
-            # close file
-            tmpKey.close()
             # delete tmp key file
             os.remove('/tmp/' + playbook_id + '_key')
         else:
