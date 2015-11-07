@@ -117,6 +117,8 @@ def run_ansible_jeneric(user_id, project_id, job_id):
             private_key_file='/tmp/' + project_id + '_key',
     	inventory=myInventory,
         ).run()
+        // remove the tmp key
+        os.remove('/tmp/' + project_id + '_key')
     else:
         results = ansible.runner.Runner(
         pattern=myPattern,
@@ -139,7 +141,6 @@ def run_ansible_jeneric(user_id, project_id, job_id):
         # HELP! can't get a proper json object to pass, but below string works
         #
     myExternalData.post(job_id + '/returns/', sanitize_keys(results))
-    os.remove('/tmp/' + project_id + '_key')
 
     return results
 
