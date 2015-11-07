@@ -1,3 +1,4 @@
+from cStringIO import StringIO
 from firebase import FirebaseApplication, FirebaseAuthentication
 #from firebase import Firebase
 import firebase
