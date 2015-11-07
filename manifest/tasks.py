@@ -91,14 +91,16 @@ def run_ansible_jeneric(user_id, project_id, job_id):
     URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id
     ssh_key = myExternalData.get(URL, '/ssh_key')
 
-    tmpKey = open("/tmp/" + project_id + '_key', "w")
-    tmpKey.write(ssh_key)
-        # close file
-    tmpKey.close()
-    os.chmod("/tmp/" + project_id + '_key', 0600)
-
-        # run ansible module
+    # run ansible module
     if ssh_key is not None:
+        // set up ssh key in tmp
+        tmpKey = open("/tmp/" + project_id + '_key', "w")
+        tmpKey.write(ssh_key)
+            # close file
+        tmpKey.close()
+        os.chmod("/tmp/" + project_id + '_key', 0600)
+
+        // now the ansible runner
         results = ansible.runner.Runner(
         pattern=myPattern,
            	forks=10,
@@ -252,13 +254,6 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
     URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id
     ssh_key = myExternalData.get(URL, '/ssh_key')
 
-    tmpKey = open("/tmp/" + playbook_id + '_key', "w")
-    tmpKey.write(ssh_key)
-    # close file
-    tmpKey.close()
-    os.chmod("/tmp/" + playbook_id + '_key', 0600)
-
-
     prev = sys.stdout
     prev2 = sys.stderr
     try:
@@ -271,6 +266,14 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
         runner_cb = ansible.callbacks.PlaybookRunnerCallbacks(stats, verbose=utils.VERBOSITY)
 
         if ssh_key is not None:
+            // set up ssh key in tmp
+            tmpKey = open("/tmp/" + playbook_id + '_key', "w")
+            tmpKey.write(ssh_key)
+            # close file
+            tmpKey.close()
+            os.chmod("/tmp/" + playbook_id + '_key', 0600)
+
+            // now ansible playbook
             play = ansible.playbook.PlayBook(
                 playbook='/tmp/' + playbook_id + '.yml',
                 inventory=myInventory,
