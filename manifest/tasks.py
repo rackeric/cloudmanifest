@@ -266,14 +266,14 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
         runner_cb = ansible.callbacks.PlaybookRunnerCallbacks(stats, verbose=utils.VERBOSITY)
 
         if ssh_key is not None:
-            // set up ssh key in tmp
+            # set up ssh key in tmp
             tmpKey = open("/tmp/" + playbook_id + '_key', "w")
             tmpKey.write(ssh_key)
             # close file
             tmpKey.close()
             os.chmod("/tmp/" + playbook_id + '_key', 0600)
 
-            // now ansible playbook
+            # now ansible playbook
             play = ansible.playbook.PlayBook(
                 playbook='/tmp/' + playbook_id + '.yml',
                 inventory=myInventory,
