@@ -12,6 +12,7 @@ import os
 import sys
 from flask.views import MethodView
 from ansible import callbacks
+import pyrax
 
 class AnsibleJeneric(MethodView):
     #@task()
