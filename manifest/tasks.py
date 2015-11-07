@@ -93,14 +93,14 @@ def run_ansible_jeneric(user_id, project_id, job_id):
 
     # run ansible module
     if ssh_key is not None:
-        // set up ssh key in tmp
+        # set up ssh key in tmp
         tmpKey = open("/tmp/" + project_id + '_key', "w")
         tmpKey.write(ssh_key)
             # close file
         tmpKey.close()
         os.chmod("/tmp/" + project_id + '_key', 0600)
 
-        // now the ansible runner
+        # now the ansible runner
         results = ansible.runner.Runner(
         pattern=myPattern,
            	forks=10,
