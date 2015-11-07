@@ -34,7 +34,10 @@ celery = make_celery(app)
 app.add_url_rule('/', view_func=MainView.as_view('main_view'))
 
 #app.add_url_rule('/api/v1/ansible_jeneric/<string:user_id>/<string:project_id>/<string:job_id>', view_func=task(AnsibleJeneric.as_view('ansible_jeneric1')))
-app.add_url_rule('/api/v1/ansible_jeneric/<string:user_id>/<string:project_id>/<string:job_id>', view_func=AnsibleJeneric.as_view('ansible_jeneric1'))
+app.add_url_rule('/api/v1/ansible_jeneric/<string:user_id>/<string:project_id>/<string:job_id>',
+                 view_func=AnsibleJeneric.as_view('ansible_jeneric'))
 
+app.add_url_rule('/api/v1/ansible_playbook/<string:user_id>/<string:project_id>/<string:playbook_id>',
+                 view_func=AnsiblePlaybook.as_view('ansible_playbook'))
 
-    #return app, celery
+    #return app
