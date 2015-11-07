@@ -316,7 +316,7 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
     ## WHERE?
     # update status to RUNNING in firebase
     myExternalData.patch(playbook_id, {"status":"COMPLETE"})
-    #myExternalData.post(playbook_id + '/returns', play)
+    myExternalData.post(playbook_id + '/returns', play)
 
     # delete tmp playbook file
     os.remove('/tmp/' + playbook_id + '.yml')
