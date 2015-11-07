@@ -1,0 +1,43 @@
+<br />
+<h1>Panel Users</h1>
+
+<hr>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                Firebase SimpleLogin Users<div class="pull-right"><input ng-model="searchText" placeholder="Search" /></div>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover">
+                    <tr>
+                        <th>User ID</th>
+                        <th>Email</th>
+                        <th>Name</th>
+                        <th>Projects</th>
+                    </tr>
+                    <tr ng-repeat="user in userslist | orderByPriority | orderBy:'$id' | filter:searchText">
+                        <td>
+                            {{ user.$id }}
+                        </td><td>
+                            {{ user.email }}
+                        </td><td>
+                            {{ user.name }}
+                        </td><td>
+                            {{ user.projects }}
+                        </td><td>
+                            <button type="button" class="btn btn-danger btn-xs" ng-click="removeUser(user.$id)">Delete</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+      body { padding-top: 10px;
+             padding-bottom: 70px; }
+  </style>

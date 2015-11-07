@@ -1,0 +1,43 @@
+<br />
+<h1>Ansible Inventory Options<small>full list of ansible inventory options</small></h1>
+<br />
+
+<div class="panel panel-default">
+<div class="panel-heading">Add Server Stuffs</div>
+<div class="panel-body">
+    <form>
+        <input placeholder="Module Name" ng-model="newOptionName">
+        <input placeholder="Description" ng-model="newOptionDescription">
+        
+        <button type="submit" ng-click="addToModulesList()">Add</button>
+    </form>
+</div>
+</div>
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Ansible Modules<div class="pull-right"><input ng-model="searchText" placeholder="search modules..." /></div>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover">
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr ng-repeat="option in ansibleinventoryoptions | orderByPriority | orderBy:'name' | filter:searchText">
+                        <td>
+                            <a href="#/projects/{{ projectID }}/roles/{{ key }}">{{ option.name }}</a>
+                        </td><td>
+                            {{ option.description }}
+                        </td><td>
+                            <button type="button" class="btn btn-danger btn-xs" ng-click="removeModule(module.$id)">Delete</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

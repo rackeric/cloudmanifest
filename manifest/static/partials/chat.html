@@ -1,0 +1,23 @@
+<div class="page-header">
+    <h2><small>COMING SOON!</small><br>Chat<br><small>community forum to talk about this stuff</small></h2>
+</div>
+
+<br />
+
+<div class="row">
+  <div class="col-md-7">
+    <table class="table table-striped">
+      <tr ng-repeat="message in messages | orderByPriority | reverse">
+          <td width="15%">{{message.user_email}}</td>
+          <td>{{message.text}}</td>
+      </tr>
+    </table>
+    <form>
+      <input class="form-control" placeholder="Message..." ng-model="newMessage"><button class="btn btn-primary form-control" type="submit" ng-click="addMessage()">send</button>
+    </form>
+  </div>
+</div>
+
+
+<br><br>
+

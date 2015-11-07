@@ -1,0 +1,164 @@
+<br />
+<br />
+
+<!-- ROW ROW ROW : Variables and Handlers -->
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">Play Variables</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover" ng-show="ansiblePublicRepo.variables">
+                    <tr>
+                        <th>Name</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr ng-repeat="var in ansiblePublicRepo.variables | orderByPriority">
+                        <td>
+                            {{ var.name }}
+                        </td><td>
+                            {{ var.value }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-5">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">Play Handlers</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover" ng-show="ansiblePublicRepo.handlers">
+                    <tr>
+                        <th>Name</th>
+                        <th>Service</th>
+                        <th>State</th>
+                    </tr>
+                    <tr ng-repeat="handler in ansiblePublicRepo.handlers | orderByPriority">
+                        <td>
+                            {{ handler.name }}
+                        </td><td>
+                            {{ handler.service_name }}
+                        </td><td>
+                            {{ handler.service_state }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">Play Includes</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover" ng-show="ansiblePublicRepo.includes">
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                    <tr ng-repeat="include in ansiblePublicRepo.includes | orderByPriority">
+                        <td>
+                            {{ include.name }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+
+<!-- ROW ROW ROW : Ansible Tasks-->
+<div class="row">
+    <div class="col-md-12">
+
+        <!-- Server Resources -->
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="panel-title">Ansible Tasks
+                <small><div class="pull-right">
+                  <font color="black"><input type="text" class="input-xs" ng-model="searchText" placeholder="Search" /></font>
+                </div></small></div>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover" id="modules" ng-show="ansiblePublicRepo.modules">
+                    <tr>
+                        <th>Name</th>
+                        <th>Action</th>
+                        <th>Options</th>
+                        <th>Notify</th>
+                        <th>Order</th>
+                    </tr>
+                    <tr ng-show="ansiblePublicRepo.modules" ng-repeat="module in ansiblePublicRepo.modules | orderByPriority | orderBy:'order' | filter:searchText">
+                        <td>
+                            {{ module.name }}
+                        </td><td>
+                            {{ module.option }}
+                        </td><td>
+                            <p ng-repeat="option in module.options">{{ option.paramater }}: {{ option.value }}</p>
+                        </td><td>
+                            {{ module.notify }}
+                        </td><td>
+                            {{ module.order }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+
+<!-- Ethans Practice Generator -->
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Ansible Play Generator - <i>drag and drop to sort</i></h3>
+    </div>
+    <div class="panel-body">
+
+<pre class="brush: yaml">---
+- name: {{ role.name }}
+  hosts: <a href="#" editable-text="role.playHosts">{{ role.playHosts }}</a>
+  remote_user: <a href="#" editable-text="role.playUsername">{{ role.playUsername }}</a>
+  <div ng-if="hasVariables(ansiblePublicRepo.variables)">&nbsp;&nbsp;vars:<br />
+    <span ng-show="ansiblePublicRepo.variables" ng-repeat="variable in ansiblePublicRepo.variables | orderByPriority">&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" editable-text="variable.name">{{ variable.name }}</a>: <a href="#" editable-text="variable.value">{{ variable.value}}</a><br /></span></div>
+  <div ng-if="hasTasks(ansiblePublicRepo.modules)">&nbsp;&nbsp;tasks:
+<div ng-if="hasIncludes(ansiblePublicRepo.includes)"><span ng-show="ansiblePublicRepo.includes" ng-repeat="include in ansiblePublicRepo.includes | orderByPriority">&nbsp;&nbsp;&nbsp;&nbsp;- include: <a href="#" editable-text="include.name">{{ include.name }}</a></span></div>
+<!-- <span ui-sortable="sortableOptions" ng-model="modulesInput" id="sortMe"> <!-- start sort -->
+<span ui-sortable ng-model="modulesInput" id="sortMe"> <!-- start sort -->
+  <p ng-show="ansiblePublicRepo.modules" ng-repeat="(key, module) in ansiblePublicRepo.modules | orderByPriority | orderBy:'order' | filter:searchText" id="module-{{ key }}">
+&nbsp;&nbsp;&nbsp;&nbsp;- name: <a href="#" editable-text="module.name">{{ module.name }}</a><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ module.option }}:<span ng-repeat="(key, option) in module.options"> {{ option.paramater }}=<a href="#" editable-text="option.value">{{ option.value }}</a></span>
+    <span ng-if="module.notify"><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;notify:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- {{ module.notify }}
+    </span>
+    </p>
+</span>
+</div> <!-- end sort -->
+  <div ng-if="hasHandlers(ansiblePublicRepo.handlers)">&nbsp;&nbsp;handlers:
+    <p ng-show="ansiblePublicRepo.handlers" ng-repeat="handler in ansiblePublicRepo.handlers | orderByPriority">&nbsp;&nbsp;&nbsp;&nbsp;- name: <a href="#" editable-text="handler.name">{{ handler.name }}</a>
+    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;service: name=<a href="#" editable-text="handler.service_name">{{ handler.service_name }}</a> state=<a href="#" editable-text="handler.service_state">{{ handler.service_state }}</a></p></div>
+</pre>
+    </div>
+</div>
+
+<br />
+
+
+
+
+
+<style>
+  #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+  #sortable li { margin: 0 5px 5px 5px; padding: 5px; font-size: 1.2em; height: 1.5em; }
+  html>body #sortable li { height: 1.5em; line-height: 1.2em; }
+  .ui-state-highlight { height: 1.5em; line-height: 1.2em; }
+</style>

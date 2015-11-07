@@ -1,0 +1,103 @@
+<br />
+<h1>Super Awesome Admin Panel</h1>
+
+<hr>
+
+<div class="row">
+    <div class="col-md-12">
+        <a href="#/ansiblemodulelist" class="btn btn-primary btn-lg">Ansible Modules</a>
+        <a href="#/ansiblecloudmodulelist" class="btn btn-primary btn-lg">Ansible Cloud Modules</a>
+        <a href="#/ansibleinventoryoptions" class="btn btn-primary btn-lg">Ansible Inventory Options</a></a>
+        <a href="#/saltmodulelist" class="btn btn-primary btn-lg">Salt Modules</a>
+        <a href="#/admin_users" class="btn btn-primary btn-lg">Users</a>
+    </div>
+</div>
+
+<br />
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                Firebase SimpleLogin Users<div class="pull-right"><input ng-model="userSearchText" placeholder="Search" /></div>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover">
+                    <tr>
+                        <th>User ID</th>
+                        <th>Email</th>
+                        <th>Name</th>
+                        <th>Projects</th>
+                        <th>isAdmin</th>
+                        <th>Actions</th>
+                    </tr>
+                    <tr ng-repeat="user in userslist | orderByPriority | orderBy:'$id' | filter:userSearchText">
+                        <td>
+                            {{ user.$id }}
+                        </td><td>
+                            {{ user.email }}
+                        </td><td>
+                            {{ user.name }}
+                        </td><td>
+                            <div ng-repeat="(key, project) in user.projects">
+                                {{ project.name }} - {{ project.type }}
+                            </div>
+                        </td><td>
+                            {{ user.isAdmin }}
+                        </td><td>
+                            <button type="button" class="btn btn-danger btn-xs" ng-click="removeUser(user.$id)">Delete</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                Feedback Items<div class="pull-right"><input ng-model="feedbackSearchText" placeholder="Search" /></div>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover">
+                    <tr>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>User Email</th>
+                        <th>User ID</th>
+                        <th>Page</th>
+                        <th>Feedback</th>
+                        <th>Action</th>
+                    </tr>
+                    <tr ng-repeat="item in feedbacklist | orderByPriority | orderBy:'date' | filter:feedbackSearchText">
+                        <td>
+                            {{ item.status }}
+                        </td><td>
+                            {{ item.date }}
+                        </td><td>
+                            {{ item.user_email }}
+                        </td><td>
+                            {{ item.user_id }}
+                        </td><td>
+                            {{ item.page }}
+                        </td><td>
+                            {{ item.feedback }}
+                        </td><td>
+                            <button type="button" class="btn btn-danger btn-xs" ng-click="removeFeedback(item.$id)">Delete</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+      body { padding-top: 10px;
+             padding-bottom: 70px; }
+  </style>

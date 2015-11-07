@@ -1,0 +1,75 @@
+<div class="page-header"><h2>Projects Overview</h2></div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Add Project</h3>
+            </div>
+            <div class="panel-body">
+              <form class="form-inline">
+                  <div class="form-group">
+                      <input type="text" class="form-control" placeholder="New Project Name" ng-model="newProjectName">
+                      <input type="text" class="form-control" placeholder="Description" ng-model="newProjectDescription">
+                      <select ng-model="newProjectType" class="form-control">
+                        <option value="" disabled selected>Type</option>
+                        <option>Ansible</option>
+                        <option>Salt</option>
+                      </select>
+                      <button class="btn btn-default btn" type="submit" ng-click="addProject()">Add</button>
+                  </div>
+              
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Description / Notes</h3>
+            </div>
+            <div class="panel-body">
+                <textarea class="form-control" rows="1" ng-model="description">{{ description }}</textarea>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title">Projects
+      <small><font color="black"><input type="text" class="input-xs pull-right" ng-model="searchText" placeholder="Search" /></font></small></div>
+    </div>
+    <div class="panel-body">
+        <!-- Start Projects table -->
+        <table class="table table-hover" id="projects" ng-show="projects">
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Options</th>
+            </tr>
+            <tr ng-repeat="(key, project) in projects | orderByPriority | filter:searchText">
+                <td>
+                    <a href="#/projects/{{ project.type }}/{{ project.$id }}">{{ project.name }}</a>
+                </td>
+                <td>
+                    {{ project.type }}
+                </td>
+                <td>
+                    {{ project.description }}
+                </td>
+                <td>
+                    <button type="button" class="btn btn-success btn-xs" ng-click="cloneProject(project.$id)">Clone</button>
+                    <a href="#/projects/{{ project.type }}/{{ project.$id }}" class="btn btn-info btn-xs" role="button">Manage</a>
+                    <!-- <button popover="{{ renameInput }}" popover-title="Rename Project" class="btn btn-warning btn-xs">Rename</button> -->
+                    <button type="button" class="btn btn-danger btn-xs" ng-click="removeProject(project.$id)">Delete</button>
+                </td>
+            </tr>
+        </table>
+        <!--  End projects table  -->
+    </div>
+</div>
+
+<br />

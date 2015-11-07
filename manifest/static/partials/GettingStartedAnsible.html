@@ -1,0 +1,224 @@
+
+<div class="page-header"><h2>Getting started with Manifest-Destiny (Ansible)</h2></div>
+
+<div class="row">
+    <div class="col-lg-12">
+
+
+<dl class="dl-horizontal">
+  <dd>At this point it’s obvious Manifest-Destiny has intrigued you or at least peaked your interest enough that you want to learn more about it and how to use it. Fortunately it’s a very easy program to use and get started on, so let’s begin!</dd>
+  <br />
+  <dt>Creating a Project</dt>
+
+  <dd>The first thing you’re going to want to do is create a project. A project in Manifest-Destiny is basically your website, but can be anything you want. If you work on multiple websites then this is how you can keep everything separate and organized. This is also where we suggest you divide your production and development environments. For example, say you’re working on WebsiteA, we would suggest you create two projects called ‘WebsiteA-Prod’ and ‘WebsiteA-Dev’. With the ability to share roles and playbooks between projects it makes it easy to work in your development environment and only move onto your production environment when ready!</dd>
+  <br />
+  <dd><img src="https://c5c763d43bcb0cbf38a3-5343f0b2d7b0e3b66bc3dbb0378e6de3.ssl.cf1.rackcdn.com/addproject.png" class="img-responsive"></dd>
+  <br />
+  <dd>There are three things to fill out when creating a project:</dd>
+  <br />
+  <dd><b>Name</b></dd>
+  <dd>This is the name of the Project</dd>
+  <br />
+  <dd><b>Description</b></dd>
+  <dd>Short and simple but descriptive enough to know what it is</dd>
+  <br />
+  <dd><b>Type</b></dd>
+  <dd>Choose which type of automation tool you want to use. This is very important, as all subsequent screens will be based on what you choose here.</dd>
+  <br />
+  
+  <dd>Once you have everything filled out then all you need to do is click on the Add button and you have created your first project! Once created you can either click on the project name or the Manage button to go inside the project.</dd>
+  <br />
+  
+  
+  <dd><img src="https://c5c763d43bcb0cbf38a3-5343f0b2d7b0e3b66bc3dbb0378e6de3.ssl.cf1.rackcdn.com/projects.png" class="img-responsive"></dd>
+  <br />
+
+  <dt>Inside a Project</dt>
+  <dd>There are quite a few things to do inside a project once it’s been created:</dd>
+  <br />
+  <dd>1. Creating a Role</dd>
+  <br />
+  <dd>2. Add a Host</dd>
+  <br />
+  <dd>3. Create a Cloud Server</dd>
+  <br />
+  <dd>4. View Inventory File</dd>
+  <br />
+  <dd>5. View Jobs</dd>
+<br />
+ 
+  <dt>Add a Host</dt>
+
+  <dd>A host is just a Cloud server that you want Ansible to interact with. If you have built a Cloud server outside of Manifest-Destiny that you wish to interact with still then you can manually add it to the inventory file so that you can run playbooks against it.</dd>
+  <br />
+  <dd><img src="https://c5c763d43bcb0cbf38a3-5343f0b2d7b0e3b66bc3dbb0378e6de3.ssl.cf1.rackcdn.com/addhost.png" class="img-responsive"></dd>
+  <br />
+ 
+  <dt>Create a Cloud Server</dt>
+
+  <dd>You can create Rackspace Cloud servers from Manifest that will automatically be added to the inventory file. Creating a Rackspace Cloud server through Manifest is just as easy as creating it through the mycloud.rackspace.com portal, but with a few more options:</dd>
+  <br />
+  <dd><img src="https://c5c763d43bcb0cbf38a3-5343f0b2d7b0e3b66bc3dbb0378e6de3.ssl.cf1.rackcdn.com/rax.png" class="img-responsive"></dd>
+  <br />
+ 
+  <dd><b>Region</b></dd>
+  <dd>The region you wish to build your server in</dd>
+  <br />
+  <dd><b>Server Name</b></dd>
+  <dd>Name of the server</dd>
+  <br />
+  <dd><b>Group</b></dd>
+  <dd>How you wish to define this server. This is important because when you run a playbook it will run against what’s defined here and within the playbook.</dd>
+  <br />
+  <dd><b>Flavor</b></dd>
+  <dd>The size of Cloud server you wish to build.</dd>
+  <br />
+  <dd><b>Image</b></dd>
+  <dd>The UUID of cloud server image you wish to build.</dd>
+  <br />
+ 
+  <dt>Inventory</dt>
+
+  <dd>The inventory is a list of your Cloud servers and what group they belong to. It’s with this that playbooks will associate which hosts to run a playbook against.
+You can also run Ansible ad-hoc commands from this section. To learn more about ad-hoc commands please visit http://docs.ansible.com/intro_adhoc.html</dd>
+  <br />
+  <dd><img src="https://c5c763d43bcb0cbf38a3-5343f0b2d7b0e3b66bc3dbb0378e6de3.ssl.cf1.rackcdn.com/inventory.png" class="img-responsive"></dd>
+  <br />
+ 
+  <dt>Jobs</dt>
+  <dd>Whenever you create a server or run an ad-hoc command through Manifest it will show up under the Jobs section to let you know the status. You can see if it’s queued, running, building or completed.</dd>
+  <br />
+  <dd><img src="https://c5c763d43bcb0cbf38a3-5343f0b2d7b0e3b66bc3dbb0378e6de3.ssl.cf1.rackcdn.com/jobs.png" class="img-responsive"></dd>
+  <br />
+ 
+  <dt>Creating a Role</dt>
+  <dd>While creating a project helps keep things organized from high-level perspective, we also want to keep things organized within a project, which is why we define roles. A role can be anything you want. You can use a role to define a server or group of servers or even use it to define what sort of playbooks are contained within there. For example, you could create the following roles:</dd>
+  <br />
+  <dd><img src="https://c5c763d43bcb0cbf38a3-5343f0b2d7b0e3b66bc3dbb0378e6de3.ssl.cf1.rackcdn.com/playbooks.png" class="img-responsive"></dd>
+  <br />
+  <dd><b>Webserver</b></dd>
+  <dd>Playbooks created in this role are strictly for webserver type configuration</dd>
+  <br />
+  <dd><b>Database</b></dd>
+  <dd>Playbooks created in this role are strictly for database type configuration</dd>
+  <br />
+  <dd><b>Common</b></dd>
+  <dd>Playbooks create in this role can be used on all types of servers and can contain such things as creating users, directories, importing files and updating common packages.</dd>
+  <br />
+  <dd>How you define roles are completely up to you of course and are here to make organization within projects easier. Creating a role is even easier than creating a project as there are only two fields to fill out:</dd>
+  <br />
+  <dd><b>Name</b></dd>
+  <dd>This is the name of the role</dd>
+  <br />
+  <dd><b>Description</b></dd>
+  <dd>Short and simple description of what the role is</dd>
+  <br />
+  <dd>Once that has been filled out then all you need to do is click on the Add button and you have created your first role! Once created you can either click on the name of the role or on the Manage button to go inside the role.</dd>
+  <br />
+ 
+  <dt>Inside a Role</dt>
+
+  <dd>There are a few things to do within a role:</dd>
+  <br />
+  <dd>1. Create playbook</dd>
+  <br />
+  <dd>2. Import playbook from repo</dd>
+  <br />
+
+  <dt>Import Playbook</dt>
+  <dd>Coming soon, available on self hosted Destiny servers.</dd>
+  <br />
+
+  <dt>Creating a Playbook</dt>
+  <dd>A playbook can be as detailed or as simple as you want! Ansible is a very powerful automation tool that can help administer and deploy your environment and Manifest-Destiny has tried to simplify that as much as possible. So let’s get started!</dd>
+  <br />
+
+  <dd><b>Add Tasks</b></dd>
+  <dd>When you add a task to an Ansible playbook you are defining what function or module you are wanting to be performed or executed when this particular playbook runs against a server. A task can be something as simple as creating users or as complicated as setting up MySQL replication. Typically playbooks have multiple tasks to be performed.</dd>
+  <br />
+  
+  <dd><img src="https://c5c763d43bcb0cbf38a3-5343f0b2d7b0e3b66bc3dbb0378e6de3.ssl.cf1.rackcdn.com/addtasks.png" class="img-responsive"></dd>
+  <br />
+  
+  <dd>In Manifest-Destiny we have tasks divided into 5 sections:</dd>
+  <br />
+  <dd><b>All Modules</b></dd>
+  <dd>Every module in Ansible is located here</dd>
+  <br />
+  <dd><b>System</b></dd>
+  <dd>Common modules that are run on the OS</dd>
+  <br />
+  <dd><b>Packages</b></dd>
+  <dd>Common package handlers for OS</dd>
+  <br />
+  <dd><b>Files</b></dd>
+  <dd>Common modules relating to performing tasks with files</dd>
+  <br />
+  <dd><b>Databases</b></dd>
+  <dd>Common modules relating to various databases(MySQL, PostgreSQL)</dd>
+  <br />
+  <dd>Regardless of which module you choose to use, you will have to give a descriptive name to that task. This has no affect on how the task is ran from the playbook, but instead helps others who look at the playbook understand what is going on without having to interpret what the task is doing.</dd>
+  <br />
+  <dd>Once a module is chosen then a few things happen depending on the module:</dd>
+  <br />
+  <dd><b>Description</b></dd>
+  <dd>This gives a brief description of what this module does as defined by Ansible itself.</dd>
+  <br />
+  <dd><b>Options</b></dd>
+  <dd>You are given all the available options of things that can be done with this module. By click on the input text box you will then be given a description of what exactly this option is and what arguments can go with it.</dd>
+  <br />
+  <dd>Now that everything has been filled out you can just click on the Add button and the module has now been added to the task section of the playbook!</dd>
+  <br />
+  
+  <dd><img src="https://c5c763d43bcb0cbf38a3-5343f0b2d7b0e3b66bc3dbb0378e6de3.ssl.cf1.rackcdn.com/tasks.png" class="img-responsive"></dd>
+  <br />
+ 
+  
+  <dt>Set Host(s) and User</dt>
+  <dd>Here is where you determine what host(s) to run play against and which user.</dd>
+  <br />
+  <dd><img src="https://c5c763d43bcb0cbf38a3-5343f0b2d7b0e3b66bc3dbb0378e6de3.ssl.cf1.rackcdn.com/misc.png" class="img-responsive"></dd>
+  <br />
+  <dd><b>Hosts</b></dd>
+  <dd>What you put here needs to match a group you have defined in your inventory. Any hosts that is included in this group in the inventory will have the playbook run against it.</dd>
+  <br />
+  <dd><b>User</b></dd>
+  <dd>This is the user you want Ansible to run as. This is typically the root user but can be changed to any user you want. Just make sure the user has adequate permission ot perform the tasks you have put in the playbook.</dd>
+  <br />
+
+  <dt>Add Play Variables</dt>
+  <dd>Variables can be used in jinja templated files you push to server.</dd>
+  <br />
+  <dd><b>Variable Name</b></dd>
+  <dd>Name of the variable</dd>
+  <br />
+  <dd><b>Value</b></dd>
+  <dd>Value of the variable being set</dd>
+  <br />
+
+  <dt>Add Play Handlers</dt>
+  <dd>Handlers are used to control system services and can be triggered by other tasks.</dd>
+  <br />
+  <dd><b>Handler Name</b></dd>
+  <dd>Name of the handler</dd>
+  <br />
+  <dd><b>Service Name</b></dd>
+  <dd>Name of the service</dd>
+  <br />
+  <dd><b>Service State</b></dd>
+  <dd>State the service should be in</dd>
+  <br />
+  <dd><b>Add Include</b></dd>
+  <dd>Name of other playbook you wish to include in this one</dd>
+  <br />
+  
+  <dt>Generator Output</dt>
+  <dd>Finally, you can see the sample output of what your playbook will look in YAML format.</dd>
+  <br />
+  <dd><img src="https://c5c763d43bcb0cbf38a3-5343f0b2d7b0e3b66bc3dbb0378e6de3.ssl.cf1.rackcdn.com/generator.png" class="img-responsive"></dd>
+  <br />
+
+</dl>
+
+    </div>
+</div>

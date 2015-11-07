@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en" ng-app="myApp">
+<head>
+  <meta charset="utf-8">
+  <title>Manifest</title>
+  
+  <!-- <link rel="stylesheet" href="css/app.css"> -->
+  
+  <!-- JQuery UI stuff, used for autocompletion -->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  
+  <!-- custom bootstrap css -->
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  <!--  <link rel="stylesheet" href="css/magic-bootstrap16.css">  -->
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <!--  <script src="js/bootstrap.js"></script> -->
+
+</head>
+<body ng-cloak-auth class="hide">
+
+    <!-- Start Nav Bar -->
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a ng-class="{ active: isActive('/home') }" class="navbar-brand" href="#/home"><img src="img/document-scroll-icon.png" width="19" height="17"></img>
+          Manifest</a>
+        </div>
+        <div class="collapse navbar-collapse" ng-controller="HeaderController">
+          <ul class="nav navbar-nav">
+            <li ng-show-auth="login" ng-class="{ active: isActive('/projects') }"><a href="#/projects">Projects</a></li>
+            <li ng-show-auth="login" ng-class="{ active: isActive('/repository') }"><a href="#/repository">Repo</a></li>
+            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Support<b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#/GettingStartedAnsible">Ansible Guide</a></li>
+                
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav pull-right">
+            <!-- <li ng-class="{ active: isAdmin() }"><a href="#/poof">Admin</a></li> -->
+            <li ng-class="{ active: isActive('/login') }" ng-show-auth="logout,error"><a href="#/login">Login</a></li>
+            <li ng-class="{ active: isActive('/account') }" ng-show-auth="login"><a href="#/account">Account</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+    <!-- End Nav Bar -->
+
+
+  <div class="container-fluid">
+      <div ng-view></div>
+  </div>
+
+
+  <div class="container-fluid">
+      <nav class="navbar navbar-inverse navbar-fixed-bottom" ng-controller="foot" role="navigation">
+        
+        <div class="row-fluid">
+            <div class="col-md-12">
+                <form class="form-inline pull-right">
+                    <div class="form-group">
+                            <input class="form-control" placeholder="Leave feedback for this page." ng-model="feedback" style="width:350px"></input>
+                            <button class="btn btn-primary" ng-click="submitFeedback()">Send</button>
+                        
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+        
+      </nav>
+  </div>
+  
+  
+  
+  
+  <!-- AngularJS + Firebase, AngularFire -->
+  <script src="https://cdn.firebase.com/v0/firebase.js"></script>
+  <script src="https://cdn.firebase.com/v0/firebase-simple-login.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-route.js"></script>
+  <script src="https://cdn.firebase.com/libs/angularfire/0.6.0/angularfire.js"></script>
+
+  <!-- Angular Seed stuff -->
+  <script src="js/app.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="js/directives.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/routes.js"></script>
+  <script src="js/services.js"></script>
+  <script src="js/service.login.js"></script>
+  <script src="js/service.firebase.js"></script>
+  <script src="js/module.waitForAuth.js"></script>
+  <script src="js/module.routeSecurity.js"></script>
+
+  <!-- Bootstrap stuff -->
+  <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
+  <!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet"> -->
+  <!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css"> -->
+  <!-- <link href="http://bootswatch.com/spacelab/bootstrap.css" rel="stylesheet"> -->
+
+  <!-- UI Angular Bootstrap -->
+  <script src="js/ui-bootstrap.js"></script>
+  <script src="js/ui-bootstrap-tpls.js"></script>
+
+  
+  <!-- Edit in place stuff -->
+  <link href="css/xeditable.css" rel="stylesheet">
+  <script src="js/xeditable.min.js"></script>
+
+  <!-- typeahead stuff -->
+  <script src="js/type.js"></script>
+  
+  <!-- ui sortable stuff -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>
+  <script type="text/javascript" src="js/sortable.js"></script>
+  
+  <link href="css/app.css" rel="stylesheet">
+
+  <!-- style to lower page due to navbar height -->
+  <style>
+      body { padding-top: 25px;
+             padding-bottom: 70px; }
+  </style>
+  
+
+  
+</body>
+</html>

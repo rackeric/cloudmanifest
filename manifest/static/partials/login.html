@@ -1,0 +1,40 @@
+<style>
+    body {
+      padding-top: 40px;
+      padding-bottom: 40px;
+      background-color: #eee;
+    }
+    .form-signin {
+      max-width: 330px;
+      padding: 15px;
+      margin: 0 auto;
+    }
+    .form-signin .form-signin-heading,
+    .form-signin .checkbox {
+      margin-bottom: 10px;
+    }
+</style>
+
+    <div class="row">
+        <div class="col-sm-4 col-md-offset-4">
+            <form class="form-signin">
+                <h2 class="form-signin-heading">Please sign in</h2>
+                <label>
+                    <input class="form-control" placeholder="Email address" type="text" ng-model="email" />
+                </label>
+                <label>
+                    <input class="form-control" placeholder="Password" type="password" ng-model="pass" />
+                </label>
+                <label ng-cloak ng-show="createMode">
+                    <input class="form-control" placeholder="Confirm Password" type="password" ng-model="confirm" />
+                </label>
+                <div class="pull-right">
+                    <button class="btn btn-primary" ng-click="login()" ng-hide="createMode">Log In</button>
+                    <button class="btn btn-primary" ng-click="createMode = true" ng-hide="createMode">Register</button>
+                    <button class="btn btn-primary" ng-cloak ng-show="createMode" ng-click="createAccount()">Create Account</button>
+                    <button class="btn btn-primary" ng-cloak ng-show="createMode" ng-click="createMode = false">Cancel</button>
+                </div>
+                <p ng-show="err" class="error">{{err}}</p>
+            </form>
+        </div>
+    </div>

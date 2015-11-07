@@ -1,0 +1,54 @@
+<div class="page-header"><h2><small>PROJECT</small><br><a href="#" editable-text="projectName">{{ projectName }}</a><br><small>{{ project.type }}</small></h2></div>
+
+<div class="row">
+    <div class="col-sm-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">Add Role</h3>
+            </div>
+            <div class="panel-body">
+                <form class="form-inline">
+                  <div class="form-group">
+                      <input type="text" class="form-control" placeholder="New Role Name" ng-model="newRoleName">
+                      <input type="text" class="form-control" placeholder="Description" ng-model="newRoleDescription">
+                      <button class="btn btn-primary btn" type="submit" ng-click="addRole()">Add</button>
+                  </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+      <div class="panel-title">Roles / Salt States
+      <small><font color="black"><input class="input-xs pull-right" ng-model="searchText" placeholder="Search" /></font></small></div>
+    </div>
+    <div class="panel-body">
+        <table class="table table-hover"  id="roles" ng-show="roles">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+            <tr ng-repeat="(key, role) in roles | orderByPriority | filter:searchText">
+                <td>
+                    <a href="#/projects/Salt/{{ projectID }}/roles/{{ role.$id }}">{{ role.name }}</a>
+                </td>
+                <td>
+                    {{ role.description }}
+                </td>
+                <td>
+                    <button type="button" class="btn btn-success btn-xs" ng-click="cloneRole(projectID, role.$id)">Clone</button>
+                    <a href="#/projects/Salt/{{ projectID }}/roles/{{ role.$id }}" class="btn btn-info btn-xs" role="button">Manage</a>
+                    <button popover="Click role name at top of next page to rename." popover-title="Rename Project" class="btn btn-warning btn-xs">Rename</button>
+                    <button type="button" class="btn btn-danger btn-xs" ng-click="removeRole(role.$id)">Delete</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<br />

@@ -1,0 +1,432 @@
+<!--  WORK IN PROGRESS ON SYNTAX HIGHLIGHTER
+
+<script type="text/javascript" src="../js/shCore.js"></script>
+ 
+<script type="text/javascript" src="../js/shBrushJScript.js"></script>
+<script type="text/javascript" src="../js/shBrushYaml.js"></script>
+ 
+<link href="../css/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../css/shThemeDefault.css" rel="stylesheet" type="text/css" />
+
+-->
+
+<div class="page-header"><h2><a href="#" editable-text="role.name">{{ role.name }}</a><br><small>{{ role.description }}</small></h2></div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Add Tasks to Ansible Play</h3>
+            </div>
+                    <div class="panel-body">
+                    
+                      <div class="row"><!-- inner panel rows -->
+                        <div class="col-md-12"><!-- start inner panel rows col -->
+                      <!-- full list button -->
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown">
+                            All Modules<span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu" role="menu">
+                              <li ng-repeat="module in ansibleModules | orderByPriority | orderBy:'name'" ng-click="setModuleName(module.name)"><a href="">{{ module.name }}</a></li>
+                          </ul>
+                        </div>
+                      <!-- Single button -->
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown">
+                            System <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu" role="menu">
+                            <li ng-click="setModuleName('user')"><a href="">User Management</a></li>
+                            <li ng-click="setModuleName('hostname')"><a href="">Hostname Management</a></li>
+                            <li ng-click="setModuleName('ce')"><a href="">ce Management</a></li>
+                            <li ng-click="setModuleName('filesystem')"><a href="">Filesystem Management</a></li>
+                            <li ng-click="setModuleName('command')"><a href="">Add Commands</a></li>
+                            <li ng-click="setModuleName('script')"><a href="">Run local script</a></li>
+                            <li ng-click="setModuleName('shell')"><a href="">Run local shell commands</a></li>
+                            <li ng-click="setModuleName('authorized_key')"><a href="">SSH Key Management</a></li>
+                          </ul>
+                        </div>
+                        <!-- Single button -->
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown">
+                            Packages <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu" role="menu">
+                            <li ng-click="setModuleName('yum')"><a href="">RHEL Packages</a></li>
+                            <li ng-click="setModuleName('apt')"><a href="">Debian Packages</a></li>
+                            <li ng-click="setModuleName('pip')"><a href="">Python Packages</a></li>
+                            <li ng-click="setModuleName('openbsd_pkg')"><a href="">OpenBSD Packages</a></li>
+                            <li ng-click="setModuleName('gem')"><a href="">Ruby gems</a></li>
+                          </ul>
+                        </div>
+                        <!-- Single button -->
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown">
+                            Files <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu" role="menu">
+                            <li ng-click="setModuleName('copy')"><a href="">Copy File</a></li>
+                            <li ng-click="setModuleName('file')"><a href="">Set File Attributes</a></li>
+                            <li ng-click="setModuleName('get_url')"><a href="">Download Remote File</a></li>
+                            <li ng-click="setModuleName('git')"><a href="">Deploy from Git</a></li>
+                            <li ng-click="setModuleName('unarchive')"><a href="">Copy Archive File and Unpack</a></li>
+                          </ul>
+                        </div>
+                        <!-- Single button -->
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown">
+                            Database <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu" role="menu">
+                            <li ng-click="setModuleName('mysql_user')"><a href="">MySQL User Management</a></li>
+                            <li ng-click="setModuleName('mysql_db')"><a href="">MySQL DB Management</a></li>
+                            <li ng-click="setModuleName('mysql_variables')"><a href="">MySQL Variable Management</a></li>
+                            <li ng-click="setModuleName('mysql_replication')"><a href="">MySQL Replication Management</a></li>
+                            <li class="divider"></li>
+                            <li ng-click="setModuleName('postgresql_user')"><a href="">Postgres User Management</a></li>
+                            <li ng-click="setModuleName('postgresql_db')"><a href="">Postgres DB Management</a></li>
+                          </ul>
+                        </div>
+                        <!-- <button class="btn btn-primary btn-xs" ng-click="setModuleName('user')">Add User</button> -->
+                        <!-- <button class="btn btn-primary btn-xs" ng-click="ansibleTest()">Ansible Test</button> -->
+                        </div><!-- ending inner panel row col -->
+                        </div><!-- ending row 1 -->  
+                      
+                        <hr>
+                      
+                        <div class="row"> <!-- start name and module row -->
+                              <div class="col-md-6">
+                                <input type="text" class="form-control" ng-model="newModuleName" >
+                                <span class="help-block">Name or description of new task</span>
+                              </div>
+                              <div class="col-md-6">
+                                <input type="text" class="form-control" typeahead="module.name for module in ansibleModules | orderByPriority | orderBy:'name' | filter:$viewValue" typeahead-on-select="setOptions()" ng-change="setOptions()" placeholder="Search name or description" ng-model="newModuleAction">
+                                <span class="help-block">Ansible Module</span>
+                              </div>
+                        </div> <!-- end name and module row -->
+                            
+                            <br />
+                            <hr>
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4><u>Description</u></h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="bg-info">{{ selectedDescription }}</p>
+                            </div>
+                        </div>
+                        
+                            <hr>
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4><u>Options</u></h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div ng-repeat="(key, option) in options | orderByPriority">
+                                  <div class="col-md-3 form-group {{ getValidationState(option.required, option.value) }}">
+                                    <input type="hidden" ng-model="option.paramater" value="{{ option.paramater }}">
+                                    <input class="form-control" type="text" ng-model="option.value" placeholder="{{ option.choices }}" tooltip="{{ option.comments }} (Available options: {{ option.choices }})"  tooltip-trigger="focus" tooltip-placement="above">
+                                    <span class="help-block">{{ option.paramater }}</span>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div ng-if="options">
+                                      Loop through a list for option: 
+                                      <select ng-model="newModuleLoopItem" class="form-control">
+                                        <option ng-repeat="option in options | orderByPriority">{{ option.paramater }}</option>
+                                      </select>
+                                      with the list: 
+                                      <input type="text" class="form-control" placeholder="comma separated list" ng-model="newModuleLoopList">
+                                </div>
+                            </div>
+                        </div>        
+                          
+                        <br />
+                        <hr>
+                        
+                        <div class="row"><!-- start inner panel rows -->
+                            <div class="col-md-12">
+                                <h4><u>Notify</u></h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <select ng-model="newModuleNotify" class="form-control">
+                                  <option ng-repeat="handler in role.handlers | orderByPriority">{{ handler.name }}</option>
+                                </select>
+                            </div>
+                        </div><!-- ending inner panel row -->
+                        
+                        <hr>
+                        
+                        <div class="row"><!-- start buttons row -->
+                            <div class="col-md-12"><!-- start buttons row col -->
+                        
+                                <!-- <button class="btn btn-default" ng-show="showAddChoice(choice)" ng-click="addNewChoice()">Add another option</button> -->
+                                <!-- <button class="btn btn-default" ng-show="showAddChoice(choice)" ng-click="removeChoice()">Remove option</button> -->
+                              <div class="pull-right">
+                                <font color="red">{{ inputErrorMsg }}</font>
+                                <button class="btn btn-primary" type="submit" ng-click="addModule()">Add</button>
+                                <button class="btn btn-warning" type="submit" ng-click="clearModule()">Clear</button>
+                              </div>
+                            </div><!-- end buttons row col -->
+                        </div><!-- buttons row -->
+                      
+                    </div><!-- ending panel body -->
+        </div><!-- ending panel -->
+        
+        
+    </div><!-- end col-md-6 1 -->
+
+    <div class="col-md-6">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">Hosts / Variables / Handlers / Includes</div>
+            </div>
+            <div class="panel-body">
+              <h4>Set Play Host(s) and User <small>for current play</small></h4>
+              <div class="col-md-6">
+                <input class="form-control input-xs pull-right" type="text" ng-model="role.playHosts" tooltip="Set Ansible Play Hosts">
+                <span class="help-block">Hosts</span>
+              </div>
+              <div class="col-md-6">
+                <input class="form-control input pull-right" type="text" ng-model="role.playUsername" tooltip="Set Ansible Play User">
+                <span class="help-block">User</span>
+              </div>
+              <br /><br /><br />
+              <hr>
+                <h4>Add Play Variables <small>for use in jinja template files</small></h4>
+                <div class="col-md-5">
+                  <input ng-model="newVarName" class="form-control input" type="text" />
+                  <span class="help-block">Variable Name</span>
+                </div>
+                <div class="col-md-5">
+                  <input class="form-control input" type="text" ng-model="newVarValue" />
+                  <span class="help-block">Value</span>
+                </div>
+                <button class="btn btn-primary" type="submit" ng-click="addVariable()">Add</button>
+
+              <br /><br />
+              <hr>
+              <h4>Add Play Handlers <small>for ce control</small></h4>
+                <div class="col-md-4">
+                  <input class="form-control input-xs pull-right" type="text" ng-model="newHandlerName" \>
+                  <span class="help-block">Handler Name</span>
+                </div>
+                <div class="col-md-3">
+                  <input class="form-control input pull-right" type="text" ng-model="newHandlerceName" \>
+                  <span class="help-block">ce Name</span>
+                </div>
+                <div class="col-md-3">
+                  <input class="form-control input pull-right" type="text" ng-model="newHandlerceState" \>
+                  <span class="help-block">ce State</span>
+                </div>
+                <button class="btn btn-primary" type="submit" ng-click="addHandler()">Add</button>
+                
+                <br /><br />
+              <hr>
+              <h4>Add Include <small>for including other plays</small></h4>
+                <div class="col-md-6">
+                  <input class="form-control input-xs pull-right" type="text" ng-model="newIncludeName" \>
+                  <span class="help-block">Play to Include</span>
+                </div>
+                <button class="btn btn-primary" type="submit" ng-click="addInclude()">Add</button>
+
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+
+<!-- ROW ROW ROW : Variables and Handlers -->
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Play Variables</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover" ng-show="variables">
+                    <tr>
+                        <th>Name</th>
+                        <th>Value</th>
+                        <th>Delete</th>
+                    </tr>
+                    <tr ng-repeat="var in variables | orderByPriority">
+                        <td>
+                            {{ var.name }}
+                        </td><td>
+                            {{ var.value }}
+                        </td><td>
+                            <button type="button" class="btn btn-danger btn-xs" ng-click="removeVariable(var.$id)">Delete</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-5">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Play Handlers</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover" ng-show="handlers">
+                    <tr>
+                        <th>Name</th>
+                        <th>ce</th>
+                        <th>State</th>
+                        <th>Delete</th>
+                    </tr>
+                    <tr ng-repeat="handler in handlers | orderByPriority">
+                        <td>
+                            {{ handler.name }}
+                        </td><td>
+                            {{ handler.ce_name }}
+                        </td><td>
+                            {{ handler.ce_state }}
+                        </td><td>
+                            <button type="button" class="btn btn-danger btn-xs" ng-click="removeHandler(handler.$id)">Delete</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Play Includes</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover" ng-show="includes">
+                    <tr>
+                        <th>Name</th>
+                        <th>Delete</th>
+                    </tr>
+                    <tr ng-repeat="include in includes | orderByPriority">
+                        <td>
+                            {{ include.name }}
+                        </td><td>
+                            <button type="button" class="btn btn-danger btn-xs" ng-click="removeInclude(include.$id)">Delete</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+
+<!-- ROW ROW ROW : Ansible Tasks-->
+<div class="row">
+    <div class="col-md-12">
+
+        <!-- Server Resources -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">Ansible Tasks
+                <small><div class="pull-right">
+                  <font color="black"><input type="text" class="input-xs" ng-model="searchText" placeholder="Search" /></font>
+                </div></small></div>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover" id="modules" ng-show="modules">
+                    <tr>
+                        <th>Name</th>
+                        <th>Action</th>
+                        <th>Options</th>
+                        <th>Notify</th>
+                        <th>Order</th>
+                        <th>Delete</th>
+                    </tr>
+                    <tr ng-show="modules" ng-repeat="module in modulesOrder | orderByPriority | orderBy:'order' | filter:searchText">
+                        <td>
+                            {{ module.name }}
+                        </td><td>
+                            {{ module.option }}
+                        </td><td>
+                            <p ng-repeat="option in module.options">{{ option.paramater }}: {{ option.value }}</p>
+                        </td><td>
+                            {{ module.notify }}
+                        </td><td>
+                            <input type="text" ng-model="module.order" />
+                        </td><td>
+                            <button type="button" class="btn btn-danger btn-xs" ng-click="removeTask(module.$id)">Delete</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+
+<!-- Ethans Practice Generator -->
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Ansible Play Generator - <i>drag and drop to sort</i></h3>
+    </div>
+    <div class="panel-body">
+
+<pre class="brush: yaml">---
+- name: {{ role.name }}
+  hosts: <a href="#" editable-text="role.playHosts">{{ role.playHosts }}</a>
+  remote_user: <a href="#" editable-text="role.playUsername">{{ role.playUsername }}</a>
+  <div ng-if="hasVariables(role.variables)">&nbsp;&nbsp;vars:<br />
+    <span ng-show="role.variables" ng-repeat="variable in role.variables | orderByPriority">&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" editable-text="variable.name">{{ variable.name }}</a>: <a href="#" editable-text="variable.value">{{ variable.value}}</a><br /></span></div>
+  <div ng-if="hasTasks(role.modules)">&nbsp;&nbsp;tasks:
+<div ng-if="hasIncludes(role.includes)"><span ng-show="role.includes" ng-repeat="include in role.includes | orderByPriority">&nbsp;&nbsp;&nbsp;&nbsp;- include: <a href="#" editable-text="include.name">{{ include.name }}</a></span></div>
+<!-- <span ui-sortable="sortableOptions" ng-model="modulesInput" id="sortMe"> <!-- start sort -->
+<span ui-sortable ng-model="modulesInput" id="sortMe"> <!-- start sort -->
+  <p ng-show="role.modules" ng-repeat="(key, module) in role.modules | orderByPriority | orderBy:'order' | filter:searchText" id="module-{{ key }}">
+&nbsp;&nbsp;&nbsp;&nbsp;- name: <a href="#" editable-text="module.name">{{ module.name }}</a><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ module.option }}:<span ng-repeat="(key, option) in module.options"> {{ option.paramater }}=<a href="#" editable-text="option.value">{{ option.value }}</a></span>
+    <span ng-if="module.notify"><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;notify:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- {{ module.notify }}
+    </span>
+    </p>
+</span>
+</div> <!-- end sort -->
+  <div ng-if="hasHandlers(role.handlers)">&nbsp;&nbsp;handlers:
+    <p ng-show="role.handlers" ng-repeat="handler in role.handlers | orderByPriority">&nbsp;&nbsp;&nbsp;&nbsp;- name: <a href="#" editable-text="handler.name">{{ handler.name }}</a>
+    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ce: name=<a href="#" editable-text="handler.ce_name">{{ handler.ce_name }}</a> state=<a href="#" editable-text="handler.ce_state">{{ handler.ce_state }}</a></p></div>
+</pre>
+    </div>
+</div>
+
+<br />
+
+
+
+
+
+<style>
+  #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+  #sortable li { margin: 0 5px 5px 5px; padding: 5px; font-size: 1.2em; height: 1.5em; }
+  html>body #sortable li { height: 1.5em; line-height: 1.2em; }
+  .ui-state-highlight { height: 1.5em; line-height: 1.2em; }
+</style>
+
+<!-- 
+<script type="text/javascript">
+     SyntaxHighlighter.all()
+</script>
+Finally, to actually run the highlighter, you need to include this JS on your page -->

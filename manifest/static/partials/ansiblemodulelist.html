@@ -1,0 +1,69 @@
+<br />
+<h1>Ansible Modules<small>full list of ansible modules</small></h1>
+<br />
+
+<div class="panel panel-default">
+<div class="panel-heading">Add Server Stuffs</div>
+<div class="panel-body">
+    <form>
+        <input placeholder="Module Name" ng-model="newModuleName">
+        <input placeholder="Description" ng-model="newModuleDescription">
+        <input placeholder="Category" ng-model="newModuleCategory">
+        <div class="form-group" data-ng-repeat="choice in choices">
+          <input type="text" ng-model="choice.paramater" name="" placeholder="parameter">
+          <input type="text" ng-model="choice.required" name="" placeholder="required">
+          <input type="text" ng-model="choice.default" name="" placeholder="default">
+          <input type="text" ng-model="choice.choices" name="" placeholder="choices">
+          <input type="text" ng-model="choice.comments" name="" placeholder="comments">
+        </div>
+
+        <div data-ng-repeat="option in options">
+            {{ option }} <input type="text" ng-model="choice.value" name="" placeholder="Option value">
+        </div>
+
+        <button ng-show="showAddChoice(choice)" ng-click="addNewChoice()">Add parameter</button>
+        <button ng-show="showAddChoice(choice)" ng-click="removeChoice()">Remove last parameter</button>
+        <button type="submit" ng-click="addToModulesList()">Add</button>
+    </form>
+</div>
+</div>
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Ansible Modules<div class="pull-right"><input ng-model="searchText" placeholder="search modules..." /></div>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover">
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Parameters</th>
+                        <th>Delete</th>
+                    </tr>
+                    <tr ng-repeat="module in moduleslist | orderByPriority | orderBy:'name' | filter:searchText">
+                        <td>
+                            <a href="#/projects/{{ projectID }}/roles/{{ key }}">{{ module.name }}</a>
+                        </td><td>
+                            {{ module.description }}
+                        </td><td>
+                            {{ module.category }}
+                        </td><td>
+                            <div ng-repeat="(key, option) in module.options">
+                                (Option {{ key }})
+                                <div ng-repeat="(key, item) in option">
+                                    {{ key }}: {{ item }}
+                                </div>
+                            </div>
+                        </td><td>
+                            <button type="button" class="btn btn-danger btn-xs" ng-click="removeModule(module.$id)">Delete</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
