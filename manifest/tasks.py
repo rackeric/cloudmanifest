@@ -13,6 +13,7 @@ import sys
 from flask.views import MethodView
 from ansible import callbacks
 import pyrax
+from flask import jsonify
 
 class AnsibleJeneric(MethodView):
     #@task()
@@ -155,7 +156,7 @@ def run_ansible_jeneric(user_id, project_id, job_id):
         #
     myExternalData.post(job_id + '/returns/', sanitize_keys(results))
 
-    return results
+    return jsonify(results)
 
 
 #@celery.task(serializer='json')
