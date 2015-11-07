@@ -117,7 +117,7 @@ def run_ansible_jeneric(user_id, project_id, job_id):
             private_key_file='/tmp/' + project_id + '_key',
     	inventory=myInventory,
         ).run()
-        // remove the tmp key
+        # remove the tmp key
         os.remove('/tmp/' + project_id + '_key')
     else:
         results = ansible.runner.Runner(
