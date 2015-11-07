@@ -13,4 +13,4 @@ Currently at https://cloudmanifest.com
 
 ## Other Stuff
 
-You will need to export an environment variable named 'SECRET' with the firebase api key.
+You will need to export an environment variable named `SECRET` with the firebase api key.
