@@ -136,7 +136,7 @@ def run_ansible_jeneric(user_id, project_id, job_id):
     return results
 
 
-@celery.task(serializer='json')
+#@celery.task(serializer='json')
 def run_ansible_playbook(user_id, project_id, playbook_id):
 
     # firebase authentication
