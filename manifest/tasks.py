@@ -337,7 +337,7 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
     # delete tmp playbook file
     os.remove('/tmp/' + playbook_id + '.yml')
 
-    return play
+    return jsonify(play)
 
 
 #@celery.task(serializer='json')
@@ -484,7 +484,7 @@ def run_ansible_playbook_manual(user_id, project_id, playbook_id):
     # delete tmp playbook file
     os.remove("/tmp/" + playbook_id + '.yml')
 
-    return play
+    return jsonify(play)
 
 # @celery.task(serializer='json')
 def run_rax_create_server(user_id, project_id, job_id):
