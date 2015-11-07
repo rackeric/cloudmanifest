@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <title>Manifest</title>
-  
+
   <!-- <link rel="stylesheet" href="css/app.css"> -->
-  
+
   <!-- JQuery UI stuff, used for autocompletion -->
   <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
   <script src="//code.jquery.com/jquery-1.9.1.js"></script>
   <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-  
+
   <!-- custom bootstrap css -->
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
   <!--  <link rel="stylesheet" href="css/magic-bootstrap16.css">  -->
@@ -39,7 +39,7 @@
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Support<b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="#/GettingStartedAnsible">Ansible Guide</a></li>
-                
+
               </ul>
             </li>
           </ul>
@@ -57,29 +57,29 @@
       <div ng-view></div>
   </div>
 
-
+<!-- hide footer bar --
   <div class="container-fluid">
       <nav class="navbar navbar-inverse navbar-fixed-bottom" ng-controller="foot" role="navigation">
-        
+
         <div class="row-fluid">
             <div class="col-md-12">
                 <form class="form-inline pull-right">
                     <div class="form-group">
                             <input class="form-control" placeholder="Leave feedback for this page." ng-model="feedback" style="width:350px"></input>
                             <button class="btn btn-primary" ng-click="submitFeedback()">Send</button>
-                        
+
                     </div>
-                    
+
                 </form>
             </div>
         </div>
-        
+
       </nav>
   </div>
-  
-  
-  
-  
+--end hide footer bar-->  
+
+
+
   <!-- AngularJS + Firebase, AngularFire -->
   <script src="https://cdn.firebase.com/v0/firebase.js"></script>
   <script src="https://cdn.firebase.com/v0/firebase-simple-login.js"></script>
@@ -110,18 +110,18 @@
   <script src="static/js/ui-bootstrap.js"></script>
   <script src="static/js/ui-bootstrap-tpls.js"></script>
 
-  
+
   <!-- Edit in place stuff -->
   <link href="static/css/xeditable.css" rel="stylesheet">
   <script src="static/js/xeditable.min.js"></script>
 
   <!-- typeahead stuff -->
   <script src="static/js/type.js"></script>
-  
+
   <!-- ui sortable stuff -->
   <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>
   <script type="text/javascript" src="static/js/sortable.js"></script>
-  
+
   <link href="static/css/app.css" rel="stylesheet">
 
   <!-- style to lower page due to navbar height -->
@@ -129,8 +129,8 @@
       body { padding-top: 25px;
              padding-bottom: 70px; }
   </style>
-  
 
-  
+
+
 </body>
 </html>
