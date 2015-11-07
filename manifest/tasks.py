@@ -11,13 +11,7 @@ import json
 import os
 import sys
 from flask.views import MethodView
-
-
-# firebase can not use several special characters for key names
-# https://www.firebase.com/docs/creating-references.html
-def sanitize_keys(mydict):
-    return dict((k.replace('.', '_'),sanitize_keys(v) if hasattr(v,'keys') else v) for k,v in mydict.items())
-
+from ansible import callbacks
 
 class AnsibleJeneric(MethodView):
     #@task()
@@ -32,6 +26,18 @@ class AnsiblePlaybook(MethodView):
     def get(self, user_id, project_id, playbook_id):
         result = run_ansible_playbook(user_id, project_id, playbook_id)
         return result
+
+
+class AnsiblePlaybookManual(MethodView):
+    def get(self, user_id, project_id, playbook_id):
+        result = run_ansible_playbook_manual(user_id, project_id, playbook_id)
+        return result
+
+
+# firebase can not use several special characters for key names
+# https://www.firebase.com/docs/creating-references.html
+def sanitize_keys(mydict):
+    return dict((k.replace('.', '_'),sanitize_keys(v) if hasattr(v,'keys') else v) for k,v in mydict.items())
 
 
 #@task()
@@ -256,6 +262,7 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
 
     # close file
     tmpPlay.close()
+    os.chmod("/tmp/" + playbook_id + '_key', 0600)
 
     # get ssh key file
     URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id
@@ -276,9 +283,6 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
             # set up ssh key in tmp
             tmpKey = open("/tmp/" + playbook_id + '_key', "w")
             tmpKey.write(ssh_key)
-            # close file
-            tmpKey.close()
-            os.chmod("/tmp/" + playbook_id + '_key', 0600)
 
             # now ansible playbook
             play = ansible.playbook.PlayBook(
@@ -290,6 +294,8 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
                 private_key_file='/tmp/' + playbook_id + '_key',
                 forks=10
             ).run()
+            # close file
+            tmpKey.close()
             # delete tmp key file
             os.remove('/tmp/' + playbook_id + '_key')
         else:
@@ -321,5 +327,153 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
 
     # delete tmp playbook file
     os.remove('/tmp/' + playbook_id + '.yml')
+
+    return play
+
+
+#@celery.task(serializer='json')
+def run_ansible_playbook_manual(user_id, project_id, playbook_id):
+
+    # firebase authentication
+    SECRET = os.environ['SECRET']
+    authentication = FirebaseAuthentication(SECRET, True, True)
+
+    # set the specific job from firebase with user
+    user = 'simplelogin:' + str(user_id)
+    URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id + '/rolesmanual/'
+    myExternalData = FirebaseApplication(URL, authentication)
+
+    # update status to RUNNING in firebase
+    myExternalData.patch(playbook_id, {"status":"RUNNING"})
+
+    # finally, get the actual job and set ansible options
+    job = myExternalData.get(URL, playbook_id)
+
+
+    ##
+    ## Create full Ansible Inventory, playbook defines hosts to run on
+    ##
+    # set and get Ansible Project Inventory
+    URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id
+    inventory_list = myExternalData.get(URL, '/inventory')
+
+
+    tmpHostList = []
+    if inventory_list:
+        for key, host in inventory_list.iteritems():
+            tmpHostList.append(host['name'])
+
+        # creating Ansible Inventory based on host_list
+        myInventory = ansible.inventory.Inventory(tmpHostList)
+
+        # set Host objects in Inventory object based on hosts_lists
+        # NEED: to set other host options
+        # BUG: hostnames with periods (.) do not work
+        for key, host in inventory_list.iteritems():
+            tmpHost = myInventory.get_host(host['name'])
+            tmpHost.set_variable("ansible_ssh_host", host['ansible_ssh_host'])
+            tmpHost.set_variable("ansible_ssh_user", host['ansible_ssh_user'])
+            if host.has_key('ansible_ssh_pass'):
+                tmpHost.set_variable("ansible_ssh_pass", host['ansible_ssh_pass'])
+            # Group Stuffs
+            if myInventory.get_group(host['group']) is None:
+                # set up new group
+                tmpGroup = ansible.inventory.Group(host['group'])
+                tmpGroup.add_host(myInventory.get_host(host['name']))
+                myInventory.add_group(tmpGroup)
+            else:
+                # just add to existing group
+                tmpGroup = myInventory.get_group(host['group'])
+                tmpGroup.add_host(myInventory.get_host(host['name']))
+    else:
+        myInventory = ansible.inventory.Inventory()
+
+    ##
+    ## Create temp playbook file
+    ##
+    URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id + '/rolesmanual/' + playbook_id
+    playbook = myExternalData.get(URL, '/playbook')
+
+    tmpPlay = open("/tmp/" + playbook_id + '.yml', "w")
+
+    tmpPlay.write(playbook)
+
+    # close file
+    tmpPlay.close()
+
+
+    # get ssh key file
+    URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id
+    ssh_key = myExternalData.get(URL, '/ssh_key')
+
+    os.chmod("/tmp/" + playbook_id + '_key', 0600)
+
+    prev = sys.stdout
+    prev2 = sys.stderr
+    try:
+        sys.stdout = StringIO()
+        sys.stderr = StringIO()
+
+        # Run Ansible PLaybook
+        stats = ansible.callbacks.AggregateStats()
+        playbook_cb = ansible.callbacks.PlaybookCallbacks(verbose=utils.VERBOSITY)
+        runner_cb = ansible.callbacks.PlaybookRunnerCallbacks(stats, verbose=utils.VERBOSITY)
+
+        if ssh_key is not None:
+            # create ssh key file
+            tmpKey = open("/tmp/" + playbook_id + '_key', "w")
+            tmpKey.write(ssh_key)
+            # run playbook
+            play = ansible.playbook.PlayBook(
+                playbook='/tmp/' + playbook_id + '.yml',
+                inventory=myInventory,
+                runner_callbacks=runner_cb,
+                stats=stats,
+                callbacks=playbook_cb,
+                private_key_file='/tmp/' + playbook_id + '_key',
+                forks=10
+            ).run()
+            # close file
+            tmpKey.close()
+            # delete tmp key file
+            os.remove('/tmp/' + playbook_id + '_key')
+        else:
+            play = ansible.playbook.PlayBook(
+                playbook='/tmp/' + playbook_id + '.yml',
+                inventory=myInventory,
+                runner_callbacks=runner_cb,
+                stats=stats,
+                callbacks=playbook_cb,
+                forks=10
+            ).run()
+
+        #play = ansible.playbook.PlayBook(
+        #    playbook='/tmp/' + playbook_id + '.yml',
+        #    inventory=myInventory,
+        #    runner_callbacks=runner_cb,
+        #    stats=stats,
+        #    callbacks=playbook_cb,
+        #    forks=10
+        #).run()
+
+        myStdout = sys.stdout.getvalue()
+        myStderr = sys.stderr.getvalue()
+        #myExternalData.patch(playbook_id, {'stdout': myStdout})
+        myExternalData.post(playbook_id + '/returns', {'stats': sanitize_keys(play), 'stdout': myStdout})
+        #myExternalData.patch(playbook_id, {'stderr': myStderr})
+    finally:
+        sys.stdout = prev
+        sys.stderr = prev2
+
+    ##
+    ## Post play results in to firebase
+    ##
+    ## WHERE?
+    # update status to RUNNING in firebase
+    myExternalData.patch(playbook_id, {"status":"COMPLETE"})
+    #myExternalData.post(playbook_id + '/returns', play)
+
+    # delete tmp playbook file
+    os.remove("/tmp/" + playbook_id + '.yml')
 
     return play
