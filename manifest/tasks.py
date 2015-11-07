@@ -3,7 +3,7 @@ from firebase import FirebaseApplication, FirebaseAuthentication
 import firebase
 from celery.decorators import task
 from ansible import utils
-import ansible.runner, json, os
+import ansible.runner, json, os, sys
 from flask.views import MethodView
 
 
