@@ -1,4 +1,4 @@
-# Manifest
+# CloudManifest
 
 A web GUI for creating projects in Ansible and Saltstack, potentially Chef and Puppet in the future.
 
