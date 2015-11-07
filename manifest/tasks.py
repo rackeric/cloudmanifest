@@ -485,7 +485,7 @@ def run_ansible_playbook_manual(user_id, project_id, playbook_id):
     return play
 
 # @celery.task(serializer='json')
-def rax_create_server(user_id, project_id, job_id):
+def run_rax_create_server(user_id, project_id, job_id):
 
     # firebase authentication
     SECRET = os.environ['SECRET']
