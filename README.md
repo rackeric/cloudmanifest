@@ -1,13 +1,13 @@
 # CloudManifest
 
-A web GUI for creating projects in Ansible and Saltstack, potentially Chef and Puppet in the future.
+A web app that provides an easy to use panel for creating and running playbooks in Ansible.
 
 Now Built with:
 
 - Flask
 - AngularJS
 - Firebase
-- Bootstrap 3
+- Bootstrap
 
 Currently at https://cloudmanifest.com
 
@@ -17,7 +17,7 @@ You will need to export an environment variable named `SECRET` with the firebase
 ```
 $ export SECRET=<long api key from firebase>
 ```
-When using ssh passwords host key checking will prevent you from connecting to hosts if they are not in your known_hosts file. You can get around this by either adding the host to the known_hosts file, using ssh keys or setting an enrivonrment variable `ANSIBLE_HOST_KEY_CHECKING=False`. 
+When using ssh passwords host key checking will prevent you from connecting to hosts if they are not in your known_hosts file. You can get around this by either adding the host to the known_hosts file, using ssh keys or setting an enrivonrment variable `ANSIBLE_HOST_KEY_CHECKING=False`.
 ```
 $ export ANSIBLE_HOST_KEY_CHECKING=False
 ```
