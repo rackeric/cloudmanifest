@@ -77,11 +77,11 @@
                 </td>
                 <td>
                     <ul ng-repeat="(key_alpha, return) in role.returns">
-                      
+
                       <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal_{{key_alpha}}">
                         View Results
                       </button>
-                      
+
                       <!-- Modal -->
                       <div class="modal fade" id="myModal_{{key_alpha}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
@@ -91,15 +91,21 @@
                               <h4 class="modal-title" id="myModalLabel">Ansible Run Results</h4>
                             </div>
                             <div class="modal-body">
-                              
+
                               <ul ng-repeat="(key, value) in return.stats">
                                 <li>{{ key }}: {{ value }}</li>
                               </ul>
-                              
+
                               <hr>
-                              
+
                               <pre>{{ return.stdout }}</pre>
-                              
+
+                              <hr>
+
+                              <ul ng-repeat="(key, value) in return">
+                                <li>{{ key }}: {{ value }}</li>
+                              </ul>
+
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -107,14 +113,14 @@
                           </div>
                         </div>
                       </div>
-                      
+
                     </ul>
                 </td>
-                
+
             </tr>
-            
-            
-            
+
+
+
             <tr ng-repeat="(key, role) in rolesmanual | orderByPriority | filter:searchText">
                 <td>
                     <a href="#/projects/Ansible/{{ projectID }}/rolesmanual/{{ role.$id }}">{{ role.name }}</a>
@@ -138,11 +144,11 @@
                 </td>
                 <td>
                     <ul ng-repeat="(key_alpha, return) in role.returns">
-                    
+
                       <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal_manual_{{key_alpha}}">
                         View Results
                       </button>
-                      
+
                       <!-- Modal -->
                       <div class="modal fade" id="myModal_manual_{{key_alpha}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
@@ -152,15 +158,15 @@
                               <h4 class="modal-title" id="myModalLabel">Ansible Run Results</h4>
                             </div>
                             <div class="modal-body">
-                              
+
                               <ul ng-repeat="(key, value) in return.stats">
                                 <li>{{ key }}: {{ value }}</li>
                               </ul>
-                              
+
                               <hr>
-                              
+
                               <pre>{{ return.stdout }}</pre>
-                              
+
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -168,10 +174,10 @@
                           </div>
                         </div>
                       </div>
-                      
+
                     </ul>
                 </td>
-                
+
             </tr>
         </table>
     </div>
@@ -186,7 +192,7 @@
             <div class="panel-heading">
               <h3 class="panel-title"><a data-toggle="collapse" data-target="#add_host">Add Host</a></h3>
             </div>
-            
+
             <div id="add_host" class="collapse"><!-- for collapse -->
             <div class="panel-body">
                 <div class="row">
@@ -253,13 +259,13 @@
                         <div class="col-sm-12 form-group">
                           <button class="btn btn-primary btn pull-right" type="submit" ng-click="addHost()">Add Host</button>
                         </div>
-                        
+
                       </div><!-- </div> -->
                   </div>
                 </div>
-                
+
                 </div><!-- for collaspe -->
-                
+
             </div>
         </div>
     </div>
@@ -278,10 +284,10 @@
                         <input class="input-xs" ng-model="rax_apikey" placeholder="API Key">
                         </font>
                     </small>
-                </div>    
+                </div>
               </h3>
             </div>
-            
+
             <div id="rax_cloud" class="collapse"><!-- for collapse -->
             <div class="panel-body">
                 <div class="row">
@@ -323,12 +329,12 @@
                         <button class="btn btn-primary pull-right" type="submit" ng-click="rax_createServer()">Create Server</button>
                         </div>
                       </div><!-- </div> -->
-                      
+
                   </div>
                 </div>
-              
-              </div><!-- for collaspe -->    
-                
+
+              </div><!-- for collaspe -->
+
             </div><!-- body -->
         </div>
     </div>
@@ -353,14 +359,14 @@
               </div>
             </div>
             <div class="panel-body">
-            
+
                 <!-- Button trigger modal -->
                 <button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#myModal_sshkey">
                   SSH Key
                 </button>
-                
+
                 <br><br>
-            
+
                 <table class="table" ng-model="inventorylist">
                     <tr>
                         <th>Name</th>
@@ -393,7 +399,7 @@
                         </td>
                     </tr>
                 </table>
-                
+
             </div>
         </div>
     </div>
@@ -445,22 +451,22 @@
                             {{ item.module_args }}
                         </td>
                         <td>
-                            {{ item.status }} 
+                            {{ item.status }}
                         </td>
                         <td>
                             <ul ng-repeat="return in item.returns">
-                            
+
                               <li ng-repeat="(key, value) in return">
                                 {{ key }}
-                                
+
                                 <ul ng-repeat="(key2, inner) in value">
-                                
+
                                     <li>
                                       <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal_tasks_{{key_alpha}}_{{key}}_{{key2}}">
                                         {{ key2 }}
                                       </button>
                                     </li>
-                                    
+
                                     <!-- Modal -->
                                     <div class="modal fade" id="myModal_tasks_{{key_alpha}}_{{key}}_{{key2}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                       <div class="modal-dialog modal-lg">
@@ -470,11 +476,11 @@
                                             <h4 class="modal-title" id="myModalLabel">Ansible Run Results</h4>
                                           </div>
                                           <div class="modal-body">
-                                            
+
                                             <ul ng-repeat="(key3, inner2) in inner">
                                                 <li>{{ key3 }}: <pre>{{ inner2 }}</pre></li>
                                             </ul>
-                                            
+
                                           </div>
                                           <div class="modal-footer">
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -482,12 +488,12 @@
                                         </div>
                                       </div>
                                     </div>
-                                
-                                    
+
+
                                 </ul>
-                                
+
                               </li>
-                              
+
                             </ul>
                         </td>
                     </tr>
