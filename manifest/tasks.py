@@ -280,7 +280,7 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
     prev2 = sys.stderr
     try:
         sys.stdout = StringIO()
-        # sys.stderr = StringIO()
+        sys.stderr = StringIO()
 
         # Run Ansible PLaybook
         stats = ansible.callbacks.AggregateStats()
@@ -318,7 +318,7 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
             ).run()
 
         myStdout = sys.stdout.getvalue()
-        # myStderr = sys.stderr.getvalue()
+        myStderr = sys.stderr.getvalue()
         #myExternalData.patch(playbook_id, {'stdout': myStdout})
         myExternalData.post(playbook_id + '/returns', {'stats': sanitize_keys(play), 'stdout': myStdout})
         #myExternalData.patch(playbook_id, {'stderr': myStderr})
