@@ -287,9 +287,11 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
 
     try:
         prev = sys.stdout
-        prev2 = sys.stderr
-        sys.stdout = StringIO()
-        sys.stderr = StringIO()
+        # prev2 = sys.stderr
+        #sys.stdout = StringIO()
+        result = StringIO()
+        sys.stdout = result
+        # sys.stderr = StringIO()
 
         # Run Ansible PLaybook
         stats = ansible.callbacks.AggregateStats()
@@ -326,16 +328,16 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
                 forks=10
             ).run()
 
-        myStdout = sys.stdout.getvalue()
-        myStderr = sys.stderr.getvalue()
         sys.stdout = prev
-        sys.stderr = prev2
+        # sys.stderr = prev2
+        myStdout = result.getvalue()
+        # myStderr = sys.stderr.getvalue()
         #myExternalData.patch(playbook_id, {'stdout': myStdout})
         myExternalData.post(playbook_id + '/returns', {'stats': sanitize_keys(play), 'stdout': convert_bash_colors(myStdout)})
         #myExternalData.patch(playbook_id, {'stderr': myStderr})
     finally:
         print myStdout
-        print myStderr
+        # print myStderr
         print play
     #    sys.stdout = prev
     #    sys.stderr = prev2
