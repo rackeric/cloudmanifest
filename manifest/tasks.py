@@ -19,7 +19,6 @@ class AnsibleJeneric(MethodView):
     #@task()
     #decorators = [task]
     def get(self, user_id, project_id, job_id):
-        #result = run_task.delay(user_id, project_id, job_id)
         result = run_ansible_jeneric.delay(user_id, project_id, job_id)
         return result
 
@@ -56,7 +55,7 @@ def convert_bash_colors(myString):
     newString = myString.replace(green, '').replace(end, '')
     return newString
 
-@task()
+@celery.task()
 def run_ansible_jeneric(user_id, project_id, job_id):
 
     # firebase authentication
