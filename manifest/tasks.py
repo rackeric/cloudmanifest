@@ -56,7 +56,7 @@ def convert_bash_colors(myString):
     newString = myString.replace(green, '').replace(end, '')
     return newString
 
-#@task()
+@task()
 def run_ansible_jeneric(user_id, project_id, job_id):
 
     # firebase authentication
