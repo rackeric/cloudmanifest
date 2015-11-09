@@ -48,10 +48,12 @@ def sanitize_keys(mydict):
     return dict((k.replace('.', '_'),sanitize_keys(v) if hasattr(v,'keys') else v) for k,v in mydict.items())
 
 # handle bash colors from ansible
+# will just remove for now, try to convert to html color later
 def convert_bash_colors(myString):
     green = '[0;32m'
     end = '[0m'
-    newString = myString.replace(green, '<font color="green">').replace(end, '</font>')
+    #newString = myString.replace(green, '<font color="green">').replace(end, '</font>')
+    newString = myString.replace(green, '').replace(end, '')
     return newString
 
 #@task()
