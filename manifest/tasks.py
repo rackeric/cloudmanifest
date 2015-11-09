@@ -14,7 +14,6 @@ from flask.views import MethodView
 from ansible import callbacks
 import pyrax
 from flask import jsonify
-import celery
 
 class AnsibleJeneric(MethodView):
     #@task()
@@ -56,7 +55,7 @@ def convert_bash_colors(myString):
     newString = myString.replace(green, '').replace(end, '')
     return newString
 
-@celery.task()
+#@task()
 def run_ansible_jeneric(user_id, project_id, job_id):
 
     # firebase authentication
