@@ -37,7 +37,7 @@ angular.module('myApp.controllers', [])
       }
 
   }])
-  
+
   .controller('GettingStartedAnsibleCtrl', ['$scope', 'syncData', function($scope, syncData) {
 
   }])
@@ -48,13 +48,13 @@ angular.module('myApp.controllers', [])
 
       // set the projects for user
       $scope.projects = serviceProjects;
-      
+
       $scope.alerts = [];
-    
+
       $scope.addAlert = function(myType, myMsg) {
         $scope.alerts.push({type: myType, msg: myMsg});
       };
-    
+
       $scope.closeAlert = function(index) {
         $scope.alerts.splice(index, 1);
       };
@@ -267,7 +267,7 @@ angular.module('myApp.controllers', [])
 	}
 
   }])
-  
+
   .controller('AnsibleCloudModuleListCtrl', ['$scope', 'syncData', function($scope, syncData) {
     $scope.moduleslist = syncData('moduleslist/ansible_cloud');
     $scope.choices = [];
@@ -368,7 +368,7 @@ angular.module('myApp.controllers', [])
     var slides = $scope.slides = [];
     $scope.addSlide = function() {
         var newWidth = 600 + slides.length;
-    
+
         slides.push({
           image: 'https://c5c763d43bcb0cbf38a3-5343f0b2d7b0e3b66bc3dbb0378e6de3.ssl.cf1.rackcdn.com/misc.png'
         });
@@ -399,7 +399,7 @@ angular.module('myApp.controllers', [])
 
   .controller('ProjectCtrl', ['$scope', '$http', '$routeParams', 'syncData', 'serviceProjects', function($scope, $http, $routeParams, syncData, serviceProjects) {
     $scope.newProject = null;
-    
+
     syncData('users/' + $scope.auth.user.uid + '/description').$bind($scope, "description");
 
     // types
@@ -490,7 +490,7 @@ angular.module('myApp.controllers', [])
 	  //serviceRoles($scope.projectID).$bind($scope, "roles");
 	  $scope.roles = serviceRoles($scope.projectID);
 	  $scope.rolesmanual = serviceRolesManual($scope.projectID);
-	  
+
 
 	  // stuffs for rackspace cloud section, holds username and API key
 	  syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/rax_username').$bind($scope, 'rax_username');
@@ -509,35 +509,35 @@ angular.module('myApp.controllers', [])
 
       // alerts for RAX create server
       $scope.newServerAlerts = [];
-    
+
       $scope.newServerAddAlert = function(myType, myMsg) {
         $scope.newServerAlerts.push({type: myType, msg: myMsg});
       };
-    
+
       $scope.newServerCloseAlert = function(index) {
         $scope.newServerAlerts.splice(index, 1);
       };
       // end alerts
-      
+
       // alerts for add new host
       $scope.newHostAlerts = [];
-    
+
       $scope.newHostAddAlert = function(myType, myMsg) {
         $scope.newHostAlerts.push({type: myType, msg: myMsg});
       };
-    
+
       $scope.newHostCloseAlert = function(index) {
         $scope.newHostAlerts.splice(index, 1);
       };
       // end alerts
-      
+
       // alerts for run play
       $scope.runPlayAlerts = [];
-    
+
       $scope.runPlayAddAlert = function(myType, myMsg) {
         $scope.runPlayAlerts.push({type: myType, msg: myMsg});
       };
-    
+
       $scope.runPlayCloseAlert = function(index) {
         $scope.runPlayAlerts.splice(index, 1);
       };
@@ -548,7 +548,7 @@ angular.module('myApp.controllers', [])
 
 	  // add new host to the list
 	  $scope.addHost = function() {
-	      
+
 	      // add host to newHostAlert
 	      $scope.newHostAddAlert('success', 'Added host ' + $scope.newHostName + ' to the Inventory.');
 
@@ -616,7 +616,7 @@ angular.module('myApp.controllers', [])
 		  }
 		  return;
 	  }
-	  
+
 	  // add new role to the list - MANUAL
 	  $scope.addRoleManual = function() {
 		  if( $scope.newRoleName ) {
@@ -635,7 +635,7 @@ angular.module('myApp.controllers', [])
 	      var role = serviceRole($scope.projectID, key);
 	      role.$remove('returns');
 	  }
-	  
+
 	  // BUTTON: clear playbook returns - MANUAL
 	  $scope.clear_playbook_manual_returns = function(key) {
 	      var role = serviceRoleManual($scope.projectID, key);
@@ -656,9 +656,11 @@ angular.module('myApp.controllers', [])
 	  $scope.ansible_playbook = function(playbook_key) {
 	    var runPlay = confirm('Run this playbook?');
         if (runPlay) {
-            
           // add host to runPlayAlert
-	      $scope.runPlayAddAlert('success', 'Running playbook, if it does not complete check that hosts and user are set in the play.');
+	        $scope.runPlayAddAlert('success', 'Running playbook, if it does not complete check that hosts and user are set in the play.');
+
+          // set run status
+          $scope.external_data.$add({ status: 'QUEUED' });
 
 	      // send ansible playbook request to API
 	      var stripped_uid = $scope.auth.user.uid.split(':');
@@ -677,12 +679,12 @@ angular.module('myApp.controllers', [])
         }
 
 	  }
-	  
+
 	  // button: run ansible playbook - MANUAL
 	  $scope.ansible_playbook_manual = function(playbook_key) {
 	    var runPlay = confirm('Run this playbook?');
         if (runPlay) {
-            
+
           // add host to runPlayAlert
 	      $scope.runPlayAddAlert('success', 'Running playbook, if it does not complete check that hosts and user are set in the play.');
 
@@ -765,7 +767,7 @@ angular.module('myApp.controllers', [])
 
 	  // button: RAX create server
 	  $scope.rax_createServer = function() {
-	      
+
 	      // add alert to newServerAlerts
 	      $scope.newServerAddAlert('success', 'Creating server ' + $scope.newServerName + ' in the Rackspace Cloud and adding to Inventory.');
 
@@ -900,7 +902,7 @@ angular.module('myApp.controllers', [])
         $scope.roles.$remove(key);
         }
 	  }
-	  
+
 	  // remove role
 	  $scope.removeRoleManual = function(key) {
 	    var deleteUser = confirm('Are you absolutely sure you want to delete?');
@@ -909,7 +911,7 @@ angular.module('myApp.controllers', [])
         $scope.rolesmanual.$remove(key);
         }
 	  }
-	  
+
 	}])
 
 
@@ -921,19 +923,19 @@ angular.module('myApp.controllers', [])
 	//
 	//
 	//
-	
+
 	.controller('AnsibleRoleManualDetailsCtrl', ['$scope', '$http', '$routeParams', 'syncData', 'serviceRoleManual', function($scope, $http, $routeParams, syncData, serviceRoleManual) {
-	  
+
 	  $scope.roleID = $routeParams.roleId;
     $scope.projectID = $routeParams.projectId;
-    
+
     serviceRoleManual($scope.projectID, $scope.roleID).$bind($scope, "role");
     //$scope.role = serviceRoleManual($scope.projectID, $scope.roleID);
-	  
+
 	  syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/rolesmanual/' + $scope.roleID + '/playbook').$bind($scope, 'playbook');
-	  
+
 	}])
-	
+
   .controller('AnsibleRoleDetailsCtrl', ['$scope', '$http', '$routeParams', 'syncData', 'serviceAnsibleModuleslist', 'serviceRole', 'serviceRoleModules', 'serviceRoleVariables', 'serviceRoleVariable', 'serviceRoleHandlers', 'serviceRoleIncludes',
     function($scope, $http, $routeParams, syncData, serviceAnsibleModuleslist, serviceRole, serviceRoleModules, serviceRoleVariables, serviceRoleVariable, serviceRoleHandlers, serviceRoleIncludes) {
 
@@ -1671,7 +1673,7 @@ angular.module('myApp.controllers', [])
 
   .controller('ChatCtrl', ['$scope', 'syncData', function($scope, syncData) {
 	  $scope.newMessage = null;
-	  
+
 
 	  // constrain number of messages by limit into syncData
 	  // add the array into $scope.messages
