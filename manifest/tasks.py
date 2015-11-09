@@ -276,9 +276,10 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
     URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id
     ssh_key = myExternalData.get(URL, '/ssh_key')
 
-    prev = sys.stdout
-    prev2 = sys.stderr
+
     try:
+        prev = sys.stdout
+        prev2 = sys.stderr
         sys.stdout = StringIO()
         sys.stderr = StringIO()
 
@@ -319,12 +320,14 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
 
         myStdout = sys.stdout.getvalue()
         myStderr = sys.stderr.getvalue()
+        sys.stdout = prev
+        sys.stderr = prev2
         #myExternalData.patch(playbook_id, {'stdout': myStdout})
         myExternalData.post(playbook_id + '/returns', {'stats': sanitize_keys(play), 'stdout': myStdout})
         #myExternalData.patch(playbook_id, {'stderr': myStderr})
-    finally:
-        sys.stdout = prev
-        sys.stderr = prev2
+    #finally:
+    #    sys.stdout = prev
+    #    sys.stderr = prev2
 
     ##
     ## Post play results in to firebase
