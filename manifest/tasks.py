@@ -292,9 +292,9 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
         sys.stderr = StringIO()
 
         # Run Ansible PLaybook
-        stats = ansible.callbacks.AggregateStats()
-        playbook_cb = ansible.callbacks.PlaybookCallbacks(verbose=utils.VERBOSITY)
-        runner_cb = ansible.callbacks.PlaybookRunnerCallbacks(stats, verbose=utils.VERBOSITY)
+        stats = callbacks.AggregateStats()
+        playbook_cb = callbacks.PlaybookCallbacks(verbose=utils.VERBOSITY)
+        runner_cb = callbacks.PlaybookRunnerCallbacks(stats, verbose=utils.VERBOSITY)
 
         if ssh_key is not None:
             # set up ssh key in tmp
