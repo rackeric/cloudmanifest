@@ -327,7 +327,7 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
         #myExternalData.patch(playbook_id, {'stderr': myStderr})
     finally:
         print myStdout
-        print mtStderr
+        print myStderr
         print play
     #    sys.stdout = prev
     #    sys.stderr = prev2
