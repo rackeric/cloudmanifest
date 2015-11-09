@@ -20,7 +20,7 @@ def make_celery(app):
 def create_app():
     app = Flask(__name__)
     app.config.from_object(config)
-    #celery = make_celery(app)
+    celery = make_celery(app)
 
     # old API routes
     # url(r"^ansible_jeneric/(?P<user_id>\d+)/(?P<project_id>-.*-*.*)/(?P<job_id>-.*-*.*)", 'destinyCelery.ansible_jeneric_view'),
@@ -32,7 +32,7 @@ def create_app():
 
     #app.add_url_rule('/api/v1/ansible_jeneric/<string:user_id>/<string:project_id>/<string:job_id>', view_func=task(AnsibleJeneric.as_view('ansible_jeneric1')))
     app.add_url_rule('/api/v1/ansible_jeneric/<string:user_id>/<string:project_id>/<string:job_id>',
-                     view_func=AnsibleJeneric.as_view('ansible_jeneric'))
+                     view_func=task(AnsibleJeneric.as_view('ansible_jeneric')))
 
     app.add_url_rule('/api/v1/ansible_playbook/<string:user_id>/<string:project_id>/<string:playbook_id>',
                      view_func=AnsiblePlaybook.as_view('ansible_playbook'))

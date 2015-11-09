@@ -20,7 +20,7 @@ class AnsibleJeneric(MethodView):
     #decorators = [task]
     def get(self, user_id, project_id, job_id):
         #result = run_task.delay(user_id, project_id, job_id)
-        result = run_ansible_jeneric(user_id, project_id, job_id)
+        result = run_ansible_jeneric.delay(user_id, project_id, job_id)
         return result
 
 
