@@ -47,6 +47,12 @@ class RaxCreateServer(MethodView):
 def sanitize_keys(mydict):
     return dict((k.replace('.', '_'),sanitize_keys(v) if hasattr(v,'keys') else v) for k,v in mydict.items())
 
+# handle bash colors from ansible
+def convert_bash_colors(myString):
+    green = '[0;32m'
+    end = '[0m'
+    newString = myString.replace(green, '<font color="green">').replace(end, '</font>')
+    return newString
 
 #@task()
 def run_ansible_jeneric(user_id, project_id, job_id):
@@ -323,7 +329,7 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
         sys.stdout = prev
         sys.stderr = prev2
         #myExternalData.patch(playbook_id, {'stdout': myStdout})
-        myExternalData.post(playbook_id + '/returns', {'stats': sanitize_keys(play), 'stdout': str(myStdout)})
+        myExternalData.post(playbook_id + '/returns', {'stats': sanitize_keys(play), 'stdout': convert_bash_colors(myStdout)})
         #myExternalData.patch(playbook_id, {'stderr': myStderr})
     finally:
         print myStdout
