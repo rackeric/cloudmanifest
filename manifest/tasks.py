@@ -1,4 +1,4 @@
-from cStringIO import StringIO
+from StringIO import StringIO
 from firebase import FirebaseApplication, FirebaseAuthentication
 #from firebase import Firebase
 import firebase
@@ -429,9 +429,10 @@ def run_ansible_playbook_manual(user_id, project_id, playbook_id):
     URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id
     ssh_key = myExternalData.get(URL, '/ssh_key')
 
-    prev = sys.stdout
-    prev2 = sys.stderr
+
     try:
+        prev = sys.stdout
+        prev2 = sys.stderr
         sys.stdout = StringIO()
         sys.stderr = StringIO()
 
@@ -481,7 +482,7 @@ def run_ansible_playbook_manual(user_id, project_id, playbook_id):
         myStdout = sys.stdout.getvalue()
         myStderr = sys.stderr.getvalue()
         #myExternalData.patch(playbook_id, {'stdout': myStdout})
-        myExternalData.post(playbook_id + '/returns', {'stats': sanitize_keys(play), 'stdout': myStdout})
+        myExternalData.post(playbook_id + '/returns', {'stats': sanitize_keys(play), 'stdout': convert_bash_colors(myStdout)})
         #myExternalData.patch(playbook_id, {'stderr': myStderr})
     finally:
         sys.stdout = prev
