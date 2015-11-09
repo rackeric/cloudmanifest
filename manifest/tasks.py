@@ -323,7 +323,7 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
         sys.stdout = prev
         sys.stderr = prev2
         #myExternalData.patch(playbook_id, {'stdout': myStdout})
-        myExternalData.post(playbook_id + '/returns', {'stats': sanitize_keys(play), 'stdout': myStdout})
+        myExternalData.post(playbook_id + '/returns', {'stats': sanitize_keys(play), 'stdout': str(myStdout)})
         #myExternalData.patch(playbook_id, {'stderr': myStderr})
     finally:
         print myStdout
