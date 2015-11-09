@@ -14,6 +14,7 @@ from flask.views import MethodView
 from ansible import callbacks
 import pyrax
 from flask import jsonify
+from celery import Celery
 
 class AnsibleJeneric(MethodView):
     #@task()
