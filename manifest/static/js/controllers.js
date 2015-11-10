@@ -661,7 +661,7 @@ angular.module('myApp.controllers', [])
           //$scope.role_returns_status = "QUEUED";
           $scope.role = serviceRole($scope.projectID, playbook_key);
           $scope.role.status = "QUEUED";
-          $scope.role.status.save();
+          $scope.role.save();
           //$scope.role.status.value("Queued");
           //$scope.role_returns_status.$save();
           // add host to runPlayAlert
