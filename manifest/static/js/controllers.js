@@ -657,11 +657,12 @@ angular.module('myApp.controllers', [])
 	    var runPlay = confirm('Run this playbook?');
         if (runPlay) {
           // ansible role return results
-          //$scope.role_returns_status = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/roles/' + playbook_key + '/status');
+          $scope.role_status = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/roles/' + playbook_key + '/status');
+          $scope.role_status = "Queued";
           //$scope.role_returns_status = "QUEUED";
-          $scope.role = serviceRole($scope.projectID, playbook_key);
-          $scope.role.status = "QUEUED";
-          $scope.role.save();
+          //$scope.role = serviceRole($scope.projectID, playbook_key);
+          //$scope.role.status = "QUEUED";
+          //$scope.role.save();
           //$scope.role.status.value("Queued");
           //$scope.role_returns_status.$save();
           // add host to runPlayAlert
