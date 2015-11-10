@@ -657,7 +657,7 @@ angular.module('myApp.controllers', [])
 	    var runPlay = confirm('Run this playbook?');
         if (runPlay) {
           // ansible role return results
-          $scope.role_status = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/roles/' + playbook_key + '/status');
+          $scope.role_status = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/roles/' + playbook_key + '/status2');
           $scope.role_status = "QUEUED";
           //$scope.role_status.save();
           //$scope.role_returns_status = "QUEUED";
