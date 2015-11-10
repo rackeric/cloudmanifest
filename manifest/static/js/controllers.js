@@ -659,14 +659,6 @@ angular.module('myApp.controllers', [])
           // ansible role return results
           $scope.role_status = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/roles/' + playbook_key + '/status');
           $scope.role_status.$set("QUEUED");
-          //$scope.role_status.save();
-          //$scope.role_returns_status = "QUEUED";
-          //$scope.role = serviceRole($scope.projectID, playbook_key);
-          //$scope.role.status = "QUEUED";
-          //$scope.role.save();
-          //$scope.role.status.value("Queued");
-          //$scope.role_returns_status.$save();
-          // add host to runPlayAlert
 	      $scope.runPlayAddAlert('success', 'Running playbook, if it does not complete check that hosts and user are set in the play.');
 
 	      // send ansible playbook request to API
