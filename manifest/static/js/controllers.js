@@ -658,7 +658,8 @@ angular.module('myApp.controllers', [])
         if (runPlay) {
           // ansible role return results
           $scope.role_returns_status = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/roles/' + playbook_key + '/status');
-          $scope.role_returns_status.$save("QUEUED");
+          $scope.role_returns_status = "QUEUED";
+          $scope.role_returns_status.$save();
           // add host to runPlayAlert
 	      $scope.runPlayAddAlert('success', 'Running playbook, if it does not complete check that hosts and user are set in the play.');
 
