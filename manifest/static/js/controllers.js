@@ -684,8 +684,8 @@ angular.module('myApp.controllers', [])
 	    var runPlay = confirm('Run this playbook?');
         if (runPlay) {
           // setting the job status
-          var role_status = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/roles/' + playbook_key + '/status');
-          role_status.$value("QUEUED");
+          //var role_status = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/roles/' + playbook_key + '/status');
+          //role_status.$set("QUEUED");
 
           // add host to runPlayAlert
 	      $scope.runPlayAddAlert('success', 'Running playbook, if it does not complete check that hosts and user are set in the play.');
