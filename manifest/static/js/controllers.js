@@ -657,8 +657,8 @@ angular.module('myApp.controllers', [])
 	    var runPlay = confirm('Run this playbook?');
         if (runPlay) {
           // ansible role return results
-          $scope.role_status = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/roles/' + playbook_key + '/status');
-          $scope.role_status.$set("QUEUED");
+          var role_status = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/roles/' + playbook_key + '/status');
+          role_status.$set("QUEUED");
 	      $scope.runPlayAddAlert('success', 'Running playbook, if it does not complete check that hosts and user are set in the play.');
 
 	      // send ansible playbook request to API
@@ -684,8 +684,8 @@ angular.module('myApp.controllers', [])
 	    var runPlay = confirm('Run this playbook?');
         if (runPlay) {
           // setting the job status
-          $scope.role_status = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/roles/' + playbook_key + '/status');
-          $scope.role_status.$set("QUEUED");
+          var role_status = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/roles/' + playbook_key + '/status');
+          role_status.$set("QUEUED");
 
           // add host to runPlayAlert
 	      $scope.runPlayAddAlert('success', 'Running playbook, if it does not complete check that hosts and user are set in the play.');
