@@ -659,7 +659,7 @@ angular.module('myApp.controllers', [])
           // ansible role return results
           //$scope.role_returns_status = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/roles/' + playbook_key + '/status');
           //$scope.role_returns_status = "QUEUED";
-          serviceRole($scope.projectID, playbook_key).$bind($scope, "role");
+          $scope.role = serviceRole($scope.projectID, playbook_key);
           $scope.role.status = "QUEUED";
           //$scope.role.status.value("Queued");
           //$scope.role_returns_status.$save();
