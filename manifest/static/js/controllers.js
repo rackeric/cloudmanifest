@@ -510,6 +510,19 @@ angular.module('myApp.controllers', [])
       // alerts for RAX create server
       $scope.newServerAlerts = [];
 
+      // get value for playbook run status
+      $scope.getValue = function(stage) {
+        if (stage === "QUEUED") {
+          return 10;
+        } else if (stage === "SETUP") {
+          return 40;
+        } else if (stage === "RUNNING") {
+          return 60;
+        } else {
+          return 100;
+        }
+      };
+
       $scope.newServerAddAlert = function(myType, myMsg) {
         $scope.newServerAlerts.push({type: myType, msg: myMsg});
       };

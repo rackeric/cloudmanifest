@@ -332,6 +332,8 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
         sys.stdout = prev
         sys.stderr = prev2
         #myExternalData.patch(playbook_id, {'stdout': myStdout})
+        # update status to RUNNING in firebase
+        myExternalData.patch(playbook_id, {"status":"COMPLETE"})
         myExternalData.post(playbook_id + '/returns', {'stats': sanitize_keys(play), 'stdout': convert_bash_colors(myStdout)})
         #myExternalData.patch(playbook_id, {'stderr': myStderr})
     finally:
@@ -340,14 +342,6 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
         print play
     #    sys.stdout = prev
     #    sys.stderr = prev2
-
-    ##
-    ## Post play results in to firebase
-    ##
-    ## WHERE?
-    # update status to RUNNING in firebase
-    myExternalData.patch(playbook_id, {"status":"COMPLETE"})
-    # myExternalData.post(playbook_id + '/returns', play)
 
     # delete tmp playbook file
     os.remove('/tmp/' + playbook_id + '.yml')
