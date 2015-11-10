@@ -74,7 +74,7 @@
                 </td>
                 <td>
                     {{ role.status }}
-                    <uib-progressbar max="100" value="getValue(role.status)"><span style="color:white; white-space:nowrap;">{{dynamic}} / {{max}}</span></uib-progressbar>
+                    <uib-progressbar max="100" value="getValue(role.status)"><span style="color:white; white-space:nowrap;">{{ role.status }}</span></uib-progressbar>
                 </td>
                 <td>
                     <ul ng-repeat="(key_alpha, return) in role.returns">
