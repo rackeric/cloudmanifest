@@ -368,7 +368,7 @@ def run_ansible_playbook_manual(user_id, project_id, playbook_id):
     myExternalData = FirebaseApplication(URL, authentication)
 
     # update status to RUNNING in firebase
-    myExternalData.patch(playbook_id, {"status":"RUNNING"})
+    myExternalData.patch(playbook_id, {"status":"SETUP"})
 
     # finally, get the actual job and set ansible options
     job = myExternalData.get(URL, playbook_id)
@@ -430,7 +430,8 @@ def run_ansible_playbook_manual(user_id, project_id, playbook_id):
     URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id
     ssh_key = myExternalData.get(URL, '/ssh_key')
 
-
+    # update status to RUNNING in firebase
+    myExternalData.patch(playbook_id, {"status":"RUNNING"})
     try:
         prev = sys.stdout
         prev2 = sys.stderr

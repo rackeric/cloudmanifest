@@ -683,6 +683,9 @@ angular.module('myApp.controllers', [])
 	  $scope.ansible_playbook_manual = function(playbook_key) {
 	    var runPlay = confirm('Run this playbook?');
         if (runPlay) {
+          // setting the job status
+          $scope.role_status = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/roles/' + playbook_key + '/status');
+          $scope.role_status.$set("QUEUED");
 
           // add host to runPlayAlert
 	      $scope.runPlayAddAlert('success', 'Running playbook, if it does not complete check that hosts and user are set in the play.');
