@@ -656,11 +656,11 @@ angular.module('myApp.controllers', [])
 	  $scope.ansible_playbook = function(playbook_key) {
 	    var runPlay = confirm('Run this playbook?');
         if (runPlay) {
+          // ansible role return results
+          $scope.role_returns_status = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/roles/' + playbook_key + '/status');
+          $scope.role_returns_status.$save("QUEUED");
           // add host to runPlayAlert
-	        $scope.runPlayAddAlert('success', 'Running playbook, if it does not complete check that hosts and user are set in the play.');
-
-          // set run status
-          $scope.external_data.$add({ status: 'QUEUED' });
+	      $scope.runPlayAddAlert('success', 'Running playbook, if it does not complete check that hosts and user are set in the play.');
 
 	      // send ansible playbook request to API
 	      var stripped_uid = $scope.auth.user.uid.split(':');
