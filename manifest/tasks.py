@@ -19,26 +19,26 @@ class AnsibleJeneric(MethodView):
     #@task()
     #decorators = [task]
     def get(self, user_id, project_id, job_id):
-        #result = run_ansible_jeneric.delay(user_id, project_id, job_id)
-        result = run_ansible_jeneric(user_id, project_id, job_id)
+        result = run_ansible_jeneric.delay(user_id, project_id, job_id)
+        #result = run_ansible_jeneric(user_id, project_id, job_id)
         return result
 
 
 class AnsiblePlaybook(MethodView):
     def get(self, user_id, project_id, playbook_id):
-        result = run_ansible_playbook(user_id, project_id, playbook_id)
+        result = run_ansible_playbook.delay(user_id, project_id, playbook_id)
         return result
 
 
 class AnsiblePlaybookManual(MethodView):
     def get(self, user_id, project_id, playbook_id):
-        result = run_ansible_playbook_manual(user_id, project_id, playbook_id)
+        result = run_ansible_playbook_manual.delay(user_id, project_id, playbook_id)
         return result
 
 
 class RaxCreateServer(MethodView):
     def get(self, user_id, project_id, job_id):
-        result = run_rax_create_server(user_id, project_id, job_id)
+        result = run_rax_create_server.delay(user_id, project_id, job_id)
         return result
 
 
@@ -56,7 +56,7 @@ def convert_bash_colors(myString):
     newString = myString.replace(green, '').replace(end, '')
     return newString
 
-#@task()
+@task()
 def run_ansible_jeneric(user_id, project_id, job_id):
 
     # firebase authentication
@@ -168,6 +168,7 @@ def run_ansible_jeneric(user_id, project_id, job_id):
 
 
 #@celery.task(serializer='json')
+@task()
 def run_ansible_playbook(user_id, project_id, playbook_id):
 
     # firebase authentication
@@ -350,6 +351,7 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
 
 
 #@celery.task(serializer='json')
+@task()
 def run_ansible_playbook_manual(user_id, project_id, playbook_id):
 
     # firebase authentication
@@ -498,6 +500,7 @@ def run_ansible_playbook_manual(user_id, project_id, playbook_id):
     return jsonify(play)
 
 # @celery.task(serializer='json')
+@task()
 def run_rax_create_server(user_id, project_id, job_id):
 
     # firebase authentication
