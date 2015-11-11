@@ -5,4 +5,4 @@ execfile(activate_this, dict(__file__=activate_this))
 
 sys.path.insert (0,'/var/www/html/cloudmanifest')
 
-from manifest import create_app as application
+from manifest import app as application

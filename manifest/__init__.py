@@ -17,30 +17,30 @@ def make_celery(app):
     celery.Task = ContextTask
     return celery
 
-def create_app():
-    app = Flask(__name__)
-    app.config.from_object(config)
-    celery = make_celery(app)
+#def create_app():
+app = Flask(__name__)
+app.config.from_object(config)
+celery = make_celery(app)
 
-    # old API routes
-    # url(r"^ansible_jeneric/(?P<user_id>\d+)/(?P<project_id>-.*-*.*)/(?P<job_id>-.*-*.*)", 'destinyCelery.ansible_jeneric_view'),
-    # url(r"^ansible_playbook/(?P<user_id>\d+)/(?P<project_id>-.*-*.*)/(?P<playbook_id>-.*-*.*)", 'destinyCelery.ansible_playbook_view'),
-    # url(r"^ansible_playbook_manual/(?P<user_id>\d+)/(?P<project_id>-.*-*.*)/(?P<playbook_id>-.*-*.*)", 'destinyCelery.ansible_playbook_manual_view'),
-    # url(r"^rax_create_server/(?P<user_id>\d+)/(?P<project_id>-.*-*.*)/(?P<job_id>-.*-*.*)", 'destinyCelery.rax_create_server_view'),
+# old API routes
+# url(r"^ansible_jeneric/(?P<user_id>\d+)/(?P<project_id>-.*-*.*)/(?P<job_id>-.*-*.*)", 'destinyCelery.ansible_jeneric_view'),
+# url(r"^ansible_playbook/(?P<user_id>\d+)/(?P<project_id>-.*-*.*)/(?P<playbook_id>-.*-*.*)", 'destinyCelery.ansible_playbook_view'),
+# url(r"^ansible_playbook_manual/(?P<user_id>\d+)/(?P<project_id>-.*-*.*)/(?P<playbook_id>-.*-*.*)", 'destinyCelery.ansible_playbook_manual_view'),
+# url(r"^rax_create_server/(?P<user_id>\d+)/(?P<project_id>-.*-*.*)/(?P<job_id>-.*-*.*)", 'destinyCelery.rax_create_server_view'),
 
-    app.add_url_rule('/', view_func=MainView.as_view('main_view'))
+app.add_url_rule('/', view_func=MainView.as_view('main_view'))
 
-    #app.add_url_rule('/api/v1/ansible_jeneric/<string:user_id>/<string:project_id>/<string:job_id>', view_func=task(AnsibleJeneric.as_view('ansible_jeneric1')))
-    app.add_url_rule('/api/v1/ansible_jeneric/<string:user_id>/<string:project_id>/<string:job_id>',
-                     view_func=AnsibleJeneric.as_view('ansible_jeneric'))
+#app.add_url_rule('/api/v1/ansible_jeneric/<string:user_id>/<string:project_id>/<string:job_id>', view_func=task(AnsibleJeneric.as_view('ansible_jeneric1')))
+app.add_url_rule('/api/v1/ansible_jeneric/<string:user_id>/<string:project_id>/<string:job_id>',
+                 view_func=AnsibleJeneric.as_view('ansible_jeneric'))
 
-    app.add_url_rule('/api/v1/ansible_playbook/<string:user_id>/<string:project_id>/<string:playbook_id>',
-                     view_func=AnsiblePlaybook.as_view('ansible_playbook'))
+app.add_url_rule('/api/v1/ansible_playbook/<string:user_id>/<string:project_id>/<string:playbook_id>',
+                 view_func=AnsiblePlaybook.as_view('ansible_playbook'))
 
-    app.add_url_rule('/api/v1/ansible_playbook_manual/<string:user_id>/<string:project_id>/<string:playbook_id>',
-                     view_func=AnsiblePlaybookManual.as_view('ansible_playbook_manual'))
+app.add_url_rule('/api/v1/ansible_playbook_manual/<string:user_id>/<string:project_id>/<string:playbook_id>',
+                 view_func=AnsiblePlaybookManual.as_view('ansible_playbook_manual'))
 
-    app.add_url_rule('/api/v1/rax_create_server/<string:user_id>/<string:project_id>/<string:job_id>',
-                     view_func=RaxCreateServer.as_view('rax_create_server'))
+app.add_url_rule('/api/v1/rax_create_server/<string:user_id>/<string:project_id>/<string:job_id>',
+                 view_func=RaxCreateServer.as_view('rax_create_server'))
 
-    return app
+    #return app
