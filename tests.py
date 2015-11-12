@@ -8,8 +8,8 @@ class ManifestTestCase(unittest.TestCase):
         self.app = manifest.app.test_client()
 
     def test_home(self):
-        request = self.app.get('/')
-        assert 'Manifest' in rv.data
+        result = self.app.get('/')
+        assert 'Manifest' in result.data
         self.assertEqual(result.status_code, 200)
 
 if __name__ == '__main__':
