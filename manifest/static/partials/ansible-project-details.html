@@ -66,8 +66,6 @@
                     <button type="button" class="btn btn-danger btn-xs" ng-click="clear_playbook_returns(role.$id)">Clear Returns</button>
                 </td>
                 <td>
-                    {{ role.status }}
-                    <!-- <uib-progressbar value="55">sdf</uib-progressbar> -->
                     <div class="progress">
                       <div class="progress-bar" role="progressbar" aria-valuenow="{{ getValue(role.status) }}" aria-valuemin="0" aria-valuemax="100" style="width: {{getValue(role.status)}}">
                         {{ role.status }}
@@ -132,7 +130,6 @@
                     <button type="button" class="btn btn-danger btn-xs" ng-click="clear_playbook_manual_returns(role.$id)">Clear Returns</button>
                 </td>
                 <td>
-                    {{ role.status }}
                     <div class="progress">
                       <div class="progress-bar" role="progressbar" aria-valuenow="{{ getValue(role.status) }}" aria-valuemin="0" aria-valuemax="100" style="width: {{getValue(role.status)}}">
                         {{ role.status }}
