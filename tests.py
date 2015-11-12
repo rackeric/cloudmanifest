@@ -1,6 +1,7 @@
 import os
 import manifest
 import unittest
+from manifest import tasks
 
 class ManifestTestCase(unittest.TestCase):
 
@@ -14,8 +15,12 @@ class ManifestTestCase(unittest.TestCase):
 
     def test_login_page(self):
         result = self.app.get('/#/login')
-        assert 'Please sign in' in result.data
         self.assertEqual(result.status_code, 200)
+
+    def test_remove_bash_colors(self):
+        string = "this i[0;32ms a string"
+        result = convert_bash_colors(string)
+        self.assertEqual(result, "this is a string")
 
 if __name__ == '__main__':
     unittest.main()
