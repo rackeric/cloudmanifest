@@ -18,9 +18,10 @@ class ManifestTestCase(unittest.TestCase):
     #    self.assertEqual(result.status_code, 200)
 
     def test_remove_bash_colors(self):
+        expect = "this is a string"
         string = "this i[0;32ms a string"
         result = convert_bash_colors(string)
-        self.assertEqual(result, "this is a string")
+        self.assertEqual(expect, result)
 
 if __name__ == '__main__':
     unittest.main()
