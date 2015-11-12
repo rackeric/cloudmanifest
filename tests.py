@@ -19,7 +19,7 @@ class ManifestTestCase(unittest.TestCase):
 
     def test_remove_bash_colors(self):
         expect = "this is a string"
-        string = "this i[0;32ms a string"
+        string = "this i[0;32ms a st[0mring"
         result = convert_bash_colors(string)
         self.assertEqual(expect, result)
 
