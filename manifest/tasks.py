@@ -340,12 +340,11 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
         myExternalData.post(playbook_id + '/returns', {'stats': sanitize_keys(play), 'stdout': convert_bash_colors(myStdout)})
         #myExternalData.patch(playbook_id, {'stderr': myStderr})
     finally:
-        print "done"
         #print myStdout
         #print myStderr
         #print play
-    #    sys.stdout = prev
-    #    sys.stderr = prev2
+        sys.stdout = prev
+        sys.stderr = prev2
 
     # delete tmp playbook file
     os.remove('/tmp/' + playbook_id + '.yml')
