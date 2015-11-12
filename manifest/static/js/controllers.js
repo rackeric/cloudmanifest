@@ -513,13 +513,13 @@ angular.module('myApp.controllers', [])
       // get value for playbook run status
       $scope.getValue = function(stage) {
         if (stage === "QUEUED") {
-          return 10;
+          return "10%";
         } else if (stage === "SETUP") {
-          return 40;
+          return "40%";
         } else if (stage === "RUNNING") {
-          return 60;
+          return "60%";
         } else {
-          return 100;
+          return "100%";
         }
       };
 
