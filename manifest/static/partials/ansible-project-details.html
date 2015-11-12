@@ -69,8 +69,8 @@
                     {{ role.status }}
                     <!-- <uib-progressbar value="55">sdf</uib-progressbar> -->
                     <div class="progress">
-                      <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="{{ getValue(role.status) }}" aria-valuemin="0" aria-valuemax="100" style="width: {{getValue(role.status)}}">
-                        <span class="sr-only">{{ role.status }}</span>
+                      <div class="progress-bar" role="progressbar" aria-valuenow="{{ getValue(role.status) }}" aria-valuemin="0" aria-valuemax="100" style="width: {{getValue(role.status)}}">
+                        {{ role.status }}
                       </div>
                     </div>
                 </td>
@@ -133,6 +133,11 @@
                 </td>
                 <td>
                     {{ role.status }}
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="{{ getValue(role.status) }}" aria-valuemin="0" aria-valuemax="100" style="width: {{getValue(role.status)}}">
+                        {{ role.status }}
+                      </div>
+                    </div>
                 </td>
                 <td>
                     <ul ng-repeat="(key_alpha, return) in role.returns">
