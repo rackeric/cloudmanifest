@@ -343,7 +343,7 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
     except AnsibleError as e:
         # set status to error
         myExternalData.patch(playbook_id, {"status":"ERROR"})
-        myExternalData.post(playbook_id + '/returns', {'stats': e.errno, 'stdout': e.strerror})
+        myExternalData.post(playbook_id + '/returns', {'stats': e.args, 'stdout': e.message})
     except:
         # set status to error
         myExternalData.patch(playbook_id, {"status":"ERROR"})
