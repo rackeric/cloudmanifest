@@ -340,9 +340,10 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
         myExternalData.patch(playbook_id, {"status":"COMPLETE"})
         myExternalData.post(playbook_id + '/returns', {'stats': sanitize_keys(play), 'stdout': convert_bash_colors(myStdout)})
         #myExternalData.patch(playbook_id, {'stderr': myStderr})
-    except AnsibleError:
+    except AnsibleError as e:
         # set status to error
         myExternalData.patch(playbook_id, {"status":"ERROR"})
+        myExternalData.post(playbook_id + '/returns', {'stats': e.errno, 'stdout': e.strerror})
     except:
         # set status to error
         myExternalData.patch(playbook_id, {"status":"ERROR"})
