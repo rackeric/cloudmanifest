@@ -1,10 +1,10 @@
 <!--  WORK IN PROGRESS ON SYNTAX HIGHLIGHTER
 
 <script type="text/javascript" src="../js/shCore.js"></script>
- 
+
 <script type="text/javascript" src="../js/shBrushJScript.js"></script>
 <script type="text/javascript" src="../js/shBrushYaml.js"></script>
- 
+
 <link href="../css/shCore.css" rel="stylesheet" type="text/css" />
 <link href="../css/shThemeDefault.css" rel="stylesheet" type="text/css" />
 
@@ -19,7 +19,7 @@
               <h3 class="panel-title">Add Tasks to Ansible Play</h3>
             </div>
                     <div class="panel-body">
-                    
+
                       <div class="row"><!-- inner panel rows -->
                         <div class="col-md-12"><!-- start inner panel rows col -->
                       <!-- full list button -->
@@ -91,10 +91,10 @@
                         <!-- <button class="btn btn-primary btn-xs" ng-click="setModuleName('user')">Add User</button> -->
                         <!-- <button class="btn btn-primary btn-xs" ng-click="ansibleTest()">Ansible Test</button> -->
                         </div><!-- ending inner panel row col -->
-                        </div><!-- ending row 1 -->  
-                      
+                        </div><!-- ending row 1 -->
+
                         <hr>
-                      
+
                         <div class="row"> <!-- start name and module row -->
                               <div class="col-md-6">
                                 <input type="text" class="form-control" ng-model="newModuleName" >
@@ -105,10 +105,10 @@
                                 <span class="help-block">Ansible Module</span>
                               </div>
                         </div> <!-- end name and module row -->
-                            
+
                             <br />
                             <hr>
-                        
+
                         <div class="row">
                             <div class="col-md-12">
                                 <h4><u>Description</u></h4>
@@ -119,9 +119,9 @@
                                 <p class="bg-info">{{ selectedDescription }}</p>
                             </div>
                         </div>
-                        
+
                             <hr>
-                        
+
                         <div class="row">
                             <div class="col-md-12">
                                 <h4><u>Options</u></h4>
@@ -132,29 +132,30 @@
                                 <div ng-repeat="(key, option) in options | orderByPriority">
                                   <div class="col-md-3 form-group {{ getValidationState(option.required, option.value) }}">
                                     <input type="hidden" ng-model="option.paramater" value="{{ option.paramater }}">
-                                    <input class="form-control" type="text" ng-model="option.value" placeholder="{{ option.choices }}" tooltip="{{ option.comments }} (Available options: {{ option.choices }})"  tooltip-trigger="focus" tooltip-placement="above">
+                                    <!-- <input class="form-control" type="text" ng-model="option.value" placeholder="{{ option.choices }}" tooltip="{{ option.comments }} (Available options: {{ option.choices }})"  tooltip-trigger="focus" tooltip-placement="above"> -->
+                                    <input class="form-control" type="text" ng-model="option.value" data-toggle="tooltip" placeholder="{{ option.choices }}" title="{{ option.comments }} (Available options: {{ option.choices }})"  tooltip-trigger="focus" placement="above">
                                     <span class="help-block">{{ option.paramater }}</span>
                                   </div>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div ng-if="options">
-                                      Loop through a list for option: 
+                                      Loop through a list for option:
                                       <select ng-model="newModuleLoopItem" class="form-control">
                                         <option ng-repeat="option in options | orderByPriority">{{ option.paramater }}</option>
                                       </select>
-                                      with the list: 
+                                      with the list:
                                       <input type="text" class="form-control" placeholder="comma separated list" ng-model="newModuleLoopList">
                                 </div>
                             </div>
-                        </div>        
-                          
+                        </div>
+
                         <br />
                         <hr>
-                        
+
                         <div class="row"><!-- start inner panel rows -->
                             <div class="col-md-12">
                                 <h4><u>Notify</u></h4>
@@ -167,12 +168,12 @@
                                 </select>
                             </div>
                         </div><!-- ending inner panel row -->
-                        
+
                         <hr>
-                        
+
                         <div class="row"><!-- start buttons row -->
                             <div class="col-md-12"><!-- start buttons row col -->
-                        
+
                                 <!-- <button class="btn btn-default" ng-show="showAddChoice(choice)" ng-click="addNewChoice()">Add another option</button> -->
                                 <!-- <button class="btn btn-default" ng-show="showAddChoice(choice)" ng-click="removeChoice()">Remove option</button> -->
                               <div class="pull-right">
@@ -182,11 +183,11 @@
                               </div>
                             </div><!-- end buttons row col -->
                         </div><!-- buttons row -->
-                      
+
                     </div><!-- ending panel body -->
         </div><!-- ending panel -->
-        
-        
+
+
     </div><!-- end col-md-6 1 -->
 
     <div class="col-md-6">
@@ -234,7 +235,7 @@
                   <span class="help-block">ce State</span>
                 </div>
                 <button class="btn btn-primary" type="submit" ng-click="addHandler()">Add</button>
-                
+
                 <br /><br />
               <hr>
               <h4>Add Include <small>for including other plays</small></h4>
@@ -246,7 +247,7 @@
 
             </div>
         </div>
-        
+
     </div>
 </div>
 
@@ -278,7 +279,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="col-md-5">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -307,7 +308,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="col-md-3">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -330,7 +331,7 @@
             </div>
         </div>
     </div>
-    
+
 </div>
 
 
@@ -374,7 +375,7 @@
                 </table>
             </div>
         </div>
-        
+
     </div>
 </div>
 
@@ -425,7 +426,7 @@
   .ui-state-highlight { height: 1.5em; line-height: 1.2em; }
 </style>
 
-<!-- 
+<!--
 <script type="text/javascript">
      SyntaxHighlighter.all()
 </script>
