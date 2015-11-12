@@ -141,7 +141,13 @@ def run_ansible_jeneric(user_id, project_id, job_id):
     	inventory=myInventory,
         ).run()
         # remove the tmp key
-        os.remove('/tmp/' + project_id + '_key')
+        try:
+            os.remove('/tmp/' + project_id + '_key')
+
+        except OSError as e:
+            myExternalData.patch(job_id, {"status":"ERROR"})
+            myExternalData.post(job_id + '/returns/', e.message)
+
     else:
         results = ansible.runner.Runner(
         pattern=myPattern,
