@@ -16,6 +16,8 @@
   <!--  <link rel="stylesheet" href="css/magic-bootstrap16.css">  -->
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
   <!--  <script src="js/bootstrap.js"></script> -->
+  <!-- Bootstrap theme -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
 <body ng-cloak-auth class="hide">
@@ -29,7 +31,8 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a ng-class="{ active: isActive('/home') }" class="navbar-brand" href="#/home"><img src="static/img/document-scroll-icon.png" width="19" height="17"></img>
+          <a ng-class="{ active: isActive('/home') }" class="navbar-brand" href="#/home">
+            <!-- <img src="static/img/document-scroll-icon.png" width="19" height="17"></img> -->
           Manifest</a>
         </div>
         <div class="collapse navbar-collapse" ng-controller="HeaderController">
@@ -53,7 +56,7 @@
     <!-- End Nav Bar -->
 
 
-  <div class="container-fluid">
+  <div class="container-fluid theme-showcase">
       <div ng-view></div>
   </div>
 
@@ -76,7 +79,7 @@
 
       </nav>
   </div>
---end hide footer bar-->  
+--end hide footer bar-->
 
 
 
@@ -107,8 +110,7 @@
   <!-- <link href="http://bootswatch.com/spacelab/bootstrap.css" rel="stylesheet"> -->
 
   <!-- UI Angular Bootstrap -->
-  <script src="static/js/ui-bootstrap.js"></script>
-  <script src="static/js/ui-bootstrap-tpls.js"></script>
+  <script src="js/ui-bootstrap-tpls-0.13.4.min.js"></script>
 
 
   <!-- Edit in place stuff -->
