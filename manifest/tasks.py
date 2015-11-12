@@ -14,6 +14,7 @@ from flask.views import MethodView
 from ansible import callbacks
 import pyrax
 from flask import jsonify
+from ansible import errors
 
 class AnsibleJeneric(MethodView):
     #@task()
@@ -339,6 +340,9 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
         myExternalData.patch(playbook_id, {"status":"COMPLETE"})
         myExternalData.post(playbook_id + '/returns', {'stats': sanitize_keys(play), 'stdout': convert_bash_colors(myStdout)})
         #myExternalData.patch(playbook_id, {'stderr': myStderr})
+    except AnsibleError:
+        # set status to error
+        myExternalData.patch(playbook_id, {"status":"ERROR"})
     except:
         # set status to error
         myExternalData.patch(playbook_id, {"status":"ERROR"})
