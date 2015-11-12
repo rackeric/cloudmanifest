@@ -238,8 +238,10 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
 
     tmpPlay.write("---\n")
     tmpPlay.write("- name: %s\n" % playbook['name'])
-    tmpPlay.write("  hosts: %s\n" % playbook['playHosts'])
-    tmpPlay.write("  remote_user: %s\n" % playbook['playUsername'])
+    if playbook.has_key('playHosts'):
+        tmpPlay.write("  hosts: %s\n" % playbook['playHosts'])
+    if playbook.has_key('playUsername'):
+        tmpPlay.write("  remote_user: %s\n" % playbook['playUsername'])
     tmpPlay.write("\n")
     # if has variables
     if playbook.has_key('variables'):
