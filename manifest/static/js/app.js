@@ -3,7 +3,7 @@
 // Declare app level module which depends on filters, and services
 angular.module('myApp',
       ['myApp.config', 'myApp.routes', 'myApp.filters', 'myApp.services', 'myApp.directives', 'myApp.controllers',
-         'waitForAuth', 'routeSecurity', 'xeditable', 'ui.bootstrap', 'ui', 'ui.sortable']
+         'waitForAuth', 'routeSecurity', 'xeditable', 'ui', 'ui.sortable']
    )
 
    .run(function(editableOptions) {
