@@ -492,6 +492,7 @@ def run_ansible_playbook_manual(user_id, project_id, playbook_id):
         myStdout = sys.stdout.getvalue()
         myStderr = sys.stderr.getvalue()
         #myExternalData.patch(playbook_id, {'stdout': myStdout})
+        myExternalData.patch(playbook_id, {"status":"COMPLETE"})
         myExternalData.post(playbook_id + '/returns', {'stats': sanitize_keys(play), 'stdout': convert_bash_colors(myStdout)})
         #myExternalData.patch(playbook_id, {'stderr': myStderr})
     except AnsibleError as e:
@@ -511,7 +512,7 @@ def run_ansible_playbook_manual(user_id, project_id, playbook_id):
     ##
     ## WHERE?
     # update status to RUNNING in firebase
-    myExternalData.patch(playbook_id, {"status":"COMPLETE"})
+
     #myExternalData.post(playbook_id + '/returns', play)
 
     # delete tmp playbook file
