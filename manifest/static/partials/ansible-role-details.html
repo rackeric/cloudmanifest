@@ -133,7 +133,7 @@
                                   <div class="col-md-3 form-group {{ getValidationState(option.required, option.value) }}">
                                     <input type="hidden" ng-model="option.paramater" value="{{ option.paramater }}">
                                     <!-- <input class="form-control" type="text" ng-model="option.value" placeholder="{{ option.choices }}" tooltip="{{ option.comments }} (Available options: {{ option.choices }})"  tooltip-trigger="focus" tooltip-placement="above"> -->
-                                    <input class="form-control" type="text" ng-model="option.value" data-toggle="tooltip" placeholder="{{ option.choices }}" title="{{ option.comments }} (Available options: {{ option.choices }})"  tooltip-trigger="focus" placement="above">
+                                    <input class="form-control" type="text" ng-model="option.value" data-toggle="tooltip" placeholder="{{ option.choices }}" title="{{ option.comments }} (Available options: {{ option.choices }})" trigger="focus" data-placement="top">
                                     <span class="help-block">{{ option.paramater }}</span>
                                   </div>
                                 </div>
