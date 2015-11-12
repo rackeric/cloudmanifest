@@ -14,7 +14,7 @@ from flask.views import MethodView
 from ansible import callbacks
 import pyrax
 from flask import jsonify
-from ansible import errors
+from ansible.errors import AnsibleError
 
 class AnsibleJeneric(MethodView):
     #@task()
