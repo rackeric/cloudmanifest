@@ -53,24 +53,20 @@
                 <td>
                     <!-- Split button -->
                     <div class="btn-group">
-                    <button type="button" class="btn btn-info btn-xs">Manage</button>
-                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <span class="caret"></span>
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu">
-                      <li><a href="#/projects/Ansible/{{ projectID }}/roles/{{ role.$id }}" ng-click="cloneRole(projectID, role.$id)">Edit</a></li>
-                      <li><a href="#" ng-click="cloneRole(projectID, role.$id)">Clone</a></li>
-                      <li><a href="#" ng-click="submitToRepo(projectID, role.$id)">Submit to Repo/a></li
-                      <li role="separator" class="divider"></li>
-                      <li><a href="#" ng-click="removeRole(role.$id)">Delete</a></li>
-                    </ul>
+                      <button type="button" class="btn btn-info btn-xs">Manage</button>
+                      <button type="button" class="btn btn-info dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><a href="#/projects/Ansible/{{ projectID }}/roles/{{ role.$id }}" ng-click="cloneRole(projectID, role.$id)">Edit</a></li>
+                        <li><a href="#" ng-click="cloneRole(projectID, role.$id)">Clone</a></li>
+                        <li><a href="#" ng-click="submitToRepo(projectID, role.$id)">Submit to Repo</a></li
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#" ng-click="removeRole(role.$id)">Delete</a></li>
+                      </ul>
                     </div>
-                    <button type="button" class="btn btn-success btn-xs" ng-click="cloneRole(projectID, role.$id)">Clone</button>
-                    <a href="#/projects/Ansible/{{ projectID }}/roles/{{ role.$id }}" class="btn btn-info btn-xs" role="button">Manage</a>
-                    <!-- <button popover="Click role name at top of next page to rename." popover-title="Rename Project" class="btn btn-warning btn-xs">Rename</button> -->
-                    <button type="button" class="btn btn-primary btn-xs" ng-click="submitToRepo(projectID, role.$id)">Submit to Repo</button>
-                    <button type="button" class="btn btn-danger btn-xs" ng-click="removeRole(role.$id)">Delete</button>
+
                 </td>
                 <td>
                     <button type="button" class="btn btn-success btn-xs" ng-click="ansible_playbook(role.$id)">Run Playbook</button>
