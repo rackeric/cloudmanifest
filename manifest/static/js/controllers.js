@@ -896,6 +896,16 @@ angular.module('myApp.controllers', [])
         });
       }
 
+      // copy a manual entry role
+      $scope.cloneRoleManual = function(projectID, roleID) {
+        var projectRef = new Firebase('https://deploynebula.firebaseio.com/users/' + $scope.auth.user.uid + '/projects/' + projectID + '/rolesmanual/' + roleID);
+        projectRef.once('value', function(dataSnapshot) {
+        // store dataSnapshot for use in below examples.
+        var projectSnapshot = dataSnapshot;
+        $scope.rolesmanual.$add(projectSnapshot.val());
+        });
+      }
+
       // submit role to repo
       $scope.submitToRepo = function(projectID, roleID) {
           var submit = confirm('Are you sure you want to submit to the public repo?');
