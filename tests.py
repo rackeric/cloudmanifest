@@ -25,9 +25,10 @@ class ManifestTestCase(unittest.TestCase):
         string = "this i[0;32ms a string"
 
     def test_sanitize_keys(self):
-        string = "192.168.1.1"
-        result = sanitize_keys(string)
-        self.assertEqual(result, "192_168_1_1")
+        myDict = {'192.168.1.1': "my server"}
+        expect = {'192_168_1_1': "my server"}
+        result = sanitize_keys(myDict)
+        self.assertEqual(result, expect)
 
 if __name__ == '__main__':
     unittest.main()
