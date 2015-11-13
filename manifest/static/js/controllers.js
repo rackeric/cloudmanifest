@@ -919,6 +919,19 @@ angular.module('myApp.controllers', [])
           }
       }
 
+      // submit role manual entry type to repo
+      $scope.submitToRepoManual = function(projectID, roleID) {
+          var submit = confirm('Are you sure you want to submit to the public repo?');
+          if (submit) {
+            var projectRef = new Firebase('https://deploynebula.firebaseio.com/users/' + $scope.auth.user.uid + '/projects/' + projectID + '/rolesmanual/' + roleID);
+            projectRef.once('value', function(dataSnapshot) {
+            // store dataSnapshot for use in below examples.
+            var projectSnapshot = dataSnapshot;
+            $scope.ansiblePublicRepo.$add(projectSnapshot.val());
+            });
+          }
+      }
+
     // remove role
 	  $scope.removeRole = function(key) {
 	    var deleteUser = confirm('Are you absolutely sure you want to delete?');
