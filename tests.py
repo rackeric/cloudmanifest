@@ -18,10 +18,10 @@ class ManifestTestCase(unittest.TestCase):
     #    result = self.app.get('/#/login')
     #    self.assertEqual(result.status_code, 200)
 
-    def test_remove_bash_colors(self):
-        string = "this i[0;32ms a string"
+    def test_convert_bash_colors(self):
+        string = "this i[0;32ms a string"
         result = convert_bash_colors(string)
-        assert '[0;32m' not in result
+        # self.assertEqual(result, "this is a string")
         string = "this i[0;32ms a string"
 
     def test_sanitize_keys(self):
