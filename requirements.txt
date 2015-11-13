@@ -1,0 +1,5 @@
+flask
+celery
+python-firebase
+PyYaml
+pyrax
