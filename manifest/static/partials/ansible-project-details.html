@@ -123,7 +123,7 @@
                     <a href="#/projects/Ansible/{{ projectID }}/rolesmanual/{{ role.$id }}" tooltip="{{ role.description }}" tooltip-trigger="hover">{{ role.name }}</a>
                 </td>
                 <td>
-                  <button type="button" class="btn btn-success btn-xs" ng-click="cloneRole(projectID, role.$id)">Clone</button>
+                  <button type="button" class="btn btn-success btn-xs" ng-click="cloneRoleManual(projectID, role.$id)">Clone</button>
                   <!-- Split button -->
                   <div class="btn-group">
                     <button type="button" class="btn btn-info btn-xs">Manage</button>
@@ -133,7 +133,7 @@
                     </button>
                     <ul class="dropdown-menu">
                       <li><a href="#/projects/Ansible/{{ projectID }}/rolesmanual/{{ role.$id }}">Edit</a></li>
-                      <li><a ng-click="cloneRole(projectID, role.$id)">Clone</a></li>
+                      <li><a ng-click="cloneRoleManual(projectID, role.$id)">Clone</a></li>
                       <li><a ng-click="submitToRepo(projectID, role.$id)">Submit to Repo</a></li
                       <li role="separator" class="divider"></li>
                       <li><a ng-click="removeRoleManual(role.$id)">Delete</a></li>
