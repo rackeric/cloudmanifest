@@ -466,7 +466,7 @@ angular.module('myApp.controllers', [])
   //  START Ansible CONTROLLERS
   //
   .controller('AnsibleProjectDetailsCtrl',
-    ['$scope', '$rootScope', '$http', '$routeParams', 'syncData', 'serviceProject', 'serviceRolesGit', 'serviceRoleGit', 'serviceRoles', 'serviceRolesManual', 'serviceRole', 'serviceRoleManual', 'serviceInventoryHost', 'serviceAnsibleRepo', '$firebaseObject'
+    ['$scope', '$rootScope', '$http', '$routeParams', 'syncData', 'serviceProject', 'serviceRolesGit', 'serviceRoleGit', 'serviceRoles', 'serviceRolesManual', 'serviceRole', 'serviceRoleManual', 'serviceInventoryHost', 'serviceAnsibleRepo', '$firebaseObject',
       function($scope, $rootScope, $http, $routeParams, syncData, serviceProject, serviceRolesGit, serviceRoleGit, serviceRoles, serviceRolesManual, serviceRole, serviceRoleManual, serviceInventoryHost, serviceAnsibleRepo, $firebaseObject) {
 	  // set projectID from URL
       $scope.projectID = $routeParams.projectId;
