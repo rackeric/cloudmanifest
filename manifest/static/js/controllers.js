@@ -650,12 +650,7 @@ angular.module('myApp.controllers', [])
       projectRef.once('value', function(snapshot) {
       // store dataSnapshot for use in below examples.
       //var playbooks = snapshot.child("playbooks").val();
-
-      $scope.$apply(function() {
-        console.log("this is:" + snapshot.val())
-        return snapshot.val();
-      });
-      });
+      return
     }
 
     // add new role to the list - FROM GIT
