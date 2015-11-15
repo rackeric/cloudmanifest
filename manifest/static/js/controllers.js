@@ -490,12 +490,11 @@ angular.module('myApp.controllers', [])
 	  //serviceRoles($scope.projectID).$bind($scope, "roles");
 	  $scope.roles = serviceRoles($scope.projectID);
 	  $scope.rolesmanual = serviceRolesManual($scope.projectID);
-
+    $scope.rolesgit = serviceRolesGit($scope.projectID);
 
 	  // stuffs for rackspace cloud section, holds username and API key
 	  syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/rax_username').$bind($scope, 'rax_username');
-      syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/rax_apikey').$bind($scope, 'rax_apikey');
-
+    syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/rax_apikey').$bind($scope, 'rax_apikey');
 
 	  // external_data == tasks
 	  $scope.external_data = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/external_data');
@@ -643,6 +642,39 @@ angular.module('myApp.controllers', [])
 		  return;
 	  }
 
+    // add new role to the list - FROM GIT
+	  $scope.addRoleGit = function() {
+		  if( $scope.newRoleName ) {
+			  $scope.rolesgit.$add({user_id: $scope.auth.user.uid, name: $scope.newRoleName, description: $scope.newRoleDescription}).then(function(ref) {
+          // now inside the $add to get the id from firebase
+          var id = ref.key();
+
+          // api request to populate playbooks from git repo
+          var stripped_uid = $scope.auth.user.uid.split(':');
+          $scope.myURL = $rootScope.DestinyURL + '/populate_playbooks/' + stripped_uid[1] + '/' + $scope.projectID + '/' + id;
+
+          $http({method: 'GET', url: $scope.myURL}).
+            success(function(data, status) {
+              $scope.status = status;
+              $scope.data = data;
+            }).
+            error(function(data, status) {
+              $scope.data = data || "Request failed";
+              $scope.status = status;
+          });
+
+        });
+
+        // clear out input fields
+        $scope.newRoleName = null;
+			  $scope.newRoleDescription = null;
+		  }
+		  else {
+		      $scope.inputErrorMsg = "Error.";
+		  }
+		  return;
+	  }
+
 	  // BUTTON: clear playbook returns
 	  $scope.clear_playbook_returns = function(key) {
 	      var role = serviceRole($scope.projectID, key);
@@ -672,10 +704,10 @@ angular.module('myApp.controllers', [])
           // ansible role return results
           var role_status = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/roles/' + playbook_key + '/status');
           role_status.$set("QUEUED");
-	      $scope.runPlayAddAlert('success', 'Running playbook, if it does not complete check that hosts and user are set in the play.');
+	        $scope.runPlayAddAlert('success', 'Running playbook, if it does not complete check that hosts and user are set in the play.');
 
-	      // send ansible playbook request to API
-	      var stripped_uid = $scope.auth.user.uid.split(':');
+	        // send ansible playbook request to API
+	        var stripped_uid = $scope.auth.user.uid.split(':');
           $scope.myURL = $rootScope.DestinyURL + '/ansible_playbook/' + stripped_uid[1] + '/' + $scope.projectID + '/' + playbook_key;
 
           $http({method: 'GET', url: $scope.myURL}).
@@ -701,10 +733,10 @@ angular.module('myApp.controllers', [])
           role_status.$set("QUEUED");
 
           // add host to runPlayAlert
-	      $scope.runPlayAddAlert('success', 'Running playbook, if it does not complete check that hosts and user are set in the play.');
+	        $scope.runPlayAddAlert('success', 'Running playbook, if it does not complete check that hosts and user are set in the play.');
 
-	      // send ansible playbook request to API
-	      var stripped_uid = $scope.auth.user.uid.split(':');
+	        // send ansible playbook request to API
+	        var stripped_uid = $scope.auth.user.uid.split(':');
           $scope.myURL = $rootScope.DestinyURL + '/ansible_playbook_manual/' + stripped_uid[1] + '/' + $scope.projectID + '/' + playbook_key;
 
           $http({method: 'GET', url: $scope.myURL}).

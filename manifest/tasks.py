@@ -43,6 +43,12 @@ class RaxCreateServer(MethodView):
         return result
 
 
+class PopulatePlaybooks(MethodView):
+    def get(self, user_id, project_id, repo_id):
+        result = populate_playbooks.delay(user_id, project_id, repo_id)
+        return result
+
+
 # firebase can not use several special characters for key names
 # https://www.firebase.com/docs/creating-references.html
 def sanitize_keys(mydict):
@@ -56,6 +62,28 @@ def convert_bash_colors(myString):
     #newString = myString.replace(green, '<font color="green">').replace(end, '</font>')
     newString = myString.replace(green, '').replace(end, '')
     return newString
+
+
+@task()
+def populate_playbooks(user_id, project_id, repo_id):
+
+    # firebase authentication
+    SECRET = os.environ['SECRET']
+    authentication = FirebaseAuthentication(SECRET, True, True)
+
+    # set the specific job from firebase with user
+    user = 'simplelogin:' + str(user_id)
+    URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id + '/rolesgit/'
+    #myExternalData = FirebaseApplication(URL)
+    myExternalData = FirebaseApplication(URL, authentication)
+
+    job = myExternalData.get(URL, repo_id)
+
+    # add playbooks found here
+    playbooks = ['new.yaml', 'controller.yml', 'compute-node.yml', 'site.yml']
+    myExternalData.post(repo_id + '/playbooks', playbooks)
+
+    return
 
 @task()
 def run_ansible_jeneric(user_id, project_id, job_id):

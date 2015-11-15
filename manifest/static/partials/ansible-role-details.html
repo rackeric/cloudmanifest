@@ -39,7 +39,7 @@
                           <ul class="dropdown-menu" role="menu">
                             <li ng-click="setModuleName('user')"><a href="">User Management</a></li>
                             <li ng-click="setModuleName('hostname')"><a href="">Hostname Management</a></li>
-                            <li ng-click="setModuleName('ce')"><a href="">ce Management</a></li>
+                            <li ng-click="setModuleName('service')"><a href="">service Management</a></li>
                             <li ng-click="setModuleName('filesystem')"><a href="">Filesystem Management</a></li>
                             <li ng-click="setModuleName('command')"><a href="">Add Commands</a></li>
                             <li ng-click="setModuleName('script')"><a href="">Run local script</a></li>
@@ -222,18 +222,18 @@
 
               <br /><br />
               <hr>
-              <h4>Add Play Handlers <small>for ce control</small></h4>
+              <h4>Add Play Handlers <small>for service control</small></h4>
                 <div class="col-md-4">
                   <input class="form-control input-xs pull-right" type="text" ng-model="newHandlerName" \>
                   <span class="help-block">Handler Name</span>
                 </div>
                 <div class="col-md-3">
-                  <input class="form-control input pull-right" type="text" ng-model="newHandlerceName" \>
-                  <span class="help-block">ce Name</span>
+                  <input class="form-control input pull-right" type="text" ng-model="newHandlerServiceName" \>
+                  <span class="help-block">Service Name</span>
                 </div>
                 <div class="col-md-3">
-                  <input class="form-control input pull-right" type="text" ng-model="newHandlerceState" \>
-                  <span class="help-block">ce State</span>
+                  <input class="form-control input pull-right" type="text" ng-model="newHandlerServiceState" \>
+                  <span class="help-block">Service State</span>
                 </div>
                 <button class="btn btn-primary" type="submit" ng-click="addHandler()">Add</button>
 
@@ -290,7 +290,7 @@
                 <table class="table table-hover" ng-show="handlers">
                     <tr>
                         <th>Name</th>
-                        <th>ce</th>
+                        <th>Service</th>
                         <th>State</th>
                         <th>Delete</th>
                     </tr>
@@ -298,9 +298,9 @@
                         <td>
                             {{ handler.name }}
                         </td><td>
-                            {{ handler.ce_name }}
+                            {{ handler.service_name }}
                         </td><td>
-                            {{ handler.ce_state }}
+                            {{ handler.service_state }}
                         </td><td>
                             <button type="button" class="btn btn-danger btn-xs" ng-click="removeHandler(handler.$id)">Delete</button>
                         </td>
@@ -409,7 +409,7 @@
 </div> <!-- end sort -->
   <div ng-if="hasHandlers(role.handlers)">&nbsp;&nbsp;handlers:
     <p ng-show="role.handlers" ng-repeat="handler in role.handlers | orderByPriority">&nbsp;&nbsp;&nbsp;&nbsp;- name: <a href="#" editable-text="handler.name">{{ handler.name }}</a>
-    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ce: name=<a href="#" editable-text="handler.ce_name">{{ handler.ce_name }}</a> state=<a href="#" editable-text="handler.ce_state">{{ handler.ce_state }}</a></p></div>
+    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;service: name=<a href="#" editable-text="handler.service_name">{{ handler.service_name }}</a> state=<a href="#" editable-text="handler.service_state">{{ handler.service_state }}</a></p></div>
 </pre>
     </div>
 </div>
