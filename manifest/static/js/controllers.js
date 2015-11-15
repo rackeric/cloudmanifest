@@ -647,7 +647,7 @@ angular.module('myApp.controllers', [])
 		  if( $scope.newRoleName ) {
 			  $scope.rolesgit.$add({user_id: $scope.auth.user.uid, name: $scope.newRoleName, description: $scope.newRoleDescription}).then(function(ref) {
           // now inside the $add to get the id from firebase
-          var id = ref.key();
+          var id = ref.name();
 
           // api request to populate playbooks from git repo
           var stripped_uid = $scope.auth.user.uid.split(':');
