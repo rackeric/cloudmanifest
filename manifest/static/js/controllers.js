@@ -648,8 +648,8 @@ angular.module('myApp.controllers', [])
     $scope.getPlaybooks = function(git_id) {
       //var playbooks = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/rolesgit/' + git_id + '/playbooks');
       //return playbooks
-      var ref = new Firebase("https://deploynebula.firebaseio.com/users/" + $rootScope.auth.user.uid + "/projects/"  + $scope.projectID + "/rolesgit/" + git_id);
-      return $firebase(ref);
+      //var ref = new Firebase("https://deploynebula.firebaseio.com/users/" + $rootScope.auth.user.uid + "/projects/"  + $scope.projectID + "/rolesgit/" + git_id);
+      //return $firebase(ref);
     }
 
     // add new role to the list - FROM GIT
