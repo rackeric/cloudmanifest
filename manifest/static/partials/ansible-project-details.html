@@ -78,8 +78,8 @@
                 </td>
                 <td>
                     <div class="col-xs-3">
-                      <select class="form-control input-sm">
-                        <option>play.name</option>
+                      <select class="form-control input-sm" ng-repeat="(key, play) in getPlaybooks(role.$id)">
+                        <option>{{ play.name }}</option>
                       </select>
                     </div>
                     <button type="button" class="btn btn-success btn-xs" ng-click="ansible_playbook(role.$id)">Run Playbook</button>
