@@ -645,7 +645,7 @@ angular.module('myApp.controllers', [])
     // get git projects playbooks
     $scope.getPlaybooks = function(git_id) {
       var playbooks = new Firebase("https://deploynebula.firebaseio.com/users/" + $rootScope.auth.user.uid + "/projects/"  + projectID + "/rolesgit/" + git_id + '/playbooks');
-      return playbooks
+      return $firebase(playbooks)
     }
 
     // add new role to the list - FROM GIT
