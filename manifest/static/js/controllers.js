@@ -645,7 +645,7 @@ angular.module('myApp.controllers', [])
     // add new role to the list - FROM GIT
 	  $scope.addRoleGit = function() {
 		  if( $scope.newRoleName ) {
-			  $scope.rolesgit.$add({user_id: $scope.auth.user.uid, name: $scope.newRoleName, description: $scope.newRoleDescription}).then(function(ref) {
+			  $scope.rolesgit.$add({user_id: $scope.auth.user.uid, name: $scope.newRepoName, url: $scope.newRepoUrl}).then(function(ref) {
           // now inside the $add to get the id from firebase
           var id = ref.name();
 

@@ -79,6 +79,9 @@ def populate_playbooks(user_id, project_id, repo_id):
 
     job = myExternalData.get(URL, repo_id)
 
+    # get playbooks here
+    
+
     # add playbooks found here
     playbooks = ['new.yaml', 'controller.yml', 'compute-node.yml', 'site.yml']
     for play in playbooks:

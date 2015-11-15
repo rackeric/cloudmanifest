@@ -13,7 +13,6 @@
                       <input type="text" class="form-control" placeholder="Description" ng-model="newRoleDescription">
                       <button class="btn btn-default btn" type="submit" ng-click="addRole()">Add Playbook</button>
                       <button class="btn btn-default btn" type="submit" ng-click="addRoleManual()">Manual Entry</button>
-                      <button class="btn btn-default btn" type="submit" ng-click="addRoleGit()">Add Git Repo</button>
                   </div>
                 </form>
             </div>
@@ -39,6 +38,13 @@
       <small><font color="black"><input class="input-xs pull-right" ng-model="searchText" placeholder="Search" /></font></small></div>
     </div>
     <div class="panel-body">
+        <form class="form-inline">
+          <div class="form-group">
+              <input type="text" class="form-control" placeholder="Name" ng-model="newRepoName">
+              <input type="text" class="form-control" placeholder="Git Url" ng-model="newRepoUrl">
+              <button class="btn btn-default btn" type="submit" ng-click="addRoleGit()">Add Git Repo</button>
+          </div>
+        </form>
         <table class="table table-hover"  id="roles" ng-show="roles">
             <tr>
                 <th>Name</th>
