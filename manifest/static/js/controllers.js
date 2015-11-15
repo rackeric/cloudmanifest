@@ -6,7 +6,7 @@ angular.module('myApp.controllers', [])
 
   .controller('foot', ['$scope', '$location', 'syncData', 'serviceFeedbacklist', function($scope, $location, syncData, serviceFeedbacklist) {
 
-      console.log("FOOTER CONTROLLER ------>>>>");
+      //console.log("FOOTER CONTROLLER ------>>>>");
 
       // sync the feedback list from firebase
       //$scope.feedbacklist = syncData('feedbacklist');
@@ -15,7 +15,7 @@ angular.module('myApp.controllers', [])
       $scope.feedbacklist = serviceFeedbacklist;
 
       $scope.submitFeedback = function() {
-          console.log("ENTERING submitFeedback()");
+          //console.log("ENTERING submitFeedback()");
 
           // format a date for timestamp
           var now = new Date();
@@ -90,61 +90,61 @@ angular.module('myApp.controllers', [])
       // for 'ng-if' stuffs, checks if string is defined and returns true/false
 	  $scope.hasData = function(val) {
 	      if (Object.keys(val).length <= 11) {
-	          console.log("FALSE " + Object.keys(val).length);
+	          //console.log("FALSE " + Object.keys(val).length);
 	          return false;
 	      }
 	      else {
-	          console.log("TRUE " + Object.keys(val).length);
+	          //console.log("TRUE " + Object.keys(val).length);
 	          return true;
 	      }
 	  }
 	  $scope.hasVariables = function(val) {
 	      if (val == undefined || val == null) {
-	          //console.log( "NO VARIABLES: " + val );
+	          ////console.log( "NO VARIABLES: " + val );
 	          return false;
 	      }
 	      else {
-	          //console.log( "YES VARIABLES: " + val );
+	          ////console.log( "YES VARIABLES: " + val );
 	          return true;
 	      }
 	  }
 	  $scope.hasIncludes = function(val) {
 	      if (val == undefined || val == null) {
-	          //console.log( "NO VARIABLES: " + val );
+	          ////console.log( "NO VARIABLES: " + val );
 	          return false;
 	      }
 	      else {
-	          //console.log( "YES VARIABLES: " + val );
+	          ////console.log( "YES VARIABLES: " + val );
 	          return true;
 	      }
 	  }
 	  $scope.hasTasks = function(val) {
 	      if (val == undefined || val == null) {
-	          //console.log( "NO TASKS: " + val );
+	          ////console.log( "NO TASKS: " + val );
 	          return false;
 	      }
 	      else {
-	          //console.log( "YES TASKS: " + val );
+	          ////console.log( "YES TASKS: " + val );
 	          return true;
 	      }
 	  }
 	  $scope.hasHandlers = function(val) {
 	      if (val == undefined || val == null) {
-	          //console.log( "NO HANDLER: " + val );
+	          ////console.log( "NO HANDLER: " + val );
 	          return false;
 	      }
 	      else {
-	          //console.log( "YES HANDLER: " + val );
+	          ////console.log( "YES HANDLER: " + val );
 	          return true;
 	      }
 	  }
 	  $scope.hasNotify = function(val) {
 	      if (val == undefined) {
-	          console.log( "NO NOTIFY: " + val );
+	          //console.log( "NO NOTIFY: " + val );
 	          return false;
 	      }
 	      else {
-	          console.log( "YES NOTIFY: " + val );
+	          //console.log( "YES NOTIFY: " + val );
 	          return true;
 	      }
 	  }
@@ -569,9 +569,9 @@ angular.module('myApp.controllers', [])
 
 	      // removing null options from the array, trying
 	      for (var key in $scope.inventoryOptions) {
-	          console.log( "for: " + $scope.inventoryOptions[key].name + " " + $scope.inventoryOptions[key].value );
+	          //console.log( "for: " + $scope.inventoryOptions[key].name + " " + $scope.inventoryOptions[key].value );
 	          if ( $scope.inventoryOptions[key].value !== undefined ) { // why doesn't this work!!!
-	            console.log("KEEPING: " + $scope.inventoryOptions[key].name);
+	            //console.log("KEEPING: " + $scope.inventoryOptions[key].name);
 	            //$scope.options.splice(key,1);
 	            sanitizedOptions.push($scope.inventoryOptions[key]);
 	            sanitizedString = sanitizedString + " " + $scope.inventoryOptions[key].name + ": " + $scope.inventoryOptions[key].value;
@@ -652,7 +652,7 @@ angular.module('myApp.controllers', [])
           // api request to populate playbooks from git repo
           var stripped_uid = $scope.auth.user.uid.split(':');
           $scope.myURL = $rootScope.DestinyURL + '/populate_playbooks/' + stripped_uid[1] + '/' + $scope.projectID + '/' + id;
-          console.log($scope.myURL)
+          //console.log($scope.myURL)
           $http({method: 'GET', url: $scope.myURL}).
             success(function(data, status) {
               $scope.status = status;
@@ -776,7 +776,7 @@ angular.module('myApp.controllers', [])
             $scope.moduleSnapshot.forEach(function(childSnapshot) {
               var key = childSnapshot.name();
               var childHost = childSnapshot.child('name').val();
-              console.log("childHost: " + childHost);
+              //console.log("childHost: " + childHost);
               hostUser = childSnapshot.child('ansible_ssh_user').val();
               hostPass = childSnapshot.child('ansible_ssh_pass').val();
               hostList.push(childHost);
@@ -784,7 +784,7 @@ angular.module('myApp.controllers', [])
             })
           });
 
-          console.log("hostList: " + hostList);
+          //console.log("hostList: " + hostList);
 
           $scope.external_data.$add({ user_id: $scope.auth.user.uid,
                                       project_id: $scope.projectID,
@@ -1028,7 +1028,7 @@ angular.module('myApp.controllers', [])
           cursor: "move",
           update: function( event, ui ) {
               var postData = $('#sortMe').sortable('serialize');
-              console.log( postData );
+              //console.log( postData );
           }
       }
 
@@ -1037,33 +1037,33 @@ angular.module('myApp.controllers', [])
       //$scope.$watch('newModuleAction', function(newVal, oldVal) {
             //$scope.setOptions();
             //$scope.newModuleAction = newVal;
-        //    console.log("$watch newModuleAction: TRIGGERED");
+        //    //console.log("$watch newModuleAction: TRIGGERED");
         //
         //    if (newVal !== undefined  || oldVal !== undefined) {
-        //        console.log("watch going to setOptions function")
+        //        //console.log("watch going to setOptions function")
         //        $scope.setOptions();
-        //        console.log("back to watch from setOptions function")
-        //        console.log("newModuleAction: " + $scope.newModuleAction)
-        //        console.log("WATCH 1: " + newVal + " " + oldVal);
+        //        //console.log("back to watch from setOptions function")
+        //        //console.log("newModuleAction: " + $scope.newModuleAction)
+        //        //console.log("WATCH 1: " + newVal + " " + oldVal);
         //    }
       //}, true);
 
       // get input box validation state
       $scope.getValidationState = function(required, input_value) {
           if ( required == 'yes' && input_value == "" ) {
-              console.log("getValidationState: 1, required: " + required + " intput_value: " + input_value + " and $scope.newModuleLoopItem: " + $scope.newModuleLoopItem + " <<<<");
+              //console.log("getValidationState: 1, required: " + required + " intput_value: " + input_value + " and $scope.newModuleLoopItem: " + $scope.newModuleLoopItem + " <<<<");
               return "has-error";
           }
           else if ( required == 'yes' && input_value != undefined) {
-              console.log("getValidationState: 2, required: " + required + " intput_value: " + input_value + " and $rootScope.newModuleLoopItem: " + $scope.newModuleLoopItem + " <<<<");
+              //console.log("getValidationState: 2, required: " + required + " intput_value: " + input_value + " and $rootScope.newModuleLoopItem: " + $scope.newModuleLoopItem + " <<<<");
               return "has-success";
           }
           else if ( required == 'yes' && input_value == undefined) {
-              console.log("getValidationState: 3, required: " + required + " intput_value: " + input_value + " and $scope.newModuleLoopItem: " + $scope.newModuleLoopItem + " <<<<");
+              //console.log("getValidationState: 3, required: " + required + " intput_value: " + input_value + " and $scope.newModuleLoopItem: " + $scope.newModuleLoopItem + " <<<<");
               return "has-error";
           }
           else {
-              console.log("getValidationState: 4else, required: " + required + " intput_value: " + input_value + " and $rootScope.newModuleLoopItem: " + $scope.newModuleLoopItem + " <<<<");
+              //console.log("getValidationState: 4else, required: " + required + " intput_value: " + input_value + " and $rootScope.newModuleLoopItem: " + $scope.newModuleLoopItem + " <<<<");
               return "";
           }
       }
@@ -1142,20 +1142,20 @@ angular.module('myApp.controllers', [])
 
       // SET MODULE NAME: from basic buttons
       $scope.setModuleName = function(name) {
-          console.log($scope.newModuleAction + " from setModuleName");
+          //console.log($scope.newModuleAction + " from setModuleName");
           $scope.newModuleAction = name;
-          console.log($scope.newModuleAction + " from setModuleName");
+          //console.log($scope.newModuleAction + " from setModuleName");
           $scope.setOptions();
       }
 
       // SET OPTIONS: set module choice options based on chosen action/module
       $scope.setOptions = function() {
           //if ($scope.newModuleAction != "") {
-            console.log($scope.newModuleAction + " from setOptions 1");
+            //console.log($scope.newModuleAction + " from setOptions 1");
             $scope.options = $scope.getModuleOptions($scope.newModuleAction);
-            console.log($scope.options + " from setOptions 2");
+            //console.log($scope.options + " from setOptions 2");
             $scope.selectedDescription = $scope.getModuleDescription($scope.newModuleAction);
-            console.log($scope.selectedDescription + " from setOptions 3");
+            //console.log($scope.selectedDescription + " from setOptions 3");
           //}
       }
 
@@ -1174,9 +1174,9 @@ angular.module('myApp.controllers', [])
             var childOptions2 = childSnapshot2.child('options').val();
             desc = "almost";
             if ( childData2 == module ) {
-              console.log("5 in getModulesDescription");
+              //console.log("5 in getModulesDescription");
               desc = childDesc2;
-              console.log($scope.desc + " in getModulesDescription");
+              //console.log($scope.desc + " in getModulesDescription");
               return $scope.desc;
             }
             else {
@@ -1223,9 +1223,9 @@ angular.module('myApp.controllers', [])
 
 	    // removing null options from the array, trying
 	    for (var key in $scope.options) {
-	      //console.log( "for: " + $scope.options[key].paramater + " " + $scope.options[key].value );
+	      ////console.log( "for: " + $scope.options[key].paramater + " " + $scope.options[key].value );
 	      if ( $scope.options[key].value !== undefined ) { // why doesn't this work!!!
-	        //console.log("slicing: " + $scope.options[key].value);
+	        ////console.log("slicing: " + $scope.options[key].value);
 	        //$scope.options.splice(key,1);
 	        tmpOptions.push($scope.options[key]);
 	      }
@@ -1241,7 +1241,7 @@ angular.module('myApp.controllers', [])
 		  for (var m in $scope.modules) nr++;
 		  //var order = Object.keys($scope.modules).length - 10;
 		  var order = nr - 10;
-		  console.log( "order: " + order);
+		  //console.log( "order: " + order);
 		  if ( $scope.newModuleNotify ) {
               $scope.modules.$add({ user_id: $scope.auth.user.uid,
                                     name: $scope.newModuleName,
@@ -1274,7 +1274,7 @@ angular.module('myApp.controllers', [])
 		}
 		else {
 		    $scope.inputErrorMsg += "Missing Values.";
-		    console.log($scope.newModuleName + " and " + $scope.newModuleAction + " and " + ifProceed );
+		    //console.log($scope.newModuleName + " and " + $scope.newModuleAction + " and " + ifProceed );
 		}
 	  }
 
@@ -1319,7 +1319,7 @@ angular.module('myApp.controllers', [])
     		}
     		else {
     		    //$scope.inputErrorMsg += "Missing Values.";
-    		    console.log( "ERROR: " + $scope.newVarName + " and " + $scope.newVarValue );
+    		    //console.log( "ERROR: " + $scope.newVarName + " and " + $scope.newVarValue );
     		}
 	  }
 
@@ -1345,7 +1345,7 @@ angular.module('myApp.controllers', [])
     		}
     		else {
     		    //$scope.inputErrorMsg += "Missing Values.";
-    		    console.log( "ERROR: " + $scope.newHandlerName + " and " + $scope.newHandlerServiceName + " and " + $scope.newHandlerServiceState );
+    		    //console.log( "ERROR: " + $scope.newHandlerName + " and " + $scope.newHandlerServiceName + " and " + $scope.newHandlerServiceState );
     		}
 	  }
 
@@ -1377,61 +1377,61 @@ angular.module('myApp.controllers', [])
 	  // for 'ng-if' stuffs, checks if string is defined and returns true/false
 	  $scope.hasData = function(val) {
 	      if (Object.keys(val).length <= 11) {
-	          console.log("FALSE " + Object.keys(val).length);
+	          //console.log("FALSE " + Object.keys(val).length);
 	          return false;
 	      }
 	      else {
-	          console.log("TRUE " + Object.keys(val).length);
+	          //console.log("TRUE " + Object.keys(val).length);
 	          return true;
 	      }
 	  }
 	  $scope.hasVariables = function(val) {
 	      if (val == undefined || val == null) {
-	          //console.log( "NO VARIABLES: " + val );
+	          ////console.log( "NO VARIABLES: " + val );
 	          return false;
 	      }
 	      else {
-	          //console.log( "YES VARIABLES: " + val );
+	          ////console.log( "YES VARIABLES: " + val );
 	          return true;
 	      }
 	  }
 	  $scope.hasIncludes = function(val) {
 	      if (val == undefined || val == null) {
-	          //console.log( "NO VARIABLES: " + val );
+	          ////console.log( "NO VARIABLES: " + val );
 	          return false;
 	      }
 	      else {
-	          //console.log( "YES VARIABLES: " + val );
+	          ////console.log( "YES VARIABLES: " + val );
 	          return true;
 	      }
 	  }
 	  $scope.hasTasks = function(val) {
 	      if (val == undefined || val == null) {
-	          //console.log( "NO TASKS: " + val );
+	          ////console.log( "NO TASKS: " + val );
 	          return false;
 	      }
 	      else {
-	          //console.log( "YES TASKS: " + val );
+	          ////console.log( "YES TASKS: " + val );
 	          return true;
 	      }
 	  }
 	  $scope.hasHandlers = function(val) {
 	      if (val == undefined || val == null) {
-	          //console.log( "NO HANDLER: " + val );
+	          ////console.log( "NO HANDLER: " + val );
 	          return false;
 	      }
 	      else {
-	          //console.log( "YES HANDLER: " + val );
+	          ////console.log( "YES HANDLER: " + val );
 	          return true;
 	      }
 	  }
 	  $scope.hasNotify = function(val) {
 	      if (val == undefined) {
-	          console.log( "NO NOTIFY: " + val );
+	          //console.log( "NO NOTIFY: " + val );
 	          return false;
 	      }
 	      else {
-	          console.log( "YES NOTIFY: " + val );
+	          //console.log( "YES NOTIFY: " + val );
 	          return true;
 	      }
 	  }
@@ -1512,7 +1512,7 @@ angular.module('myApp.controllers', [])
           cursor: "move",
           update: function( event, ui ) {
               var postData = $('#sortMe').sortable('serialize');
-              console.log( postData );
+              //console.log( postData );
           }
       }
 
@@ -1521,8 +1521,8 @@ angular.module('myApp.controllers', [])
       $scope.$watch('newModuleAction', function(newVal, oldVal) {
           if (true) {
             $scope.setOptions();
-            console.log("newModuleAction: " + $scope.newModuleAction)
-            console.log("WATCH 1: " + newVal + " " + oldVal);
+            //console.log("newModuleAction: " + $scope.newModuleAction)
+            //console.log("WATCH 1: " + newVal + " " + oldVal);
           }
       }, true);
 
@@ -1599,19 +1599,19 @@ angular.module('myApp.controllers', [])
 
       // SET MODULE NAME: from basic buttons
       $scope.setModuleName = function(name) {
-          console.log($scope.newModuleAction + " from setModuleName");
+          //console.log($scope.newModuleAction + " from setModuleName");
           $scope.newModuleAction = name;
-          console.log($scope.newModuleAction + " from setModuleName");
+          //console.log($scope.newModuleAction + " from setModuleName");
           $scope.setOptions();
       }
 
       // SET OPTIONS: set module choice options based on chosen action/module
       $scope.setOptions = function() {
-        console.log($scope.newModuleAction + " from setOptions 1");
+        //console.log($scope.newModuleAction + " from setOptions 1");
         $scope.options = $scope.getModuleOptions($scope.newModuleAction);
-        console.log($scope.options + " from setOptions 2");
+        //console.log($scope.options + " from setOptions 2");
         $scope.selectedDescription = $scope.getModuleDescription($scope.newModuleAction);
-        console.log($scope.selectedDescription + " from setOptions 3");
+        //console.log($scope.selectedDescription + " from setOptions 3");
       }
 
       // GET module description
@@ -1629,9 +1629,9 @@ angular.module('myApp.controllers', [])
             var childOptions2 = childSnapshot2.child('options').val();
             desc = "almost";
             if ( childData2 == module ) {
-              console.log("5");
+              //console.log("5");
               desc = childDesc2;
-              console.log($scope.desc);
+              //console.log($scope.desc);
               return $scope.desc;
             }
             else {
@@ -1678,9 +1678,9 @@ angular.module('myApp.controllers', [])
 
 	    // removing null options from the array, trying
 	    for (var key in $scope.options) {
-	      //console.log( "for: " + $scope.options[key].paramater + " " + $scope.options[key].value );
+	      ////console.log( "for: " + $scope.options[key].paramater + " " + $scope.options[key].value );
 	      if ( $scope.options[key].value !== undefined ) { // why doesn't this work!!!
-	        //console.log("slicing: " + $scope.options[key].value);
+	        ////console.log("slicing: " + $scope.options[key].value);
 	        //$scope.options.splice(key,1);
 	        tmpOptions.push($scope.options[key]);
 	      }
@@ -1704,7 +1704,7 @@ angular.module('myApp.controllers', [])
 		}
 		else {
 		    $scope.inputErrorMsg += "Missing Values.";
-		    console.log($scope.newModuleName + " and " + $scope.newModuleAction + " and " + ifProceed );
+		    //console.log($scope.newModuleName + " and " + $scope.newModuleAction + " and " + ifProceed );
 		}
 	  }
 
@@ -1767,15 +1767,15 @@ angular.module('myApp.controllers', [])
 	  // angular $watch stuff
       // BUGGY
       $scope.$watch('pass', function(newVal, oldVal) {
-            console.log("pass: " + $scope.pass)
-            console.log("WATCH 1: " + newVal + " " + oldVal);
+            //console.log("pass: " + $scope.pass)
+            //console.log("WATCH 1: " + newVal + " " + oldVal);
       }, true);
 
       // angular $watch stuff
       // BUGGY
       $scope.$watch('email', function(newVal, oldVal) {
-            console.log("email: " + $scope.email)
-            console.log("WATCH 2: " + newVal + " " + oldVal);
+            //console.log("email: " + $scope.email)
+            //console.log("WATCH 2: " + newVal + " " + oldVal);
       }, true);
 
 	  $scope.login = function(cb) {
@@ -1884,7 +1884,7 @@ angular.module('myApp.controllers', [])
   }])
 
   .controller('HeaderController', ['$scope', 'syncData', '$location', function($scope, syncData, $location) {
-    console.log( "HEADER CONTROLLER >>>>>>");
+    //console.log( "HEADER CONTROLLER >>>>>>");
 
     //syncData('users/' + $scope.auth.user.uid + '/isAdmin').$bind($scope, 'isUserAdmin');
     //syncData(['users', $scope.auth.user.uid]).$bind($scope, 'user');
