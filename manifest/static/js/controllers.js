@@ -644,8 +644,7 @@ angular.module('myApp.controllers', [])
 
     // get git projects playbooks
     $scope.getPlaybooks = function(git_id) {
-      // get playbooks
-      var playbooks = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/rolesgit/' + git_id + '/playbooks');
+      var playbooks = new Firebase("https://deploynebula.firebaseio.com/users/" + $rootScope.auth.user.uid + "/projects/"  + projectID + "/rolesgit/" + roleID + '/playbooks');
       return playbooks
     }
 
