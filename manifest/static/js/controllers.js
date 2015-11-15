@@ -646,12 +646,12 @@ angular.module('myApp.controllers', [])
 
     // get git projects playbooks
     $scope.getPlaybooks = function(git_id) {
-      var projectRef = new Firebase('https://deploynebula.firebaseio.com/users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/rolesgit/' + git_id + '/playbooks');
-      projectRef.once('value', function(dataSnapshot) {
+      var projectRef = new Firebase('https://deploynebula.firebaseio.com/users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/rolesgit/' + git_id);
+      projectRef.once('value', function(snapshot) {
       // store dataSnapshot for use in below examples.
-      var projectSnapshot = dataSnapshot;
-      console.log("this is:" + projectSnapshot.val().name)
-      return projectSnapshot.val();
+      var playbooks = snapshot.child("playbooks").val();
+      console.log("this is:" + playbooks)
+      return playbooks;
       });
     }
 
