@@ -650,7 +650,7 @@ angular.module('myApp.controllers', [])
       projectRef.once('value', function(dataSnapshot) {
       // store dataSnapshot for use in below examples.
       var projectSnapshot = dataSnapshot;
-      console.log("this is:" + projectSnapshot.val())
+      console.log("this is:" + projectSnapshot.val().name)
       return projectSnapshot.val();
       });
     }
