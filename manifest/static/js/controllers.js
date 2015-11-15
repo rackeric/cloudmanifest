@@ -642,6 +642,13 @@ angular.module('myApp.controllers', [])
 		  return;
 	  }
 
+    // get git projects playbooks
+    $scope.getPlaybooks = function(git_id) {
+      // get playbooks
+      var playbooks = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/rolesgit/' + git_id + '/playbooks');
+      return playbooks
+    }
+
     // add new role to the list - FROM GIT
 	  $scope.addRoleGit = function() {
 		  if( $scope.newRepoName && $scope.newRepoUrl ) {
