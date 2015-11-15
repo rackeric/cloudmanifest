@@ -465,7 +465,9 @@ angular.module('myApp.controllers', [])
   //
   //  START Ansible CONTROLLERS
   //
-  .controller('AnsibleProjectDetailsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', 'syncData', 'serviceProject', 'serviceRolesGit', 'serviceRoleGit', 'serviceRoles', 'serviceRolesManual', 'serviceRole', 'serviceRoleManual', 'serviceInventoryHost', 'serviceAnsibleRepo', '$firebase', function($scope, $rootScope, $http, $routeParams, syncData, serviceProject, serviceRolesGit, serviceRoleGit, serviceRoles, serviceRolesManual, serviceRole, serviceRoleManual, serviceInventoryHost, serviceAnsibleRepo, $firebase) {
+  .controller('AnsibleProjectDetailsCtrl',
+    ['$scope', '$rootScope', '$http', '$routeParams', 'syncData', 'serviceProject', 'serviceRolesGit', 'serviceRoleGit', 'serviceRoles', 'serviceRolesManual', 'serviceRole', 'serviceRoleManual', 'serviceInventoryHost', 'serviceAnsibleRepo', '$firebaseObject'
+      function($scope, $rootScope, $http, $routeParams, syncData, serviceProject, serviceRolesGit, serviceRoleGit, serviceRoles, serviceRolesManual, serviceRole, serviceRoleManual, serviceInventoryHost, serviceAnsibleRepo, $firebaseObject) {
 	  // set projectID from URL
       $scope.projectID = $routeParams.projectId;
 
@@ -645,9 +647,9 @@ angular.module('myApp.controllers', [])
     // get git projects playbooks
     $scope.getPlaybooks = function(git_id) {
       //var playbooks = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/rolesgit/' + git_id + '/playbooks');
-      var playbooks = new Firebase("https://deploynebula.firebaseio.com/users/" + $rootScope.auth.user.uid + "/projects/"  + $scope.projectID + "/rolesgit/" + git_id + '/playbooks');
-      return $firebase(playbooks)
       //return playbooks
+      var ref = new Firebase("https://deploynebula.firebaseio.com/users/" + $rootScope.auth.user.uid + "/projects/"  + projectID + "/rolesgit/" + git_id);
+      return $firebaseObject(ref);
     }
 
     // add new role to the list - FROM GIT
