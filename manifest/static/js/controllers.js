@@ -666,8 +666,8 @@ angular.module('myApp.controllers', [])
         });
 
         // clear out input fields
-        $scope.newRoleName = null;
-			  $scope.newRoleDescription = null;
+        $scope.newRepoName = null;
+			  $scope.newRepoUrl = null;
 		  }
 		  else {
 		      $scope.inputErrorMsg = "Error.";
