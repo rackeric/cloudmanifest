@@ -652,7 +652,7 @@ angular.module('myApp.controllers', [])
           // api request to populate playbooks from git repo
           var stripped_uid = $scope.auth.user.uid.split(':');
           $scope.myURL = $rootScope.DestinyURL + '/populate_playbooks/' + stripped_uid[1] + '/' + $scope.projectID + '/' + id;
-
+          console.log($scope.myURL)
           $http({method: 'GET', url: $scope.myURL}).
             success(function(data, status) {
               $scope.status = status;
