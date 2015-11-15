@@ -77,6 +77,9 @@
 
                 </td>
                 <td>
+                    <select class="form-control input-sm" ng-repeat="(key, play) in playbooks">
+                      <option>{{ play.name }}</option>
+                    </select>
                     <button type="button" class="btn btn-success btn-xs" ng-click="ansible_playbook(role.$id)">Run Playbook</button>
                     <button type="button" class="btn btn-danger btn-xs" ng-click="clear_playbook_returns(role.$id)">Clear Returns</button>
                 </td>
