@@ -666,8 +666,9 @@ def run_ansible_playbook_git(user_id, project_id, playbook_id):
 
     playbooks_url = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id + '/rolesgit/' + playbook_id
     playbooks_data = FirebaseApplication(URL, authentication)
-    playbooks = playbooks_data.get(playbooks_url, 'name')
-    print playbooks
+    git_name = playbooks_data.get(playbooks_url, 'name')
+    git_url = playbooks_data.get(playbooks_url, 'url')
+
     ##
     ## Create full Ansible Inventory, playbook defines hosts to run on
     ##
@@ -703,11 +704,11 @@ def run_ansible_playbook_git(user_id, project_id, playbook_id):
             tmpGroup.add_host(myInventory.get_host(host['name']))
 
     # git clone project
-    git_url = myExternalData.get(URL, '/url')
-    git_dir = 'ansible-openstack-icehouse'
-    cloned_proj = Repo.clone_from(git_url, '/tmp/' + git_dir)
+    # git_url = myExternalData.get(URL, '/url')
+    # git_dir = 'ansible-openstack-icehouse'
+    cloned_proj = Repo.clone_from(git_url, '/tmp/' + project_id + '/' + git_name)
 
-    os.chdir('/tmp/' + git_dir)
+    os.chdir('/tmp/' + project_id + '/' + git_name)
 
 
 
