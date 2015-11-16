@@ -712,6 +712,84 @@ def run_ansible_playbook_git(user_id, project_id, playbook_id):
 
     # run playbook here
 
+    # get ssh key file
+    URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id
+    ssh_key = myExternalData.get(URL, '/ssh_key')
+
+    # update status to RUNNING in firebase
+    myExternalData.patch(playbook_id, {"status":"RUNNING"})
+    try:
+        prev = sys.stdout
+        prev2 = sys.stderr
+        sys.stdout = StringIO()
+        sys.stderr = StringIO()
+
+        # Run Ansible PLaybook
+        stats = ansible.callbacks.AggregateStats()
+        playbook_cb = ansible.callbacks.PlaybookCallbacks(verbose=utils.VERBOSITY)
+        runner_cb = ansible.callbacks.PlaybookRunnerCallbacks(stats, verbose=utils.VERBOSITY)
+
+        if ssh_key is not None:
+            # create ssh key file
+            tmpKey = open("/tmp/" + playbook_id + '_key', "w")
+            tmpKey.write(ssh_key)
+            # close file
+            tmpKey.close()
+            os.chmod("/tmp/" + playbook_id + '_key', 0600)
+            # run playbook
+            play = ansible.playbook.PlayBook(
+                playbook='site.yml',
+                inventory=myInventory,
+                runner_callbacks=runner_cb,
+                stats=stats,
+                callbacks=playbook_cb,
+                private_key_file='/tmp/' + playbook_id + '_key',
+                forks=10
+            ).run()
+            # delete tmp key file
+            os.remove('/tmp/' + playbook_id + '_key')
+        else:
+            play = ansible.playbook.PlayBook(
+                playbook='site.yml',
+                inventory=myInventory,
+                runner_callbacks=runner_cb,
+                stats=stats,
+                callbacks=playbook_cb,
+                forks=10
+            ).run()
+
+        #play = ansible.playbook.PlayBook(
+        #    playbook='/tmp/' + playbook_id + '.yml',
+        #    inventory=myInventory,
+        #    runner_callbacks=runner_cb,
+        #    stats=stats,
+        #    callbacks=playbook_cb,
+        #    forks=10
+        #).run()
+
+        myStdout = sys.stdout.getvalue()
+        myStderr = sys.stderr.getvalue()
+        #myExternalData.patch(playbook_id, {'stdout': myStdout})
+        myExternalData.patch(playbook_id, {"status":"COMPLETE"})
+        myExternalData.post(playbook_id + '/returns', {'stats': sanitize_keys(play), 'stdout': convert_bash_colors(myStdout)})
+        #myExternalData.patch(playbook_id, {'stderr': myStderr})
+    except AnsibleError as e:
+        # set status to error
+        myExternalData.patch(playbook_id, {"status":"ERROR"})
+        myExternalData.post(playbook_id + '/returns', {'stdout': e.message})
+    except:
+        # set status to error
+        myExternalData.patch(playbook_id, {"status":"ERROR"})
+        myExternalData.post(playbook_id + '/returns', {'stdout': sys.exc_info()[0]})
+    finally:
+        sys.stdout = prev
+        sys.stderr = prev2
+
+
+
+
+    # end run
+
 
     os.chdir('/tmp')
     # remove git project directory
