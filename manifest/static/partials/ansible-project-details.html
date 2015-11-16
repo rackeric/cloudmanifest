@@ -79,7 +79,7 @@
                 <td>
                     <div class="col-xs-3">
                       <select class="form-control input-sm" ng-model="singleSelect">
-                        <option ng-repeat="(key, role) in getPlaybooks(role.$id)">{{ role.name }}</option>
+                        <option ng-repeat="role in getPlaybooks(role.$id)" value="{{role.name}}">{{ role.name }}</option>
                       </select>
                     </div>
                     <button type="button" class="btn btn-success btn-xs" ng-click="ansible_playbook_git(role.$id)">Run Playbook</button>
