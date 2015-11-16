@@ -504,6 +504,7 @@ angular.module('myApp.controllers', [])
 	  // input validation error message
 	  $scope.inputErrorMsg = "";
 
+    $scope.playbookSelect = null;
 
       // vars for inventory
       //$scope.ansible_ssh_host = "";
@@ -665,7 +666,7 @@ angular.module('myApp.controllers', [])
 
     }
 
-    $scope.playbookSelect = null;
+
 
     // add new role to the list - FROM GIT
 	  $scope.addRoleGit = function() {
