@@ -504,7 +504,7 @@ angular.module('myApp.controllers', [])
 	  // input validation error message
 	  $scope.inputErrorMsg = "";
 
-    $scope.playbookSelect = null;
+    //$scope.playbookSelect = null;
 
       // vars for inventory
       //$scope.ansible_ssh_host = "";
