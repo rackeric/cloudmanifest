@@ -68,9 +68,11 @@ def sanitize_keys(mydict):
 # will just remove for now, try to convert to html color later
 def convert_bash_colors(myString):
     green = '[0;32m'
+    cyan = '[0;36m'
+    red = '[0;31m'
     end = '[0m'
     #newString = myString.replace(green, '<font color="green">').replace(end, '</font>')
-    newString = myString.replace(green, '').replace(end, '')
+    newString = myString.replace(green, '').replace(cyan, '').replace(red, '').replace(end, '')
     return newString
 
 
