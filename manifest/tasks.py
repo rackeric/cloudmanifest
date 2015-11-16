@@ -706,16 +706,19 @@ def run_ansible_playbook_git(user_id, project_id, playbook_id):
     # git clone project
     # git_url = myExternalData.get(URL, '/url')
     # git_dir = 'ansible-openstack-icehouse'
-    cloned_proj = Repo.clone_from(git_url, '/tmp/' + project_id + '/' + git_name)
+    #cloned_proj = Repo.clone_from(git_url, '/tmp/' + project_id + '/' + git_name)
+    cloned_proj = Repo.clone_from(git_url, git_name)
 
-    os.chdir('/tmp/' + project_id + '/' + git_name)
+    #os.chdir('/tmp/' + project_id + '/' + git_name)
+    os.chdir(git_name)
+
+    # run playbook here
 
 
-
-
-    os.chdir('/')
+    #os.chdir('/')
     # remove git project directory
-    shutil.rmtree('/tmp/' + project_id + '/' + git_name)
+    #shutil.rmtree('/tmp/' + project_id + '/' + git_name)
+    shutil.rmtree(git_name)
 
 
     return
