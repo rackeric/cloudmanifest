@@ -688,6 +688,7 @@ def run_ansible_playbook_git(user_id, project_id, playbook_id, play):
     git_name = playbooks_data.get(playbooks_url, 'name')
     git_url = playbooks_data.get(playbooks_url, 'url')
     run_play = play
+    print run_play
 
     ##
     ## Create full Ansible Inventory, playbook defines hosts to run on
