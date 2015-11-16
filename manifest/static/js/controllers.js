@@ -665,6 +665,8 @@ angular.module('myApp.controllers', [])
 
     }
 
+    $scope.singleSelect = null;
+
     // add new role to the list - FROM GIT
 	  $scope.addRoleGit = function() {
 		  if( $scope.newRepoName && $scope.newRepoUrl ) {
