@@ -54,8 +54,8 @@ class PopulatePlaybooks(MethodView):
 
 
 class AnsiblePlaybookGit(MethodView):
-    def get(self, user_id, project_id, repo_id):
-        result = run_ansible_playbook_git.delay(user_id, project_id, repo_id)
+    def get(self, user_id, project_id, playbook_id):
+        result = run_ansible_playbook_git.delay(user_id, project_id, playbook_id)
         return result
 
 
