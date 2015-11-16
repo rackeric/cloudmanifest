@@ -873,7 +873,7 @@ angular.module('myApp.controllers', [])
 	  }
 
     // button: run ansible playbook from git project
-	  $scope.ansible_playbook_git = function(playbook_key) {
+	  $scope.ansible_playbook_git = function(playbook_key, my_play) {
 	    var runPlay = confirm('Run this playbook?');
         if (runPlay) {
           // ansible role return results
@@ -883,7 +883,7 @@ angular.module('myApp.controllers', [])
 
 	        // send ansible playbook request to API
 	        var stripped_uid = $scope.auth.user.uid.split(':');
-          $scope.myURL = $rootScope.DestinyURL + '/ansible_playbook_git/' + stripped_uid[1] + '/' + $scope.projectID + '/' + playbook_key + '/' + $scope.playbookSelect;
+          $scope.myURL = $rootScope.DestinyURL + '/ansible_playbook_git/' + stripped_uid[1] + '/' + $scope.projectID + '/' + playbook_key + '/' + my_play;
           console.log($scope.myURL);
           $http({method: 'GET', url: $scope.myURL}).
             success(function(data, status) {

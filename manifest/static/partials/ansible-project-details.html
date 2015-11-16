@@ -82,7 +82,7 @@
                         <option ng-repeat="role in getPlaybooks(role.$id)" value="{{ role }}">{{ role }}</option>
                       </select>
                     </div>
-                    <button type="button" class="btn btn-success btn-xs" ng-click="ansible_playbook_git(role.$id)">Run Playbook</button>
+                    <button type="button" class="btn btn-success btn-xs" ng-click="ansible_playbook_git(role.$id, playbookSelect)">Run Playbook</button>
                     <button type="button" class="btn btn-danger btn-xs" ng-click="clear_playbook_returns_git(role.$id)">Clear Returns</button>
                 </td>
                 <td>
