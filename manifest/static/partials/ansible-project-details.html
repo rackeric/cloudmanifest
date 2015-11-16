@@ -78,7 +78,7 @@
                 </td>
                 <td>
                     <div class="col-xs-3">
-                      <select class="form-control input-sm" ng-model="playbookSelect">
+                      <select class="form-control input-sm" name="playbookSelect" id="playbookSelect" ng-model="playbookSelect">
                         <option ng-repeat="role in getPlaybooks(role.$id)" value="{{ role }}">{{ role }}</option>
                       </select>
                     </div>
