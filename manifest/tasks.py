@@ -111,8 +111,6 @@ def populate_playbooks(user_id, project_id, playbook_id):
     os.chdir('/')
     shutil.rmtree('/tmp/' + project_id)
 
-    print playbooks
-
     # add playbooks found here
     #playbooks = ['new.yaml', 'controller.yml', 'compute-node.yml', 'site.yml']
     for play in playbooks:

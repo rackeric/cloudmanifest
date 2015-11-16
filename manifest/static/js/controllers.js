@@ -647,9 +647,22 @@ angular.module('myApp.controllers', [])
     // get git projects playbooks
     $scope.getPlaybooks = function(git_id) {
 
-      // store dataSnapshot for use in below examples.
-      //var playbooks = snapshot.child("playbooks").val();
-      return
+      var playbooks = new Firebase('https://deploynebula.firebaseio.com/users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/rolesgit/' + git_id + '/playbooks');
+
+      var playbookList = []
+
+      playbooks.once('value', function(dataSnapshot) {
+        $scope.moduleSnapshot = dataSnapshot;
+
+        $scope.moduleSnapshot.forEach(function(childSnapshot) {
+          var key = childSnapshot.name();
+          var playbook = childSnapshot.child('name').val();
+          playbookList.push(playbook);
+        })
+      });
+
+      return playbookList
+
     }
 
     // add new role to the list - FROM GIT
