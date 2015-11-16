@@ -882,7 +882,7 @@ angular.module('myApp.controllers', [])
 
 	        // send ansible playbook request to API
 	        var stripped_uid = $scope.auth.user.uid.split(':');
-          $scope.myURL = $rootScope.DestinyURL + '/ansible_playbook_git/' + stripped_uid[1] + '/' + $scope.projectID + '/' + playbook_key + '/' + playbookSelect;
+          $scope.myURL = $rootScope.DestinyURL + '/ansible_playbook_git/' + stripped_uid[1] + '/' + $scope.projectID + '/' + playbook_key + '/' + $scope.playbookSelect;
 
           $http({method: 'GET', url: $scope.myURL}).
             success(function(data, status) {
