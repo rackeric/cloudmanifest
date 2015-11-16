@@ -3,3 +3,4 @@ celery
 python-firebase
 PyYaml
 pyrax
+gitpython
