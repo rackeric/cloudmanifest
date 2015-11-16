@@ -116,7 +116,7 @@ def populate_playbooks(user_id, project_id, playbook_id):
     # add playbooks found here
     #playbooks = ['new.yaml', 'controller.yml', 'compute-node.yml', 'site.yml']
     for play in playbooks:
-        myExternalData.post(repo_id + '/playbooks', {'name': play})
+        myExternalData.post(playbook_id + '/playbooks', {'name': play})
 
     return
 
