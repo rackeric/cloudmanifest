@@ -54,8 +54,8 @@ class PopulatePlaybooks(MethodView):
 
 
 class AnsiblePlaybookGit(MethodView):
-    def get(self, user_id, project_id, playbook_id, play):
-        result = run_ansible_playbook_git.delay(user_id, project_id, playbook_id, play)
+    def get(self, user_id, project_id, playbook_id, play_name):
+        result = run_ansible_playbook_git.delay(user_id, project_id, playbook_id, play_name)
         return result
 
 
@@ -666,7 +666,7 @@ def run_rax_create_server(user_id, project_id, job_id):
     return
 
 @task()
-def run_ansible_playbook_git(user_id, project_id, playbook_id, play):
+def run_ansible_playbook_git(user_id, project_id, playbook_id, play_name):
 
     # firebase authentication
     SECRET = os.environ['SECRET']
@@ -687,7 +687,7 @@ def run_ansible_playbook_git(user_id, project_id, playbook_id, play):
     playbooks_data = FirebaseApplication(URL, authentication)
     git_name = playbooks_data.get(playbooks_url, 'name')
     git_url = playbooks_data.get(playbooks_url, 'url')
-    run_play = play
+    run_play = play_name
     print run_play
 
     ##
