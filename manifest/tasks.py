@@ -77,7 +77,7 @@ def convert_bash_colors(myString):
 
 
 @task()
-def populate_playbooks(user_id, project_id, repo_id):
+def populate_playbooks(user_id, project_id, playbook_id):
 
     # firebase authentication
     SECRET = os.environ['SECRET']
