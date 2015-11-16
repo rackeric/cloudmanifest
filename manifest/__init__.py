@@ -46,7 +46,7 @@ app.add_url_rule('/api/v1/rax_create_server/<string:user_id>/<string:project_id>
 app.add_url_rule('/api/v1/populate_playbooks/<string:user_id>/<string:project_id>/<string:playbook_id>',
                  view_func=PopulatePlaybooks.as_view('populate_playbooks'))
 # api route for git projects ansible run
-app.add_url_rule('/api/v1/ansible_playbook_git/<string:user_id>/<string:project_id>/<string:playbook_id>',
+app.add_url_rule('/api/v1/ansible_playbook_git/<string:user_id>/<string:project_id>/<string:playbook_id>/<string:play>',
                  view_func=AnsiblePlaybookGit.as_view('run_ansible_playbook_git'))
 
 

@@ -54,8 +54,8 @@ class PopulatePlaybooks(MethodView):
 
 
 class AnsiblePlaybookGit(MethodView):
-    def get(self, user_id, project_id, playbook_id):
-        result = run_ansible_playbook_git.delay(user_id, project_id, playbook_id)
+    def get(self, user_id, project_id, playbook_id, play):
+        result = run_ansible_playbook_git.delay(user_id, project_id, playbook_id, play)
         return result
 
 
@@ -666,7 +666,7 @@ def run_rax_create_server(user_id, project_id, job_id):
     return
 
 @task()
-def run_ansible_playbook_git(user_id, project_id, playbook_id):
+def run_ansible_playbook_git(user_id, project_id, playbook_id, play):
 
     # firebase authentication
     SECRET = os.environ['SECRET']
@@ -687,6 +687,7 @@ def run_ansible_playbook_git(user_id, project_id, playbook_id):
     playbooks_data = FirebaseApplication(URL, authentication)
     git_name = playbooks_data.get(playbooks_url, 'name')
     git_url = playbooks_data.get(playbooks_url, 'url')
+    run_play = play
 
     ##
     ## Create full Ansible Inventory, playbook defines hosts to run on
@@ -757,7 +758,7 @@ def run_ansible_playbook_git(user_id, project_id, playbook_id):
             os.chmod("/tmp/" + playbook_id + '_key', 0600)
             # run playbook
             play = ansible.playbook.PlayBook(
-                playbook='site.yml',
+                playbook=run_play,
                 inventory=myInventory,
                 runner_callbacks=runner_cb,
                 stats=stats,
@@ -769,7 +770,7 @@ def run_ansible_playbook_git(user_id, project_id, playbook_id):
             os.remove('/tmp/' + playbook_id + '_key')
         else:
             play = ansible.playbook.PlayBook(
-                playbook='site.yml',
+                playbook=run_play,
                 inventory=myInventory,
                 runner_callbacks=runner_cb,
                 stats=stats,
