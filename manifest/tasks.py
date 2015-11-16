@@ -713,7 +713,7 @@ def run_ansible_playbook_git(user_id, project_id, playbook_id):
 
 
 
-
+    os.chdir('/')
     # remove git project directory
     shutil.rmtree('/tmp/' + project_id + '/' + git_name)
 
