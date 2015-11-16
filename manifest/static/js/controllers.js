@@ -646,7 +646,7 @@ angular.module('myApp.controllers', [])
 
     // get git projects playbooks
     $scope.getPlaybooks = function(git_id) {
-      
+
       // store dataSnapshot for use in below examples.
       //var playbooks = snapshot.child("playbooks").val();
       return
@@ -854,6 +854,33 @@ angular.module('myApp.controllers', [])
                   $scope.status = status;
               });
 	        });
+	  }
+
+    // button: run ansible playbook from git project
+	  $scope.ansible_playbook_git = function(playbook_key) {
+	    var runPlay = confirm('Run this playbook?');
+        if (runPlay) {
+          // ansible role return results
+          var role_status = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/rolesgit/' + playbook_key + '/status');
+          role_status.$set("QUEUED");
+	        $scope.runPlayAddAlert('success', 'Running playbook, if it does not complete check that hosts and user are set in the play.');
+
+	        // send ansible playbook request to API
+	        var stripped_uid = $scope.auth.user.uid.split(':');
+          $scope.myURL = $rootScope.DestinyURL + '/ansible_playbook_git/' + stripped_uid[1] + '/' + $scope.projectID + '/' + playbook_key;
+
+          $http({method: 'GET', url: $scope.myURL}).
+            success(function(data, status) {
+              $scope.status = status;
+              $scope.data = data;
+            }).
+            error(function(data, status) {
+              $scope.data = data || "Request failed";
+              $scope.status = status;
+          });
+
+        }
+
 	  }
 
 	  // RAX list available server images from api

@@ -15,6 +15,10 @@ from ansible import callbacks
 import pyrax
 from flask import jsonify
 from ansible.errors import AnsibleError
+from git import Repo
+import glob
+import shutil
+
 
 class AnsibleJeneric(MethodView):
     #@task()
@@ -49,6 +53,12 @@ class PopulatePlaybooks(MethodView):
         return result
 
 
+class AnsiblePlaybookGit(MethodView):
+    def get(self, user_id, project_id, repo_id):
+        result = ansible_playbook_git.delay(user_id, project_id, repo_id)
+        return result
+
+
 # firebase can not use several special characters for key names
 # https://www.firebase.com/docs/creating-references.html
 def sanitize_keys(mydict):
@@ -80,7 +90,7 @@ def populate_playbooks(user_id, project_id, repo_id):
     job = myExternalData.get(URL, repo_id)
 
     # get playbooks here
-    
+
 
     # add playbooks found here
     playbooks = ['new.yaml', 'controller.yml', 'compute-node.yml', 'site.yml']
@@ -633,5 +643,78 @@ def run_rax_create_server(user_id, project_id, job_id):
 
     # update firebase with status COMPLETE
     myExternalData.patch(job_id, {"status":"COMPLETE"})
+
+    return
+
+@task()
+def ansible_playbook_git(user_id, project_id, playbook_id):
+
+    # firebase authentication
+    SECRET = os.environ['SECRET']
+    authentication = FirebaseAuthentication(SECRET, True, True)
+
+    # set the specific job from firebase with user
+    user = 'simplelogin:' + str(user_id)
+    URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id + '/rolesgit/'
+    myExternalData = FirebaseApplication(URL, authentication)
+
+    # update status to RUNNING in firebase
+    myExternalData.patch(playbook_id, {"status":"SETUP"})
+
+    # finally, get the actual job and set ansible options
+    job = myExternalData.get(URL, playbook_id)
+
+    playbooks_url = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id + '/rolesgit/' + playbook_id
+    playbooks_data = FirebaseApplication(URL, authentication)
+    playbooks = playbooks_data.get(playbooks_url, 'name')
+    print playbooks
+    ##
+    ## Create full Ansible Inventory, playbook defines hosts to run on
+    ##
+    # set and get Ansible Project Inventory
+    URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id
+    inventory_list = myExternalData.get(URL, '/inventory')
+
+    tmpHostList = []
+    for key, host in inventory_list.iteritems():
+        tmpHostList.append(host['name'])
+
+    # creating Ansible Inventory based on host_list
+    myInventory = ansible.inventory.Inventory(tmpHostList)
+
+    # set Host objects in Inventory object based on hosts_lists
+    # NEED: to set other host options
+    # BUG: hostnames with periods (.) do not work
+    for key, host in inventory_list.iteritems():
+        tmpHost = myInventory.get_host(host['name'])
+        tmpHost.set_variable("ansible_ssh_host", host['ansible_ssh_host'])
+        tmpHost.set_variable("ansible_ssh_user", host['ansible_ssh_user'])
+        if host.has_key('ansible_ssh_user'):
+            tmpHost.set_variable("ansible_ssh_pass", host['ansible_ssh_pass'])
+        # Group Stuffs
+        if myInventory.get_group(host['group']) is None:
+            # set up new group
+            tmpGroup = ansible.inventory.Group(host['group'])
+            tmpGroup.add_host(myInventory.get_host(host['name']))
+            myInventory.add_group(tmpGroup)
+        else:
+            # just add to existing group
+            tmpGroup = myInventory.get_group(host['group'])
+            tmpGroup.add_host(myInventory.get_host(host['name']))
+
+    # git clone project
+    git_url = myExternalData.get(URL, '/inventory')
+    git_dir = 'ansible-openstack-icehouse'
+    cloned_proj = Repo.clone_from(git_url, git_dir)
+
+    os.chdir(git_dir)
+
+
+
+
+
+    # remove git project directory
+    shutil.rmtree(git_dir)
+
 
     return
