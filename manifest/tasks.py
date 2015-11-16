@@ -89,12 +89,12 @@ def populate_playbooks(user_id, project_id, playbook_id):
     #myExternalData = FirebaseApplication(URL)
     myExternalData = FirebaseApplication(URL, authentication)
 
-    job = myExternalData.get(URL, repo_id)
+    job = myExternalData.get(URL, playbook_id)
 
     # get playbooks here
     # git clone project
-    git_url = myExternalData.get(repo_id + '/url')
-    git_dir = '/tmp/' + project_id + '/' + myExternalData.get(repo_id + '/name')
+    git_url = myExternalData.get(playbook_id + '/url')
+    git_dir = '/tmp/' + project_id + '/' + myExternalData.get(playbook_id + '/name')
     cloned_proj = Repo.clone_from(git_url, git_dir)
 
     # get the git project description and store in firebase
