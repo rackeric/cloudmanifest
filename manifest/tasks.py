@@ -805,7 +805,7 @@ def run_ansible_playbook_git(user_id, project_id, playbook_id, play_name):
     finally:
         sys.stdout = prev
         sys.stderr = prev2
-        myExternalData.patch(playbook_id, {"endedAt": Firebase.ServerValue.TIMESTAMP})
+        myExternalData.put(playbook_id, {"endedAt": Firebase.ServerValue.TIMESTAMP})
 
 
 
