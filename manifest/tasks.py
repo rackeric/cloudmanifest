@@ -1,6 +1,6 @@
 from StringIO import StringIO
 from firebase import FirebaseApplication, FirebaseAuthentication
-from firebase import Firebase
+#from firebase import Firebase
 import firebase
 from celery.decorators import task
 from ansible import utils
@@ -805,7 +805,7 @@ def run_ansible_playbook_git(user_id, project_id, playbook_id, play_name):
     finally:
         sys.stdout = prev
         sys.stderr = prev2
-        myExternalData.put(playbook_id, {"endedAt": Firebase.ServerValue.TIMESTAMP})
+        myExternalData.post(playbook_id, {"endedAt": Firebase.ServerValue.TIMESTAMP})
 
 
 
