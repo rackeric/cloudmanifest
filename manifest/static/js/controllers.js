@@ -720,6 +720,12 @@ angular.module('myApp.controllers', [])
 	      role.$remove('returns');
 	  }
 
+    // BUTTON: clear playbook returns - MANUAL
+	  $scope.clear_playbook_git_returns = function(key) {
+	      var role = serviceRoleGit($scope.projectID, key);
+	      role.$remove('returns');
+	  }
+
 
 	  // remove role
 	  $scope.removeHost = function(key) {
