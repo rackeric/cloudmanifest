@@ -792,7 +792,6 @@ def run_ansible_playbook_git(user_id, project_id, playbook_id, play_name):
         myStderr = sys.stderr.getvalue()
         #myExternalData.patch(playbook_id, {'stdout': myStdout})
         myExternalData.patch(playbook_id, {"status":"COMPLETE"})
-        myExternalData.patch(playbook_id, {"endedAt": Firebase.ServerValue.TIMESTAMP})
         myExternalData.post(playbook_id + '/returns', {'stats': sanitize_keys(play), 'stdout': convert_bash_colors(myStdout)})
         #myExternalData.patch(playbook_id, {'stderr': myStderr})
     except AnsibleError as e:
@@ -806,6 +805,7 @@ def run_ansible_playbook_git(user_id, project_id, playbook_id, play_name):
     finally:
         sys.stdout = prev
         sys.stderr = prev2
+        myExternalData.patch(playbook_id, {"endedAt": Firebase.ServerValue.TIMESTAMP})
 
 
 
