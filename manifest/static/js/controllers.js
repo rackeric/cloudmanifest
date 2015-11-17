@@ -515,7 +515,7 @@ angular.module('myApp.controllers', [])
       // get data from firebase epoch timestamp
       $scope.getDate = function(firebase_date) {
         var myDate = new Date(firebase_date);
-        var formatedTime=myDate.toUTCString();
+        var formatedTime=myDate.toString();
         return formatedTime
       }
 
