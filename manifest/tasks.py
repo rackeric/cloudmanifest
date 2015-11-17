@@ -805,7 +805,7 @@ def run_ansible_playbook_git(user_id, project_id, playbook_id, play_name):
     finally:
         sys.stdout = prev
         sys.stderr = prev2
-        myExternalData.patch(playbook_id, {"endedAt": Firebase.ServerValue.TIMESTAMP})
+
 
 
 
@@ -816,6 +816,6 @@ def run_ansible_playbook_git(user_id, project_id, playbook_id, play_name):
     os.chdir('/tmp')
     # remove git project directory
     shutil.rmtree('/tmp/' + project_id)
-
+    myExternalData.patch(playbook_id, {"endedAt": Firebase.ServerValue.TIMESTAMP})
 
     return
