@@ -805,7 +805,7 @@ def run_ansible_playbook_git(user_id, project_id, playbook_id, play_name):
     finally:
         sys.stdout = prev
         sys.stderr = prev2
-        myExternalData.post(playbook_id, {"endedAt": Firebase.ServerValue.TIMESTAMP})
+        myExternalData.post(playbook_id, {"endedAt": {".sv": "timestamp"}})
 
 
 
