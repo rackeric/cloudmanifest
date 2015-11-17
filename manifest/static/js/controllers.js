@@ -512,6 +512,12 @@ angular.module('myApp.controllers', [])
       // alerts for RAX create server
       $scope.newServerAlerts = [];
 
+      // get data from firebase epoch timestamp
+      $scope.getDate = function(firebase_date) {
+        var myDate = new Date(firebase_date*1000);
+        return myDate
+      }
+
       // get value for playbook run status
       $scope.getValue = function(stage) {
         if (stage === "QUEUED") {

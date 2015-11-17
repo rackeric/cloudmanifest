@@ -91,7 +91,7 @@
                         {{ role.status }}
                       </div>
                     </div>
-                    Started At: {{ Date(role.startedAt*1000) }}
+                    Started At: {{ getDate(role.startedAt) }}
                 </td>
                 <td>
                     <ul ng-repeat="(key_alpha, return) in role.returns">
