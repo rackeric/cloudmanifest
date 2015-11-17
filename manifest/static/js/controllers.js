@@ -724,6 +724,10 @@ angular.module('myApp.controllers', [])
 	  $scope.clear_playbook_git_returns = function(key) {
 	      var role = serviceRoleGit($scope.projectID, key);
 	      role.$remove('returns');
+        var startedAt = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/rolesgit/' + playbook_key + '/startedAt');
+        startedAt.$set("");
+        var endedAt = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/rolesgit/' + playbook_key + '/endedAt');
+        endedAt.$set("");
 	  }
 
 
