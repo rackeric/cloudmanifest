@@ -880,7 +880,7 @@ angular.module('myApp.controllers', [])
           var role_status = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/rolesgit/' + playbook_key + '/status');
           role_status.$set("QUEUED");
           var startedAt = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/rolesgit/' + playbook_key + '/startedAt');
-          startedAt.$set({ Firebase.ServerValue.TIMESTAMP });
+          startedAt.$set(Firebase.ServerValue.TIMESTAMP);
 	        $scope.runPlayAddAlert('success', 'Running playbook, if it does not complete check that hosts and user are set in the play.');
 
 	        // send ansible playbook request to API
