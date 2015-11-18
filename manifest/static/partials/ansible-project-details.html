@@ -1,7 +1,7 @@
 <div class="page-header"><h2><a href="#" editable-text="project.name">{{ project.name }}</a><br><small>{{ project.type }}</small></h2></div>
 
 <div class="row">
-    <div class="col-sm-6">
+    <div class="col-md-6">
         <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title">Add Play</h3>
@@ -18,7 +18,7 @@
             </div>
         </div>
     </div>
-     <div class="col-sm-6">
+     <div class="col-md-6">
         <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title">Description / Notes</h3>
@@ -77,8 +77,8 @@
 
                 </td>
                 <td>
-                    <div class="col-xs-3">
-                      <select class="form-control select-sm" ng-model="playbookSelect">
+                    <div class="col-md-3">
+                      <select class="form-control input-lg" ng-model="playbookSelect">
                         <option ng-repeat="role in getPlaybooks(role.$id)" value="{{ role }}">{{ role }}</option>
                       </select>
                     </div>
@@ -301,7 +301,7 @@
 
 
 <div class="row">
-    <div class="col-sm-12">
+    <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title"><a data-toggle="collapse" data-target="#add_host">Add Host</a></h3>
@@ -310,67 +310,67 @@
             <div id="add_host" class="collapse"><!-- for collapse -->
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-md-12">
                       <div>
                         <alert ng-repeat="alert in newHostAlerts" type="alert.type" close="newHostCloseAlert($index)">{{alert.msg}}</alert>
                       </div>
                     </div>
                   </div>
                 <div class="row">
-                  <div class="col-sm-6">
-                      <div class="col-sm-6">
+                  <div class="col-md-6">
+                      <div class="col-md-6">
                         <input type="text" class="form-control" ng-model="newHostName">
                         <span class="help-block">New HostName / IP Address</span>
                       </div>
-                      <div class="col-sm-6">
+                      <div class="col-md-6">
                         <input class="form-control" type="text" ng-model="ansible_group">
                         <span class="help-block">Group</span>
                       </div>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-sm-12">
+                  <div class="col-md-12">
                       <div><!-- <div ng-model="inventoryOptions" ng-repeat="option in inventoryOptions | orderByPriority"> -->
-                        <div class="col-sm-2 form-group has-error">
+                        <div class="col-md-2 form-group has-error">
                           <!-- <input type="hidden" ng-model="option.name" value="{{ option.name }}"> -->
                           <!-- <input class="form-control" type="text" ng-model="option.value" tooltip="{{ option.description }}" tooltip-trigger="focus" tooltip-placement="above"> -->
                           <!-- <span class="help-block">{{ option.name }}</span> -->
                           <input class="form-control" type="text" ng-model="ansible_ssh_host">
                           <span class="help-block">ansible_ssh_host</span>
                         </div>
-                        <div class="col-sm-2 form-group">
+                        <div class="col-md-2 form-group">
                           <input class="form-control" type="text" ng-model="ansible_ssh_port">
                           <span class="help-block">ansible_ssh_port</span>
                         </div>
-                        <div class="col-sm-2 form-group has-error">
+                        <div class="col-md-2 form-group has-error">
                           <input class="form-control" type="text" ng-model="ansible_ssh_user">
                           <span class="help-block">ansible_ssh_user</span>
                         </div>
-                        <div class="col-sm-2 form-group has-error">
+                        <div class="col-md-2 form-group has-error">
                           <input class="form-control" type="password" ng-model="ansible_ssh_pass">
                           <span class="help-block">ansible_ssh_pass</span>
                         </div>
-                        <div class="col-sm-2 form-group">
+                        <div class="col-md-2 form-group">
                           <input class="form-control" type="password" ng-model="ansible_sudo_pass">
                           <span class="help-block">ansible_sudo_pass</span>
                         </div>
-                        <div class="col-sm-2 form-group">
+                        <div class="col-md-2 form-group">
                           <input class="form-control" type="text" ng-model="ansible_connection">
                           <span class="help-block">ansible_connection</span>
                         </div>
-                        <div class="col-sm-2 form-group">
+                        <div class="col-md-2 form-group">
                           <input class="form-control" type="text" ng-model="ansible_ssh_private_key_file">
                           <span class="help-block">ansible_ssh_private_key_file</span>
                         </div>
-                        <div class="col-sm-2 form-group">
+                        <div class="col-md-2 form-group">
                           <input class="form-control" type="text" ng-model="ansible_python_interpreter">
                           <span class="help-block">ansible_python_interpreter</span>
                         </div>
-                        <div class="col-sm-2 form-group">
+                        <div class="col-md-2 form-group">
                           <input class="form-control" type="text" ng-model="ansible_interpreter">
                           <span class="help-block">ansible\_\*\_interpreter</span>
                         </div>
-                        <div class="col-sm-12 form-group">
+                        <div class="col-md-12 form-group">
                           <button class="btn btn-primary btn pull-right" type="submit" ng-click="addHost()">Add Host</button>
                         </div>
 
@@ -386,7 +386,7 @@
 </div>
 
 <div class="row">
-    <div class="col-sm-12">
+    <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title">
@@ -405,36 +405,36 @@
             <div id="rax_cloud" class="collapse"><!-- for collapse -->
             <div class="panel-body">
                 <div class="row">
-                  <div class="col-sm-12">
+                  <div class="col-md-12">
                     <div>
                       <alert ng-repeat="alert in newServerAlerts" type="alert.type" close="newServerCloseAlert($index)">{{alert.msg}}</alert>
                     </div>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-sm-12">
-                      <div class="col-sm-4">
+                  <div class="col-md-12">
+                      <div class="col-md-4">
                         <input type="text" class="form-control" ng-model="newServerName">
                         <span class="help-block">New Server Name</span>
                       </div>
-                      <div class="col-sm-4">
+                      <div class="col-md-4">
                         <input class="form-control" type="text" ng-model="ansible_group">
                         <span class="help-block">Group</span>
                       </div>
-                      <div class="col-sm-4">
+                      <div class="col-md-4">
                         <input class="form-control" type="text" ng-model="region">
                         <span class="help-block">Region</span>
                       </div>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-sm-12">
+                  <div class="col-md-12">
                       <div>
-                        <div class="col-sm-6 form-group">
+                        <div class="col-md-6 form-group">
                           <input class="form-control" type="text" ng-model="rax_flavor">
                           <span class="help-block">Flavor ID</span>
                         </div>
-                        <div class="col-sm-6 form-group">
+                        <div class="col-md-6 form-group">
                           <input class="form-control" type="text" ng-model="rax_image">
                           <span class="help-block">Image UUID</span>
                         </div>
@@ -455,7 +455,7 @@
 </div>
 
 <div class="row">
-     <div class="col-sm-12">
+     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
               <div class="panel-title">
@@ -540,7 +540,7 @@
 
 
 <div class="row">
-    <div class="col-sm-12">
+    <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">Jobs<button class="btn btn-xs btn-danger pull-right" ng-click="clearTasks()">Clear Buffer</button></h3>
