@@ -1,24 +1,7 @@
 <div class="page-header"><h2><a href="#" editable-text="project.name">{{ project.name }}</a><br><small>{{ project.type }}</small></h2></div>
 
 <div class="row">
-    <div class="col-md-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">Add Play</h3>
-            </div>
-            <div class="panel-body">
-                <form class="form-inline">
-                  <div class="form-group">
-                      <input type="text" class="form-control input-sm" placeholder="New Role Name" ng-model="newRoleName">
-                      <input type="text" class="form-control input-sm" placeholder="Description" ng-model="newRoleDescription">
-                      <button class="btn btn-default btn-sm" type="submit" ng-click="addRole()">Add Playbook</button>
-                      <button class="btn btn-default btn-sm" type="submit" ng-click="addRoleManual()">Manual Entry</button>
-                  </div>
-                </form>
-            </div>
-        </div>
-    </div>
-     <div class="col-md-6">
+     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title">Description / Notes</h3>
@@ -29,8 +12,6 @@
         </div>
     </div>
 </div>
-
-<br />
 
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -136,14 +117,20 @@
     </div>
 </div>
 
-<br />
-
 <div class="panel panel-default">
     <div class="panel-heading">
       <div class="panel-title">Playbooks
       <small><font color="black"><input class="input-xs pull-right" ng-model="searchText" placeholder="Search" /></font></small></div>
     </div>
     <div class="panel-body">
+        <form class="form-inline">
+          <div class="form-group">
+              <input type="text" class="form-control input-sm" placeholder="New Role Name" ng-model="newRoleName">
+              <input type="text" class="form-control input-sm" placeholder="Description" ng-model="newRoleDescription">
+              <button class="btn btn-default btn-sm" type="submit" ng-click="addRole()">Add Playbook</button>
+              <button class="btn btn-default btn-sm" type="submit" ng-click="addRoleManual()">Manual Entry</button>
+          </div>
+        </form>
         <table class="table table-hover"  id="roles" ng-show="roles">
             <tr>
                 <th>Name</th>
@@ -296,9 +283,6 @@
         </table>
     </div>
 </div>
-
-<br />
-
 
 <div class="row">
     <div class="col-md-12">
