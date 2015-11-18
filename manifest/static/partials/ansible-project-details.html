@@ -15,114 +15,6 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-      <div class="panel-title">Git Projects
-      <small><font color="black"><input class="input-xs pull-right" ng-model="searchText" placeholder="Search" /></font></small></div>
-    </div>
-    <div class="panel-body">
-        <form class="form-inline">
-          <div class="form-group">
-              <input type="text" class="form-control input-sm" placeholder="Name" ng-model="newRepoName">
-              <input type="text" class="form-control input-sm" placeholder="Git Url" ng-model="newRepoUrl">
-              <button class="btn btn-default btn-sm" type="submit" ng-click="addRoleGit()">Add Git Repo</button>
-          </div>
-        </form>
-        <br>
-        <table class="table table-hover"  id="roles" ng-show="roles">
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Manage</th>
-                <th>Actions</th>
-                <th>Last Run</th>
-                <th>Returns</th>
-            </tr>
-            <tr ng-repeat="(key, role) in rolesgit | orderByPriority | filter:searchText">
-                <td>
-                    <a href="#/projects/Ansible/{{ projectID }}/roles/{{ role.$id }}" tooltip="{{ role.description }}" tooltip-trigger="hover">{{ role.name }}</a>
-                </td>
-                <td>
-                    {{ role.description }}
-                </td>
-                <td>
-                    <!-- Split button -->
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-info btn-xs">Manage</button>
-                      <button type="button" class="btn btn-info dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                      </button>
-                      <ul class="dropdown-menu">
-                        <li><a href="#/projects/Ansible/{{ projectID }}/rolesgit/{{ role.$id }}">Edit</a></li>
-                        <li><a ng-click="cloneRoleGit(projectID, role.$id)">Clone</a></li>
-                        <li><a ng-click="submitToRepoGit(projectID, role.$id)">Submit to Repo</a></li
-                        <li role="separator" class="divider"></li>
-                        <li><a ng-click="removeRoleGit(role.$id)">Delete</a></li>
-                      </ul>
-                    </div>
-
-                </td>
-                <td>
-                    <div class="col-md-4">
-                      <select class="form-control input-sm" ng-model="playbookSelect">
-                        <option ng-repeat="role in getPlaybooks(role.$id)" value="{{ role }}">{{ role }}</option>
-                      </select>
-                    </div>
-                    <button type="button" class="btn btn-success btn-xs" ng-click="ansible_playbook_git(role.$id, playbookSelect)">Run Playbook</button>
-                    <button type="button" class="btn btn-danger btn-xs" ng-click="clear_playbook_git_returns(role.$id)">Clear Returns</button>
-                </td>
-                <td>
-                    <div class="progress">
-                      <div class="progress-bar" role="progressbar" aria-valuenow="{{ getValue(role.status) }}" aria-valuemin="0" aria-valuemax="100" style="width: {{getValue(role.status)}}">
-                        {{ role.status }}
-                      </div>
-                    </div>
-                    Started: {{ getDate(role.startedAt) }}
-                    <br>
-                    Ended: {{ getDate(role.endedAt) }}
-                </td>
-                <td>
-                    <ul ng-repeat="(key_alpha, return) in role.returns">
-
-                      <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal_{{key_alpha}}">
-                        View Results
-                      </button>
-
-                      <!-- Modal -->
-                      <div class="modal fade" id="myModal_{{key_alpha}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                              <h4 class="modal-title" id="myModalLabel">Ansible Run Results</h4>
-                            </div>
-                            <div class="modal-body">
-
-                              <ul ng-repeat="(key, value) in return.stats">
-                                <li>{{ key }}: {{ value }}</li>
-                              </ul>
-
-                              <hr>
-                              <pre>{{ return.stdout }}</pre>
-
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                    </ul>
-                </td>
-
-            </tr>
-
-        </table>
-    </div>
-</div>
-
-<div class="panel panel-default">
-    <div class="panel-heading">
       <div class="panel-title">Playbooks
       <small><font color="black"><input class="input-xs pull-right" ng-model="gitSearchText" placeholder="Search" /></font></small></div>
     </div>
@@ -139,7 +31,7 @@
         <table class="table table-hover"  id="roles" ng-show="roles">
             <tr>
                 <th>Name</th>
-                <th>URL</th>
+                <th>Description</th>
                 <th>Manage</th>
                 <th>Actions</th>
                 <th>Last Run</th>
@@ -150,7 +42,7 @@
                     <a href="#/projects/Ansible/{{ projectID }}/roles/{{ role.$id }}" tooltip="{{ role.description }}" tooltip-trigger="hover">{{ role.name }}</a>
                 </td>
                 <td>
-                    {{ role.url }}
+                    {{ role.description }}
                 </td>
                 <td>
                     <!-- Split button -->
@@ -289,6 +181,114 @@
                 </td>
 
             </tr>
+        </table>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title">Git Projects
+      <small><font color="black"><input class="input-xs pull-right" ng-model="searchText" placeholder="Search" /></font></small></div>
+    </div>
+    <div class="panel-body">
+        <form class="form-inline">
+          <div class="form-group">
+              <input type="text" class="form-control input-sm" placeholder="Name" ng-model="newRepoName">
+              <input type="text" class="form-control input-sm" placeholder="Git Url" ng-model="newRepoUrl">
+              <button class="btn btn-default btn-sm" type="submit" ng-click="addRoleGit()">Add Git Repo</button>
+          </div>
+        </form>
+        <br>
+        <table class="table table-hover"  id="roles" ng-show="roles">
+            <tr>
+                <th>Name</th>
+                <th>URL</th>
+                <th>Manage</th>
+                <th>Actions</th>
+                <th>Last Run</th>
+                <th>Returns</th>
+            </tr>
+            <tr ng-repeat="(key, role) in rolesgit | orderByPriority | filter:searchText">
+                <td>
+                    <a href="#/projects/Ansible/{{ projectID }}/roles/{{ role.$id }}" tooltip="{{ role.description }}" tooltip-trigger="hover">{{ role.name }}</a>
+                </td>
+                <td>
+                    {{ role.url }}
+                </td>
+                <td>
+                    <!-- Split button -->
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-info btn-xs">Manage</button>
+                      <button type="button" class="btn btn-info dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><a href="#/projects/Ansible/{{ projectID }}/rolesgit/{{ role.$id }}">Edit</a></li>
+                        <li><a ng-click="cloneRoleGit(projectID, role.$id)">Clone</a></li>
+                        <li><a ng-click="submitToRepoGit(projectID, role.$id)">Submit to Repo</a></li
+                        <li role="separator" class="divider"></li>
+                        <li><a ng-click="removeRoleGit(role.$id)">Delete</a></li>
+                      </ul>
+                    </div>
+
+                </td>
+                <td>
+                    <div class="col-md-4">
+                      <select class="form-control input-sm" ng-model="playbookSelect">
+                        <option ng-repeat="role in getPlaybooks(role.$id)" value="{{ role }}">{{ role }}</option>
+                      </select>
+                    </div>
+                    <button type="button" class="btn btn-success btn-xs" ng-click="ansible_playbook_git(role.$id, playbookSelect)">Run Playbook</button>
+                    <button type="button" class="btn btn-danger btn-xs" ng-click="clear_playbook_git_returns(role.$id)">Clear Returns</button>
+                </td>
+                <td>
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="{{ getValue(role.status) }}" aria-valuemin="0" aria-valuemax="100" style="width: {{getValue(role.status)}}">
+                        {{ role.status }}
+                      </div>
+                    </div>
+                    Started: {{ getDate(role.startedAt) }}
+                    <br>
+                    Ended: {{ getDate(role.endedAt) }}
+                </td>
+                <td>
+                    <ul ng-repeat="(key_alpha, return) in role.returns">
+
+                      <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal_{{key_alpha}}">
+                        View Results
+                      </button>
+
+                      <!-- Modal -->
+                      <div class="modal fade" id="myModal_{{key_alpha}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                              <h4 class="modal-title" id="myModalLabel">Ansible Run Results</h4>
+                            </div>
+                            <div class="modal-body">
+
+                              <ul ng-repeat="(key, value) in return.stats">
+                                <li>{{ key }}: {{ value }}</li>
+                              </ul>
+
+                              <hr>
+                              <pre>{{ return.stdout }}</pre>
+
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </ul>
+                </td>
+
+            </tr>
+
         </table>
     </div>
 </div>
