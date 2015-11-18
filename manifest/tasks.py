@@ -724,14 +724,8 @@ def run_ansible_playbook_git(user_id, project_id, playbook_id, play_name):
             tmpGroup = myInventory.get_group(host['group'])
             tmpGroup.add_host(myInventory.get_host(host['name']))
 
-    # git clone project
-    # git_url = myExternalData.get(URL, '/url')
-    # git_dir = 'ansible-openstack-icehouse'
     cloned_proj = Repo.clone_from(git_url, '/tmp/' + project_id + git_name)
-
     os.chdir('/tmp/' + project_id + git_name)
-
-    # run playbook here
 
     # get ssh key file
     URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id
@@ -779,15 +773,6 @@ def run_ansible_playbook_git(user_id, project_id, playbook_id, play_name):
                 forks=10
             ).run()
 
-        #play = ansible.playbook.PlayBook(
-        #    playbook='/tmp/' + playbook_id + '.yml',
-        #    inventory=myInventory,
-        #    runner_callbacks=runner_cb,
-        #    stats=stats,
-        #    callbacks=playbook_cb,
-        #    forks=10
-        #).run()
-
         myStdout = sys.stdout.getvalue()
         myStderr = sys.stderr.getvalue()
         #myExternalData.patch(playbook_id, {'stdout': myStdout})
@@ -805,17 +790,11 @@ def run_ansible_playbook_git(user_id, project_id, playbook_id, play_name):
     finally:
         sys.stdout = prev
         sys.stderr = prev2
+        # set end timestamp
         myExternalData.patch(playbook_id, {"endedAt": {".sv": "timestamp"}})
-
-
-
-
-    # end run
-
-
-    os.chdir('/tmp')
-    # remove git project directory
-    shutil.rmtree('/tmp/' + project_id + git_name)
-
+        # clean up
+        os.chdir('/tmp')
+        # remove git project directory
+        shutil.rmtree('/tmp/' + project_id + git_name)
 
     return
