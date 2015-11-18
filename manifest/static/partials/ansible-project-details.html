@@ -30,6 +30,7 @@
         <table class="table table-hover"  id="roles" ng-show="roles">
             <tr>
                 <th>Name</th>
+                <th>Description</th>
                 <th>Manage</th>
                 <th>Actions</th>
                 <th>Last Run</th>
@@ -38,6 +39,9 @@
             <tr ng-repeat="(key, role) in rolesgit | orderByPriority | filter:searchText">
                 <td>
                     <a href="#/projects/Ansible/{{ projectID }}/roles/{{ role.$id }}" tooltip="{{ role.description }}" tooltip-trigger="hover">{{ role.name }}</a>
+                </td>
+                <td>
+                    {{ role.description }}
                 </td>
                 <td>
                     <!-- Split button -->
@@ -120,12 +124,12 @@
 <div class="panel panel-default">
     <div class="panel-heading">
       <div class="panel-title">Playbooks
-      <small><font color="black"><input class="input-xs pull-right" ng-model="searchText" placeholder="Search" /></font></small></div>
+      <small><font color="black"><input class="input-xs pull-right" ng-model="gitSearchText" placeholder="Search" /></font></small></div>
     </div>
     <div class="panel-body">
         <form class="form-inline">
           <div class="form-group">
-              <input type="text" class="form-control input-sm" placeholder="New Role Name" ng-model="newRoleName">
+              <input type="text" class="form-control input-sm" placeholder="Name" ng-model="newRoleName">
               <input type="text" class="form-control input-sm" placeholder="Description" ng-model="newRoleDescription">
               <button class="btn btn-default btn-sm" type="submit" ng-click="addRole()">Add Playbook</button>
               <button class="btn btn-default btn-sm" type="submit" ng-click="addRoleManual()">Manual Entry</button>
@@ -135,14 +139,18 @@
         <table class="table table-hover"  id="roles" ng-show="roles">
             <tr>
                 <th>Name</th>
+                <th>URL</th>
                 <th>Manage</th>
                 <th>Actions</th>
                 <th>Last Run</th>
                 <th>Returns</th>
             </tr>
-            <tr ng-repeat="(key, role) in roles | orderByPriority | filter:searchText">
+            <tr ng-repeat="(key, role) in roles | orderByPriority | filter:gitSearchText">
                 <td>
                     <a href="#/projects/Ansible/{{ projectID }}/roles/{{ role.$id }}" tooltip="{{ role.description }}" tooltip-trigger="hover">{{ role.name }}</a>
+                </td>
+                <td>
+                    {{ role.url }}
                 </td>
                 <td>
                     <!-- Split button -->
