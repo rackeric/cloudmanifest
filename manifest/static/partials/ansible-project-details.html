@@ -205,7 +205,7 @@
             </tr>
             <tr ng-repeat="(key, role) in rolesgit | orderByPriority | filter:searchText">
                 <td>
-                    <a href="#/projects/Ansible/{{ projectID }}/roles/{{ role.$id }}" tooltip="{{ role.description }}" tooltip-trigger="hover">{{ role.name }}</a>
+                    {{ role.name }}
                     <br>
                     {{ role.url }}
                 </td>
