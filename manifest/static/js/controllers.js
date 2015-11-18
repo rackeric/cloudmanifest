@@ -1047,12 +1047,21 @@ angular.module('myApp.controllers', [])
         }
 	  }
 
-	  // remove role
+	  // remove role manual
 	  $scope.removeRoleManual = function(key) {
 	    var deleteUser = confirm('Are you absolutely sure you want to delete?');
         if (deleteUser) {
         //alert('Going to delete the user');
         $scope.rolesmanual.$remove(key);
+        }
+	  }
+
+    // remove role git
+	  $scope.removeRoleGit = function(key) {
+	    var deleteUser = confirm('Are you absolutely sure you want to delete?');
+        if (deleteUser) {
+        //alert('Going to delete the user');
+        $scope.rolesgit.$remove(key);
         }
 	  }
 

@@ -210,22 +210,7 @@
                     {{ role.url }}
                 </td>
                 <td>
-                    <!-- Split button -->
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-info btn-xs">Manage</button>
-                      <button type="button" class="btn btn-info dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                      </button>
-                      <ul class="dropdown-menu">
-                        <li><a href="#/projects/Ansible/{{ projectID }}/rolesgit/{{ role.$id }}">Edit</a></li>
-                        <li><a ng-click="cloneRoleGit(projectID, role.$id)">Clone</a></li>
-                        <li><a ng-click="submitToRepoGit(projectID, role.$id)">Submit to Repo</a></li
-                        <li role="separator" class="divider"></li>
-                        <li><a ng-click="removeRoleGit(role.$id)">Delete</a></li>
-                      </ul>
-                    </div>
-
+                    <button type="button" class="btn btn-danger btn-xs" ng-click="removeRoleGit(role.$id)">Delete</button>
                 </td>
                 <td>
                     <div class="col-md-4">
