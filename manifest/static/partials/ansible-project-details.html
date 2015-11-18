@@ -31,7 +31,6 @@
         <table class="table table-hover"  id="roles" ng-show="roles">
             <tr>
                 <th>Name</th>
-                <th>Description</th>
                 <th>Manage</th>
                 <th>Actions</th>
                 <th>Last Run</th>
@@ -40,9 +39,6 @@
             <tr ng-repeat="(key, role) in roles | orderByPriority | filter:gitSearchText">
                 <td>
                     <a href="#/projects/Ansible/{{ projectID }}/roles/{{ role.$id }}" tooltip="{{ role.description }}" tooltip-trigger="hover">{{ role.name }}</a>
-                </td>
-                <td>
-                    {{ role.description }}
                 </td>
                 <td>
                     <!-- Split button -->
@@ -202,7 +198,6 @@
         <table class="table table-hover"  id="roles" ng-show="roles">
             <tr>
                 <th>Name</th>
-                <th>URL</th>
                 <th>Manage</th>
                 <th>Actions</th>
                 <th>Last Run</th>
@@ -211,8 +206,7 @@
             <tr ng-repeat="(key, role) in rolesgit | orderByPriority | filter:searchText">
                 <td>
                     <a href="#/projects/Ansible/{{ projectID }}/roles/{{ role.$id }}" tooltip="{{ role.description }}" tooltip-trigger="hover">{{ role.name }}</a>
-                </td>
-                <td>
+                    <br>
                     {{ role.url }}
                 </td>
                 <td>
