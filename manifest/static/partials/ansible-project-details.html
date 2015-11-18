@@ -67,6 +67,9 @@
                       <div class="progress-bar" role="progressbar" aria-valuenow="{{ getValue(role.status) }}" aria-valuemin="0" aria-valuemax="100" style="width: {{getValue(role.status)}}">
                         {{ role.status }}
                       </div>
+                      Started: {{ getDate(role.startedAt) }}
+                      <br>
+                      Ended: {{ getDate(role.endedAt) }}
                     </div>
                 </td>
                 <td>
@@ -139,6 +142,9 @@
                         {{ role.status }}
                       </div>
                     </div>
+                    Started: {{ getDate(role.startedAt) }}
+                    <br>
+                    Ended: {{ getDate(role.endedAt) }}
                 </td>
                 <td>
                     <ul ng-repeat="(key_alpha, return) in role.returns">

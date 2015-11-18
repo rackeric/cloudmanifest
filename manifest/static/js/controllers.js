@@ -747,6 +747,10 @@ angular.module('myApp.controllers', [])
           // ansible role return results
           var role_status = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/roles/' + playbook_key + '/status');
           role_status.$set("QUEUED");
+          var startedAt = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/roles/' + playbook_key + '/startedAt');
+          startedAt.$set(Firebase.ServerValue.TIMESTAMP);
+          var endedAt = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/roles/' + playbook_key + '/endedAt');
+          endedAt.$set("");
 	        $scope.runPlayAddAlert('success', 'Running playbook, if it does not complete check that hosts and user are set in the play.');
 
 	        // send ansible playbook request to API
@@ -774,7 +778,10 @@ angular.module('myApp.controllers', [])
           // setting the job status
           var role_status = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/rolesmanual/' + playbook_key + '/status');
           role_status.$set("QUEUED");
-
+          var startedAt = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/rolesmanual/' + playbook_key + '/startedAt');
+          startedAt.$set(Firebase.ServerValue.TIMESTAMP);
+          var endedAt = syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/rolesmanual/' + playbook_key + '/endedAt');
+          endedAt.$set("");
           // add host to runPlayAlert
 	        $scope.runPlayAddAlert('success', 'Running playbook, if it does not complete check that hosts and user are set in the play.');
 

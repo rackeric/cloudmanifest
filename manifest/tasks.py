@@ -423,9 +423,10 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
         #print play
         sys.stdout = prev
         sys.stderr = prev2
-
-    # delete tmp playbook file
-    os.remove('/tmp/' + playbook_id + '.yml')
+        # set end timestamp
+        myExternalData.patch(playbook_id, {"endedAt": {".sv": "timestamp"}})
+        # delete tmp playbook file
+        os.remove('/tmp/' + playbook_id + '.yml')
 
     return jsonify(play)
 
@@ -574,6 +575,10 @@ def run_ansible_playbook_manual(user_id, project_id, playbook_id):
     finally:
         sys.stdout = prev
         sys.stderr = prev2
+        # set end timestamp
+        myExternalData.patch(playbook_id, {"endedAt": {".sv": "timestamp"}})
+        # delete tmp playbook file
+        os.remove("/tmp/" + playbook_id + '.yml')
 
     ##
     ## Post play results in to firebase
@@ -583,8 +588,7 @@ def run_ansible_playbook_manual(user_id, project_id, playbook_id):
 
     #myExternalData.post(playbook_id + '/returns', play)
 
-    # delete tmp playbook file
-    os.remove("/tmp/" + playbook_id + '.yml')
+
 
     return jsonify(play)
 
