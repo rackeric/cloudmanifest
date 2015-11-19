@@ -35,19 +35,19 @@ class ManifestTestCase(unittest.TestCase):
         result = sanitize_keys(myDict)
         self.assertEqual(result, expect)
 
-    @mock.patch('firebase.FirebaseApplication')
     def test_populate_playcooks(self, mock_FirebaseApplication):
-        #mock_Firebase = FirebaseApplication("https://myurl", FirebaseAuthentication("mysecretstring", True, True))
-        #mock_Firebase.get = MagicMock(return_value="play1.yml")
+        with patch.object(firebase.FirebaseApplication, 'get', return_value="play.yml") as mock_FirebaseApplication:
+            mock_Firebase = firebase.FirebaseApplication("https://myurl", FirebaseAuthentication("mysecretstring", True, True))
+            #mock_Firebase.get = MagicMock(return_value="play1.yml")
 
-        # run the actual function
-        populate_playbooks(11, 'proj123', 'playbook123')
+            # run the actual function
+            populate_playbooks(11, 'proj123', 'playbook123')
 
-        user = 'simplelogin:11'
-        project_id = 'proj123'
-        URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id + '/rolesgit/'
+            user = 'simplelogin:11'
+            project_id = 'proj123'
+            URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id + '/rolesgit/'
         # mock_Firebase.get.assert_called_with(URL, playbook_id)
-        mock_FirebaseApplication.get.assert_called_with(URL, playbook_id)
+        mock_FirebaseApplication.assert_called_once_with(URL, playbook_id)
 
 
 if __name__ == '__main__':
