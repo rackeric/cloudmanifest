@@ -7,6 +7,7 @@ from manifest.tasks import populate_playbooks
 from mock import patch
 from firebase import FirebaseApplication
 from firebase import FirebaseAuthentication
+from git import Repo
 
 
 class ManifestTestCase(unittest.TestCase):
@@ -37,17 +38,18 @@ class ManifestTestCase(unittest.TestCase):
 
     def test_populate_playcooks(self):
         with patch.object(FirebaseApplication, 'get', return_value="play.yml") as mock_FirebaseApplication:
-            #mock_Firebase = firebase.FirebaseApplication("https://myurl", FirebaseAuthentication("mysecretstring", True, True))
-            #mock_Firebase.get = MagicMock(return_value="play1.yml")
-
-            # run the actual function
-            populate_playbooks(11, 'proj123', 'playbook123')
+            with patch.object(Repo, 'clone_from', return_value="something") as mock_Repo:
+                populate_playbooks(11, 'proj123', 'playbook123')
 
         user = 'simplelogin:11'
         project_id = 'proj123'
         URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id + '/rolesgit/'
         # mock_Firebase.get.assert_called_with(URL, playbook_id)
         mock_FirebaseApplication.assert_called_once_with(URL, playbook_id)
+
+        git_url = "play.yml"
+        git_dir = '/tmp/' + project_id + '/playbook123'
+        mock_Repo.assert_called_once_with(git_url, git_dir)
 
 
 if __name__ == '__main__':
