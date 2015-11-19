@@ -98,7 +98,7 @@ def populate_playbooks(user_id, project_id, playbook_id):
     cloned_proj = Repo.clone_from(git_url, git_dir)
 
     # get the git project description and store in firebase
-    desc = cloned_proj.description
+    #desc = cloned_proj.description
     #myExternalData.put(playbook_id + '/description', desc)
     ## Out[8]: u"Unnamed repository; edit this file 'description' to name the repository."
 
