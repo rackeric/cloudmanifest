@@ -4,7 +4,7 @@ import unittest
 from manifest.tasks import convert_bash_colors
 from manifest.tasks import sanitize_keys
 from manifest.tasks import populate_playbooks
-from mock import MagicMock
+import mock
 from firebase import FirebaseApplication
 from firebase import FirebaseAuthentication
 
@@ -35,9 +35,10 @@ class ManifestTestCase(unittest.TestCase):
         result = sanitize_keys(myDict)
         self.assertEqual(result, expect)
 
-    def test_populate_playcooks(self):
-        mock_Firebase = FirebaseApplication("https://myurl", FirebaseAuthentication("mysecretstring", True, True))
-        mock_Firebase.get = MagicMock(return_value="play1.yml")
+    @mock.patch('FirebaseApplication')
+    def test_populate_playcooks(self, mock_FirebaseApplication):
+        #mock_Firebase = FirebaseApplication("https://myurl", FirebaseAuthentication("mysecretstring", True, True))
+        #mock_Firebase.get = MagicMock(return_value="play1.yml")
 
         # run the actual function
         populate_playbooks(11, 'proj123', 'playbook123')
@@ -45,7 +46,8 @@ class ManifestTestCase(unittest.TestCase):
         user = 'simplelogin:11'
         project_id = 'proj123'
         URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id + '/rolesgit/'
-        mock_Firebase.get.assert_called_with(URL, playbook_id)
+        # mock_Firebase.get.assert_called_with(URL, playbook_id)
+        mock_FirebaseApplication.get.assert_called_with(URL, playbook_id)
 
 
 if __name__ == '__main__':
