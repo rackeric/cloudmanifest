@@ -37,7 +37,7 @@ class ManifestTestCase(unittest.TestCase):
 
     def test_populate_playcooks(self):
         mock_Firebase = FirebaseApplication("https://myurl", FirebaseAuthentication("mysecretstring", True, True))
-        mock_Firebase.get = MagicMock()
+        mock_Firebase.get = MagicMock(return_value=True)
 
         # run the actual function
         populate_playbooks(11, 'proj123', 'playbook123')
