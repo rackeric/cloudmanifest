@@ -1,5 +1,6 @@
 from StringIO import StringIO
-from firebase import FirebaseApplication, FirebaseAuthentication
+from firebase import FirebaseApplication
+from firebase import FirebaseAuthentication
 #from firebase import Firebase
 import firebase
 from celery.decorators import task
@@ -7,9 +8,6 @@ from ansible import utils
 import ansible.runner
 #import ansible.utils
 import ansible.playbook
-import json
-import os
-import sys
 from flask.views import MethodView
 from ansible import callbacks
 import pyrax
@@ -18,6 +16,9 @@ from ansible.errors import AnsibleError
 from git import Repo
 import glob
 import shutil
+import json
+import os
+import sys
 
 
 class AnsibleJeneric(MethodView):
@@ -74,7 +75,6 @@ def convert_bash_colors(myString):
     #newString = myString.replace(green, '<font color="green">').replace(end, '</font>')
     newString = myString.replace(green, '').replace(cyan, '').replace(red, '').replace(end, '')
     return newString
-
 
 @task()
 def populate_playbooks(user_id, project_id, playbook_id):
@@ -235,8 +235,6 @@ def run_ansible_jeneric(user_id, project_id, job_id):
 
     return jsonify(results)
 
-
-#@celery.task(serializer='json')
 @task()
 def run_ansible_playbook(user_id, project_id, playbook_id):
 
@@ -430,8 +428,6 @@ def run_ansible_playbook(user_id, project_id, playbook_id):
 
     return
 
-
-#@celery.task(serializer='json')
 @task()
 def run_ansible_playbook_manual(user_id, project_id, playbook_id):
 
@@ -592,7 +588,6 @@ def run_ansible_playbook_manual(user_id, project_id, playbook_id):
 
     return
 
-# @celery.task(serializer='json')
 @task()
 def run_rax_create_server(user_id, project_id, job_id):
 
