@@ -35,7 +35,7 @@ class ManifestTestCase(unittest.TestCase):
         result = sanitize_keys(myDict)
         self.assertEqual(result, expect)
 
-    def test_populate_playcooks(self, mock_FirebaseApplication):
+    def test_populate_playcooks(self):
         with patch.object(firebase.FirebaseApplication, 'get', return_value="play.yml") as mock_FirebaseApplication:
             mock_Firebase = firebase.FirebaseApplication("https://myurl", FirebaseAuthentication("mysecretstring", True, True))
             #mock_Firebase.get = MagicMock(return_value="play1.yml")
