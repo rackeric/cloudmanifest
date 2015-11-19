@@ -6,6 +6,7 @@ from manifest.tasks import sanitize_keys
 from manifest.tasks import populate_playbooks
 from mock import MagicMock
 from firebase import FirebaseApplication
+from firebase import FirebaseAuthentication
 
 
 class ManifestTestCase(unittest.TestCase):
