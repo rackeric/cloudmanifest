@@ -35,7 +35,7 @@ class ManifestTestCase(unittest.TestCase):
         self.assertEqual(result, expect)
 
     def test_populate_playcooks(self):
-        mock_Firebase = new FirebaseApplication()
+        mock_Firebase = FirebaseApplication()
         mock_Firebase.get = MagicMock()
 
         # run the actual function
