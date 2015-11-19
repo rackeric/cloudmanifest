@@ -4,7 +4,7 @@ import unittest
 from manifest.tasks import convert_bash_colors
 from manifest.tasks import sanitize_keys
 from manifest.tasks import populate_playbooks
-import mock
+from unittest.mock import patch
 from firebase import FirebaseApplication
 from firebase import FirebaseAuthentication
 
