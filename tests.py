@@ -3,6 +3,10 @@ import manifest
 import unittest
 from manifest.tasks import convert_bash_colors
 from manifest.tasks import sanitize_keys
+from manifest.tasks import populate_playbooks
+from mock import MagicMock
+from firebase import FirebaseApplication
+
 
 class ManifestTestCase(unittest.TestCase):
 
@@ -29,6 +33,19 @@ class ManifestTestCase(unittest.TestCase):
         expect = {'192_168_1_1': "my server"}
         result = sanitize_keys(myDict)
         self.assertEqual(result, expect)
+
+    def test_populate_playcooks(self):
+        mock_Firebase = new FirebaseApplication()
+        mock_Firebase.get = MagicMock()
+
+        # run the actual function
+        populate_playbooks(11, 'proj123', 'playbook123')
+
+        user = 'simplelogin:11'
+        project_id = 'proj123'
+        URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id + '/rolesgit/'
+        mock_Firebase.get.assert_called_with(URL, playbook_id)
+
 
 if __name__ == '__main__':
     unittest.main()
