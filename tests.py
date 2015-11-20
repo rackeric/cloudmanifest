@@ -82,6 +82,8 @@ class ManifestTestCase(unittest.TestCase):
                      "group": "group1",
                      "ansible_ssh_host": "host1",
                      "ansible_ssh_user": "root"}
+        user = 'simplelogin:11'
+        project_id = 'proj123'
         URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id + '/external_data/'
         #with patch.object(FirebaseApplication, 'get', side_effect=[extData, inventory]) as mock_FirebaseApplication:
         with patch.object(FirebaseApplication, 'patch', return_value=None) as mock_FirebaseApplication_post:
