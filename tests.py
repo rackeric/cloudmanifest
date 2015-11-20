@@ -42,7 +42,7 @@ class ManifestTestCase(unittest.TestCase):
         with patch.object(FirebaseApplication, 'get', return_value='playbook') as mock_FirebaseApplication:
             with patch.object(Repo, 'clone_from', return_value='something') as mock_Repo:
                 with patch.object(glob, 'glob', return_value='play.yml') as mock_glob:
-                    with patch.object(shutil, 'rmtree', return_value='nothing') as mock.shutil:
+                    with patch.object(shutil, 'rmtree', return_value='nothing') as mock_shutil:
                         with patch.object(FirebaseApplication, 'post', return_value='nothing') as mock_FirebaseApplication_post:
                             populate_playbooks(11, 'proj123', 'playbook123')
 
