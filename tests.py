@@ -4,6 +4,7 @@ import unittest
 from manifest.tasks import convert_bash_colors
 from manifest.tasks import sanitize_keys
 from manifest.tasks import populate_playbooks
+from manifest.tasks import run_ansible_jeneric
 from mock import patch
 from firebase import FirebaseApplication
 from firebase import FirebaseAuthentication
@@ -67,6 +68,26 @@ class ManifestTestCase(unittest.TestCase):
 
         #mock_FirebaseApplication_post.assert_called_with("playbook123" + '/playbooks', {'name': "play.yml"})
         assert mock_FirebaseApplication_post.called
+
+    def test_run_ansible_jeneric(self):
+        extData = json.dumps({"host_list" : [ "test1", "cloudserver1", "host1" ],
+                              "module_name" : "ping",
+                              "pattern" : "all",
+                              "module_args" : ""})
+        with patch.object(FirebaseApplication, 'get', return_value=extData) as mock_FirebaseApplication:
+            with patch.object(FirebaseApplication, 'post', return_value=None) as mock_FirebaseApplication_post:
+                mock_FirebaseAuthentication = FirebaseAuthentication("secret", True, True)
+                mock_FirebaseAuthentication.__main__ = MagicMock(return_value="myauth")
+                run_ansible_jeneric(11, 'proj123', 'job123')
+
+        user = 'simplelogin:11'
+        project_id = 'proj123'
+        URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id + '/rolesgit/'
+
+        assert mock_FirebaseApplication.called
+        assert mock_FirebaseApplication_post.called
+        
+
 
 if __name__ == '__main__':
     unittest.main()
