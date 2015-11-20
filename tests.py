@@ -181,7 +181,7 @@ class ManifestTestCase(unittest.TestCase):
                 with patch.object(ansible.runner.Runner, 'run', return_value=inventory) as mock_ansibleRunner:
                     mock_FirebaseAuthentication = FirebaseAuthentication("secret", True, True)
                     mock_FirebaseAuthentication.__main__ = MagicMock(return_value="myauth")
-                    run_ansible_playbook(11, 'proj123', 'job123')
+                    run_ansible_playbook_manual(11, 'proj123', 'job123')
 
         assert mock_FirebaseApplication.called
         assert mock_FirebaseApplication_patch.called
