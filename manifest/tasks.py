@@ -105,7 +105,7 @@ def populate_playbooks(user_id, project_id, playbook_id):
 
     # find all .yml and .yaml files for run listing
     os.chdir(git_dir)
-    playbooks = glob.glob('/*.y*ml')
+    playbooks = glob.glob('*.y*ml')
     ## Out[5]: ['new.yaml', 'controller.yml', 'compute-node.yml', 'site.yml']
 
     # remove git project directory
