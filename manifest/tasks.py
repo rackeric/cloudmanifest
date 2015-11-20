@@ -233,7 +233,8 @@ def run_ansible_jeneric(user_id, project_id, job_id):
         #
     myExternalData.post(job_id + '/returns/', sanitize_keys(results))
 
-    return jsonify(results)
+    #return jsonify(results)
+    return
 
 @task()
 def run_ansible_playbook(user_id, project_id, playbook_id):
