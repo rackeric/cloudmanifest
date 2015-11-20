@@ -66,7 +66,7 @@ class ManifestTestCase(unittest.TestCase):
 
         mock_chdir.assert_called_once_with(git_dir)
 
-        mock_glob.assert_called_once_with('/*.y*ml')
+        mock_glob.assert_called_once_with('*.y*ml')
 
         mock_shutil.assert_called_once_with(git_dir)
 
