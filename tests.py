@@ -5,6 +5,7 @@ from manifest.tasks import convert_bash_colors
 from manifest.tasks import sanitize_keys
 from manifest.tasks import populate_playbooks
 from manifest.tasks import run_ansible_jeneric
+from manifest.tasks import run_ansible_playbook
 from mock import patch
 from firebase import FirebaseApplication
 from firebase import FirebaseAuthentication
