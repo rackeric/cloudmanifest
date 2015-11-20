@@ -72,9 +72,12 @@ class ManifestTestCase(unittest.TestCase):
 
     def test_run_ansible_jeneric(self):
         extData = {"host_list" : [ "test1", "cloudserver1", "host1" ],
-                              "module_name" : "ping",
-                              "pattern" : "all",
-                              "module_args" : ""}
+                   "module_name" : "ping",
+                   "pattern" : "all",
+                   "module_args" : "",
+                   "project_id" : "proj123",
+                   "remote_pass" : "lkjlkj",
+                   "remote_user" : "root"}
         with patch.object(FirebaseApplication, 'get', return_value=extData) as mock_FirebaseApplication:
             with patch.object(FirebaseApplication, 'patch', return_value=None) as mock_FirebaseApplication_post:
                 mock_FirebaseAuthentication = FirebaseAuthentication("secret", True, True)
