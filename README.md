@@ -1,5 +1,5 @@
 # CloudManifest
-
+[![Build Status](http://104.130.11.192:8080/buildStatus/icon?job=cloudmanifest)](http://104.130.11.192:8080/job/cloudmanifest/)
 A web app that provides an easy to use panel for creating and running playbooks in Ansible.
 
 Now Built with:
