@@ -39,7 +39,7 @@ class ManifestTestCase(unittest.TestCase):
         self.assertEqual(result, expect)
 
     def test_populate_playbooks(self):
-        with patch.object(FirebaseApplication, 'get', return_value='playbook') as mock_FirebaseApplication:
+        with patch.object(FirebaseApplication, 'get', return_value='playbook') as mock_FirebaseApplication_get:
             with patch.object(Repo, 'clone_from', return_value='something') as mock_Repo:
                 with patch.object(os, 'chdir', return_value=None) as mock_chdir:
                     with patch.object(glob, 'glob', return_value='play.yml') as mock_glob:
@@ -49,19 +49,14 @@ class ManifestTestCase(unittest.TestCase):
                                 mock_FirebaseAuthentication.__main__ = MagicMock(return_value="myauth")
                                 populate_playbooks(11, 'proj123', 'playbook123')
 
-        user = 'simplelogin:11'
         project_id = 'proj123'
-        URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id + '/rolesgit/'
-        #assert mock_FirebaseAuthentication.__main__.called
-        #mock_FirebaseApplication.assert_called_with(URL, FirebaseAuthentication("SECRET", True, True))
-        assert mock_FirebaseApplication.called
         git_url = "play.yml"
         git_dir = '/tmp/' + project_id + 'playbook'
+        assert mock_FirebaseApplication_get.called
         mock_Repo.assert_called_once_with("playbook", git_dir)
         mock_chdir.assert_called_once_with(git_dir)
         mock_glob.assert_called_once_with('*.y*ml')
         mock_shutil.assert_called_once_with(git_dir)
-        #mock_FirebaseApplication_post.assert_called_with("playbook123" + '/playbooks', {'name': "play.yml"})
         assert mock_FirebaseApplication_post.called
 
     @patch.object(FirebaseApplication, 'get')
