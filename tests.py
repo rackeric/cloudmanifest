@@ -79,10 +79,14 @@ class ManifestTestCase(unittest.TestCase):
                    "project_id" : "proj123",
                    "remote_pass" : "lkjlkj",
                    "remote_user" : "root"}
-        inventory = {"name": "host1",
-                     "group": "group1",
-                     "ansible_ssh_host": "host1",
-                     "ansible_ssh_user": "root"}
+        inventory = {{"name": "host1",
+                      "group": "group1",
+                      "ansible_ssh_host": "host1",
+                      "ansible_ssh_user": "root"},
+                      {"name": "host2",
+                       "group": "group1",
+                       "ansible_ssh_host": "host2",
+                       "ansible_ssh_user": "root"}}
         list_of_return_values= [inventory, extData]
         def side_effect(a, b):
             return list_of_return_values.pop()
