@@ -96,7 +96,7 @@ class ManifestTestCase(unittest.TestCase):
                     mock_FirebaseAuthentication.__main__ = MagicMock(return_value="myauth")
                     run_ansible_jeneric(11, 'proj123', 'job123')
 
-        assert mock_FirebaseApplication.called
+        assert mock_FirebaseApplication_get.called
         assert mock_FirebaseApplication_patch.called
         assert mock_FirebaseApplication_post.called
         assert mock_ansibleRunner.called
