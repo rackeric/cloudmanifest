@@ -46,7 +46,6 @@ class ManifestTestCase(unittest.TestCase):
                     with patch.object(shutil, 'rmtree', return_value='nothing') as mock_shutil:
                         with patch.object(FirebaseApplication, 'post', return_value='nothing') as mock_FirebaseApplication_post:
                             populate_playbooks(11, 'proj123', 'playbook123')
-                            assert mock_FirebaseAuthentication.called
 
         user = 'simplelogin:11'
         project_id = 'proj123'
