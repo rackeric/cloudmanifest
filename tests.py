@@ -38,7 +38,7 @@ class ManifestTestCase(unittest.TestCase):
         result = sanitize_keys(myDict)
         self.assertEqual(result, expect)
 
-    @patch('FirebaseAuthentication')
+    @patch('firebase.FirebaseAuthentication')
     def test_populate_playbooks(self, mock_FirebaseAuthentication):
         with patch.object(FirebaseApplication, 'get', return_value='playbook') as mock_FirebaseApplication:
             with patch.object(Repo, 'clone_from', return_value='something') as mock_Repo:
