@@ -46,12 +46,13 @@ class ManifestTestCase(unittest.TestCase):
                     with patch.object(shutil, 'rmtree', return_value='nothing') as mock_shutil:
                         with patch.object(FirebaseApplication, 'post', return_value='nothing') as mock_FirebaseApplication_post:
                             populate_playbooks(11, 'proj123', 'playbook123')
+                            assert mock_FirebaseAuthentication.called
 
         user = 'simplelogin:11'
         project_id = 'proj123'
         URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id + '/rolesgit/'
 
-        assert mock_FirebaseAuthentication.called
+        #assert mock_FirebaseAuthentication.called
 
         mock_FirebaseApplication.assert_called_with(URL, FirebaseAuthentication("SECRET", True, True))
 
