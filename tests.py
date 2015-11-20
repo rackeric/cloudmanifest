@@ -84,10 +84,10 @@ class ManifestTestCase(unittest.TestCase):
                      "ansible_ssh_host": "host1",
                      "ansible_ssh_user": "root"}
         list_of_return_values= [inventory, extData]
-        def side_effect():
+        def side_effect(a, b):
             return list_of_return_values.pop()
         mock_FirebaseApplication.side_effect = side_effect
-        
+
         user = 'simplelogin:11'
         project_id = 'proj123'
         URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id + '/external_data/'
