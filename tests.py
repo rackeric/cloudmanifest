@@ -150,5 +150,43 @@ class ManifestTestCase(unittest.TestCase):
         assert mock_FirebaseApplication_post.called
         assert mock_ansibleRunner.called
 
+
+    @patch.object(FirebaseApplication, 'get')
+    def test_run_ansible_playbook_manual(self, mock_FirebaseApplication):
+        extData = {
+                   "name" : "man1",
+                   "playbook" : "---\n- name: install_vim\n  hosts: all\n  gather_facts: yes\n  remote_user: root\n  \n  \n  tasks:\n\n    - name: install_vim\n      yum: name=vim\n\n    - name: install_ansible\n      yum: name=ansible\n\n    - name: install_elinks\n      yum: name=elinks",
+                   "type" : "manual",
+                   "user_id" : "simplelogin:11"
+                  }
+
+        inventory = {
+                     "key1" :
+                        {
+                         "name": "host1",
+                         "group": "group1",
+                         "ansible_ssh_host": "host1",
+                         "ansible_ssh_user": "root",
+                         "ansible_ssh_pass": "lkjlkjljk"
+                        }
+                    }
+        playbook = "---\n- name: install_vim\n  hosts: all\n  gather_facts: yes\n  remote_user: root\n  \n  \n  tasks:\n\n    - name: install_vim\n      yum: name=vim\n\n    - name: install_ansible\n      yum: name=ansible\n\n    - name: install_elinks\n      yum: name=elinks"
+        sshkey = None
+        list_of_return_values = [extData, inventory, playbook, sshkey]
+
+        mock_FirebaseApplication.side_effect = list_of_return_values
+
+        with patch.object(FirebaseApplication, 'patch', return_value=None) as mock_FirebaseApplication_patch:
+            with patch.object(FirebaseApplication, 'post', return_value=None) as mock_FirebaseApplication_post:
+                with patch.object(ansible.runner.Runner, 'run', return_value=inventory) as mock_ansibleRunner:
+                    mock_FirebaseAuthentication = FirebaseAuthentication("secret", True, True)
+                    mock_FirebaseAuthentication.__main__ = MagicMock(return_value="myauth")
+                    run_ansible_playbook(11, 'proj123', 'job123')
+
+        assert mock_FirebaseApplication.called
+        assert mock_FirebaseApplication_patch.called
+        assert mock_FirebaseApplication_post.called
+        assert mock_ansibleRunner.called
+
 if __name__ == '__main__':
     unittest.main()

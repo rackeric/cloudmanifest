@@ -546,15 +546,6 @@ def run_ansible_playbook_manual(user_id, project_id, playbook_id):
                 forks=10
             ).run()
 
-        #play = ansible.playbook.PlayBook(
-        #    playbook='/tmp/' + playbook_id + '.yml',
-        #    inventory=myInventory,
-        #    runner_callbacks=runner_cb,
-        #    stats=stats,
-        #    callbacks=playbook_cb,
-        #    forks=10
-        #).run()
-
         myStdout = sys.stdout.getvalue()
         myStderr = sys.stderr.getvalue()
         #myExternalData.patch(playbook_id, {'stdout': myStdout})
