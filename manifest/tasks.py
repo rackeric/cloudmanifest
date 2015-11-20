@@ -94,7 +94,7 @@ def populate_playbooks(user_id, project_id, playbook_id):
     # get playbooks here
     # git clone project
     git_url = myExternalData.get(URL + playbook_id, '/url')
-    git_dir = '/tmp/' + project_id + '/' + myExternalData.get(URL + playbook_id, '/name')
+    git_dir = '/tmp/' + project_id + myExternalData.get(URL + playbook_id, '/name')
     cloned_proj = Repo.clone_from(git_url, git_dir)
 
     # get the git project description and store in firebase
@@ -102,15 +102,15 @@ def populate_playbooks(user_id, project_id, playbook_id):
     #myExternalData.put(playbook_id + '/description', desc)
     ## Out[8]: u"Unnamed repository; edit this file 'description' to name the repository."
 
-    os.chdir(git_dir)
+    #os.chdir(git_dir)
 
     # find all .yml and .yaml files for run listing
-    playbooks = glob.glob('*.y*ml')
+    playbooks = glob.glob(git_dir + '/*.y*ml')
     ## Out[5]: ['new.yaml', 'controller.yml', 'compute-node.yml', 'site.yml']
 
     # remove git project directory
-    os.chdir('/')
-    shutil.rmtree('/tmp/' + project_id)
+    #os.chdir('/')
+    shutil.rmtree(git_dir)
 
     # add playbooks found here
     #playbooks = ['new.yaml', 'controller.yml', 'compute-node.yml', 'site.yml']
