@@ -66,7 +66,7 @@ class ManifestTestCase(unittest.TestCase):
 
         mock_shutil.assert_called_once_with(git_dir)
 
-        mock_FirebaseApplication_post.assert_called_once_with("playbook123" + '/playbooks', {'name': "play.yml"})
+        mock_FirebaseApplication_post.assert_called_with("playbook123" + '/playbooks', {'name': "play.yml"})
 
 
 if __name__ == '__main__':
