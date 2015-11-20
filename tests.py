@@ -115,7 +115,7 @@ class ManifestTestCase(unittest.TestCase):
                    "remote_pass" : "lkjlkj",
                    "remote_user" : "root"}
         inventory = { "key1" : {"name": "host1", "group": "group1", "ansible_ssh_host": "host1", "ansible_ssh_user": "root", "ansible_ssh_pass": "lkjlkjljk"} }
-        role = {"modules": {"name": "install_vim", "option": "yum", "order": 1, "user_id": "simplelogin:11", "options": ["comment": "this is a comment", "paramater": "name", "required": "yes", "value": "vim"]}}
+        role = {"modules": {"name": "install_vim", "option": "yum", "order": 1, "user_id": "simplelogin:11", "options": [{"comment": "this is a comment", "paramater": "name", "required": "yes", "value": "vim"}]}}
         sshkey = None
         list_of_return_values = [extData, inventory, role, sshkey]
 
