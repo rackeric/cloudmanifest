@@ -60,7 +60,7 @@ class ManifestTestCase(unittest.TestCase):
 
         git_url = "play.yml"
         git_dir = '/tmp/' + project_id + 'playbook'
-        mock_Repo.assert_called_once_with(git_url, git_dir)
+        mock_Repo.assert_called_once_with("playbook", git_dir)
 
         mock_glob.assert_called_once_with(git_dir + '/*.y*ml')
 
