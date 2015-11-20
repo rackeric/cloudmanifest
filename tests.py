@@ -10,7 +10,7 @@ from firebase import FirebaseAuthentication
 from git import Repo
 import glob
 import shutil
-from unittest.mock import MagicMock
+from mock import MagicMock
 
 
 class ManifestTestCase(unittest.TestCase):
