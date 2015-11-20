@@ -93,7 +93,7 @@ class ManifestTestCase(unittest.TestCase):
         #with patch.object(FirebaseApplication, 'get', side_effect=[extData, inventory]) as mock_FirebaseApplication:
         with patch.object(FirebaseApplication, 'patch', return_value=None) as mock_FirebaseApplication_patch:
             with patch.object(FirebaseApplication, 'post', return_value=None) as mock_FirebaseApplication_post:
-                with patch.object(ansible.runner, 'Runner', return_value=None) as mock_ansibleRunner:
+                with patch.object(ansible.runner.Runner, 'run', return_value=None) as mock_ansibleRunner:
                     mock_FirebaseAuthentication = FirebaseAuthentication("secret", True, True)
                     mock_FirebaseAuthentication.__main__ = MagicMock(return_value="myauth")
                     #mock_FirebaseApplication = FirebaseApplication(URL, mock_FirebaseAuthentication)
