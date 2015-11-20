@@ -50,7 +50,7 @@ class ManifestTestCase(unittest.TestCase):
         project_id = 'proj123'
         URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id + '/rolesgit/'
         # mock_Firebase.get.assert_called_with(URL, playbook_id)
-        mock_FirebaseApplication.assert_called_once_with(URL, playbook_id)
+        mock_FirebaseApplication.assert_called_once_with(URL, FirebaseAuthentication("SECRET", True, True))
 
         git_url = "play.yml"
         git_dir = '/tmp/' + project_id + 'playbook'
