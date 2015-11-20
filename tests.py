@@ -76,14 +76,24 @@ class ManifestTestCase(unittest.TestCase):
 
     @patch.object(FirebaseApplication, 'get')
     def test_run_ansible_jeneric(self, mock_FirebaseApplication):
-        extData = {"host_list" : [ "test1", "cloudserver1", "host1" ],
+        extData = {
+                   "host_list" : [ "test1", "cloudserver1", "host1" ],
                    "module_name" : "ping",
                    "pattern" : "all",
                    "module_args" : "",
                    "project_id" : "proj123",
                    "remote_pass" : "lkjlkj",
-                   "remote_user" : "root"}
-        inventory = { "key1" : {"name": "host1", "group": "group1", "ansible_ssh_host": "host1", "ansible_ssh_user": "root"} }
+                   "remote_user" : "root"
+                   }
+        inventory = {
+                     "key1" :
+                        {
+                         "name": "host1",
+                         "group": "group1",
+                         "ansible_ssh_host": "host1",
+                         "ansible_ssh_user": "root"
+                        }
+                    }
         sshkey = None
         list_of_return_values = [extData, inventory, sshkey]
 
@@ -107,14 +117,25 @@ class ManifestTestCase(unittest.TestCase):
 
     @patch.object(FirebaseApplication, 'get')
     def test_run_ansible_playbook(self, mock_FirebaseApplication):
-        extData = {"host_list" : [ "test1", "cloudserver1", "host1" ],
+        extData = {
+                   "host_list" : [ "test1", "cloudserver1", "host1" ],
                    "module_name" : "ping",
                    "pattern" : "all",
                    "module_args" : "",
                    "project_id" : "proj123",
                    "remote_pass" : "lkjlkj",
-                   "remote_user" : "root"}
-        inventory = { "key1" : {"name": "host1", "group": "group1", "ansible_ssh_host": "host1", "ansible_ssh_user": "root", "ansible_ssh_pass": "lkjlkjljk"} }
+                   "remote_user" : "root"
+                  }
+        inventory = {
+                     "key1" :
+                        {
+                         "name": "host1",
+                         "group": "group1",
+                         "ansible_ssh_host": "host1",
+                         "ansible_ssh_user": "root",
+                         "ansible_ssh_pass": "lkjlkjljk"
+                        }
+                    }
         role = {
                 "name": "role1",
                 "playHosts": "all",
