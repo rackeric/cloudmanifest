@@ -6,6 +6,7 @@ from manifest.tasks import sanitize_keys
 from manifest.tasks import populate_playbooks
 from manifest.tasks import run_ansible_jeneric
 from manifest.tasks import run_ansible_playbook
+from manifest.tasks import run_ansible_playbook_manual
 from mock import patch
 from firebase import FirebaseApplication
 from firebase import FirebaseAuthentication
