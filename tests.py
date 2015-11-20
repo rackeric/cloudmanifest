@@ -12,6 +12,7 @@ from git import Repo
 import glob
 import shutil
 from mock import MagicMock
+import json
 
 
 class ManifestTestCase(unittest.TestCase):
@@ -86,7 +87,7 @@ class ManifestTestCase(unittest.TestCase):
 
         assert mock_FirebaseApplication.called
         assert mock_FirebaseApplication_post.called
-        
+
 
 
 if __name__ == '__main__':
