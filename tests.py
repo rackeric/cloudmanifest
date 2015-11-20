@@ -72,6 +72,7 @@ class ManifestTestCase(unittest.TestCase):
 
     def test_run_ansible_jeneric(self):
         extData = {"host_list" : [ "test1", "cloudserver1", "host1" ],
+                   "inventory" : [ "test1", "cloudserver1", "host1" ]
                    "module_name" : "ping",
                    "pattern" : "all",
                    "module_args" : "",
