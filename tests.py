@@ -76,7 +76,7 @@ class ManifestTestCase(unittest.TestCase):
                               "pattern" : "all",
                               "module_args" : ""})
         with patch.object(FirebaseApplication, 'get', return_value=extData) as mock_FirebaseApplication:
-            with patch.object(FirebaseApplication, 'post', return_value=None) as mock_FirebaseApplication_post:
+            with patch.object(FirebaseApplication, 'patch', return_value=None) as mock_FirebaseApplication_post:
                 mock_FirebaseAuthentication = FirebaseAuthentication("secret", True, True)
                 mock_FirebaseAuthentication.__main__ = MagicMock(return_value="myauth")
                 run_ansible_jeneric(11, 'proj123', 'job123')
