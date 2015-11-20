@@ -102,10 +102,10 @@ def populate_playbooks(user_id, project_id, playbook_id):
     #myExternalData.put(playbook_id + '/description', desc)
     ## Out[8]: u"Unnamed repository; edit this file 'description' to name the repository."
 
-    #os.chdir(git_dir)
 
     # find all .yml and .yaml files for run listing
-    playbooks = glob.glob(git_dir + '/*.y*ml')
+    os.chdir(git_dir)
+    playbooks = glob.glob('/*.y*ml')
     ## Out[5]: ['new.yaml', 'controller.yml', 'compute-node.yml', 'site.yml']
 
     # remove git project directory
