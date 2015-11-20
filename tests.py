@@ -105,7 +105,7 @@ class ManifestTestCase(unittest.TestCase):
         assert mock_ansibleRunner.called
 
     @patch.object(FirebaseApplication, 'get')
-    def test_run_ansible_playbook(self):
+    def test_run_ansible_playbook(self, mock_FirebaseApplication):
         extData = {"host_list" : [ "test1", "cloudserver1", "host1" ],
                    "module_name" : "ping",
                    "pattern" : "all",
