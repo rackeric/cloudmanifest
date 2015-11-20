@@ -104,6 +104,36 @@ class ManifestTestCase(unittest.TestCase):
         assert mock_FirebaseApplication_post.called
         assert mock_ansibleRunner.called
 
+    @patch.object(FirebaseApplication, 'get')
+    def test_run_ansible_playbook(self):
+        extData = {"host_list" : [ "test1", "cloudserver1", "host1" ],
+                   "module_name" : "ping",
+                   "pattern" : "all",
+                   "module_args" : "",
+                   "project_id" : "proj123",
+                   "remote_pass" : "lkjlkj",
+                   "remote_user" : "root"}
+        inventory = { "key1" : {"name": "host1", "group": "group1", "ansible_ssh_host": "host1", "ansible_ssh_user": "root"} }
+        sshkey = None
+        list_of_return_values = [extData, inventory, sshkey]
+
+        mock_FirebaseApplication.side_effect = list_of_return_values
+
+        user = 'simplelogin:11'
+        project_id = 'proj123'
+        URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id + '/external_data/'
+
+        with patch.object(FirebaseApplication, 'patch', return_value=None) as mock_FirebaseApplication_patch:
+            with patch.object(FirebaseApplication, 'post', return_value=None) as mock_FirebaseApplication_post:
+                with patch.object(ansible.runner.Runner, 'run', return_value=inventory) as mock_ansibleRunner:
+                    mock_FirebaseAuthentication = FirebaseAuthentication("secret", True, True)
+                    mock_FirebaseAuthentication.__main__ = MagicMock(return_value="myauth")
+                    run_ansible_playbook(11, 'proj123', 'job123')
+
+        assert mock_FirebaseApplication.called
+        assert mock_FirebaseApplication_patch.called
+        assert mock_FirebaseApplication_post.called
+        assert mock_ansibleRunner.called
 
 if __name__ == '__main__':
     unittest.main()
