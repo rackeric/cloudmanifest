@@ -78,10 +78,10 @@ class ManifestTestCase(unittest.TestCase):
                    "project_id" : "proj123",
                    "remote_pass" : "lkjlkj",
                    "remote_user" : "root"}
-        inventory = {{"name": "host1",
+        inventory = {["name": "host1",
                      "group": "group1",
                      "ansible_ssh_host": "host1",
-                     "ansible_ssh_user": "root"}}
+                     "ansible_ssh_user": "root"]}
         with patch.object(FirebaseApplication, 'get', side_effect=[extData, inventory]) as mock_FirebaseApplication:
             with patch.object(FirebaseApplication, 'patch', return_value=None) as mock_FirebaseApplication_post:
                 mock_FirebaseAuthentication = FirebaseAuthentication("secret", True, True)
