@@ -80,7 +80,7 @@ class ManifestTestCase(unittest.TestCase):
                    "remote_pass" : "lkjlkj",
                    "remote_user" : "root"}
         inventory = { "key1" : {"name": "host1", "group": "group1", "ansible_ssh_host": "host1", "ansible_ssh_user": "root"} }
-        list_of_return_values = [inventory, extData]
+        list_of_return_values = [extData, inventory]
         def side_effect(a, b):
             return list_of_return_values.pop()
         #mock_FirebaseApplication.side_effect = side_effect
