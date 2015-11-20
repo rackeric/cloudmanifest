@@ -13,7 +13,7 @@ import glob
 import shutil
 from mock import MagicMock
 import json
-
+import ansible.runner
 
 class ManifestTestCase(unittest.TestCase):
 
@@ -93,11 +93,12 @@ class ManifestTestCase(unittest.TestCase):
         #with patch.object(FirebaseApplication, 'get', side_effect=[extData, inventory]) as mock_FirebaseApplication:
         with patch.object(FirebaseApplication, 'patch', return_value=None) as mock_FirebaseApplication_patch:
             with patch.object(FirebaseApplication, 'post', return_value=None) as mock_FirebaseApplication_post:
-                mock_FirebaseAuthentication = FirebaseAuthentication("secret", True, True)
-                mock_FirebaseAuthentication.__main__ = MagicMock(return_value="myauth")
-                #mock_FirebaseApplication = FirebaseApplication(URL, mock_FirebaseAuthentication)
-                #mock_FirebaseApplication.get = MagicMock(side_effect=side_effect)
-                run_ansible_jeneric(11, 'proj123', 'job123')
+                with patch.object(ansible.inventory, 'Inventory', return_value=None) as mock_ansibleInventory:
+                    mock_FirebaseAuthentication = FirebaseAuthentication("secret", True, True)
+                    mock_FirebaseAuthentication.__main__ = MagicMock(return_value="myauth")
+                    #mock_FirebaseApplication = FirebaseApplication(URL, mock_FirebaseAuthentication)
+                    #mock_FirebaseApplication.get = MagicMock(side_effect=side_effect)
+                    run_ansible_jeneric(11, 'proj123', 'job123')
 
         user = 'simplelogin:11'
         project_id = 'proj123'
@@ -106,6 +107,7 @@ class ManifestTestCase(unittest.TestCase):
         assert mock_FirebaseApplication.called
         assert mock_FirebaseApplication_patch.called
         assert mock_FirebaseApplication_post.called
+        assert mock_ansibleInventory.called
 
 
 
