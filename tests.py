@@ -26,10 +26,6 @@ class ManifestTestCase(unittest.TestCase):
         assert 'Manifest' in result.data
         self.assertEqual(result.status_code, 200)
 
-    #def test_login_page(self):
-    #    result = self.app.get('/#/login')
-    #    self.assertEqual(result.status_code, 200)
-
     def test_convert_bash_colors(self):
         string = "this i[0;32ms a string"
         result = convert_bash_colors(string)
@@ -56,26 +52,20 @@ class ManifestTestCase(unittest.TestCase):
         user = 'simplelogin:11'
         project_id = 'proj123'
         URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id + '/rolesgit/'
-
         #assert mock_FirebaseAuthentication.__main__.called
         #mock_FirebaseApplication.assert_called_with(URL, FirebaseAuthentication("SECRET", True, True))
         assert mock_FirebaseApplication.called
-
         git_url = "play.yml"
         git_dir = '/tmp/' + project_id + 'playbook'
         mock_Repo.assert_called_once_with("playbook", git_dir)
-
         mock_chdir.assert_called_once_with(git_dir)
-
         mock_glob.assert_called_once_with('*.y*ml')
-
         mock_shutil.assert_called_once_with(git_dir)
-
         #mock_FirebaseApplication_post.assert_called_with("playbook123" + '/playbooks', {'name': "play.yml"})
         assert mock_FirebaseApplication_post.called
 
     @patch.object(FirebaseApplication, 'get')
-    def test_run_ansible_jeneric(self, mock_FirebaseApplication):
+    def test_run_ansible_jeneric(self, mock_FirebaseApplication_get):
         extData = {
                    "host_list" : [ "test1", "cloudserver1", "host1" ],
                    "module_name" : "ping",
@@ -97,11 +87,7 @@ class ManifestTestCase(unittest.TestCase):
         sshkey = None
         list_of_return_values = [extData, inventory, sshkey]
 
-        mock_FirebaseApplication.side_effect = list_of_return_values
-
-        user = 'simplelogin:11'
-        project_id = 'proj123'
-        URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id + '/external_data/'
+        mock_FirebaseApplication_get.side_effect = list_of_return_values
 
         with patch.object(FirebaseApplication, 'patch', return_value=None) as mock_FirebaseApplication_patch:
             with patch.object(FirebaseApplication, 'post', return_value=None) as mock_FirebaseApplication_post:
