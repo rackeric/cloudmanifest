@@ -91,18 +91,20 @@ class ManifestTestCase(unittest.TestCase):
         project_id = 'proj123'
         URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id + '/external_data/'
         #with patch.object(FirebaseApplication, 'get', side_effect=[extData, inventory]) as mock_FirebaseApplication:
-        with patch.object(FirebaseApplication, 'patch', return_value=None) as mock_FirebaseApplication_post:
-            mock_FirebaseAuthentication = FirebaseAuthentication("secret", True, True)
-            mock_FirebaseAuthentication.__main__ = MagicMock(return_value="myauth")
-            #mock_FirebaseApplication = FirebaseApplication(URL, mock_FirebaseAuthentication)
-            #mock_FirebaseApplication.get = MagicMock(side_effect=side_effect)
-            run_ansible_jeneric(11, 'proj123', 'job123')
+        with patch.object(FirebaseApplication, 'patch', return_value=None) as mock_FirebaseApplication_patch:
+            with patch.object(FirebaseApplication, 'post', return_value=None) as mock_FirebaseApplication_post:
+                mock_FirebaseAuthentication = FirebaseAuthentication("secret", True, True)
+                mock_FirebaseAuthentication.__main__ = MagicMock(return_value="myauth")
+                #mock_FirebaseApplication = FirebaseApplication(URL, mock_FirebaseAuthentication)
+                #mock_FirebaseApplication.get = MagicMock(side_effect=side_effect)
+                run_ansible_jeneric(11, 'proj123', 'job123')
 
         user = 'simplelogin:11'
         project_id = 'proj123'
         URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id + '/rolesgit/'
 
         assert mock_FirebaseApplication.called
+        assert mock_FirebaseApplication_patch.called
         assert mock_FirebaseApplication_post.called
 
 
