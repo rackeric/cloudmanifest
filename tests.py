@@ -82,6 +82,9 @@ class ManifestTestCase(unittest.TestCase):
                      "group": "group1",
                      "ansible_ssh_host": "host1",
                      "ansible_ssh_user": "root"}
+        list_of_return_values= [inventory, extData]
+        def side_effect():
+            return list_of_return_values.pop()
         user = 'simplelogin:11'
         project_id = 'proj123'
         URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id + '/external_data/'
@@ -90,7 +93,7 @@ class ManifestTestCase(unittest.TestCase):
             mock_FirebaseAuthentication = FirebaseAuthentication("secret", True, True)
             mock_FirebaseAuthentication.__main__ = MagicMock(return_value="myauth")
             mock_FirebaseApplication = FirebaseApplication(URL, mock_FirebaseAuthentication)
-            mock_FirebaseApplication.get = MagicMock(side_effect=extData)
+            mock_FirebaseApplication.get = MagicMock(side_effect=side_effect)
             run_ansible_jeneric(11, 'proj123', 'job123')
 
         user = 'simplelogin:11'
