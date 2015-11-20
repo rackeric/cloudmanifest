@@ -40,7 +40,7 @@ class ManifestTestCase(unittest.TestCase):
         self.assertEqual(result, expect)
 
     def test_populate_playbooks(self):
-        with patch.object(FirebaseAuthentication, '__main__', return_value=None) as mock_FirebaseAuthentication:
+        with patch.object(FirebaseAuthentication, None, return_value=None) as mock_FirebaseAuthentication:
             with patch.object(FirebaseApplication, 'get', return_value='playbook') as mock_FirebaseApplication:
                 with patch.object(Repo, 'clone_from', return_value='something') as mock_Repo:
                     with patch.object(glob, 'glob', return_value='play.yml') as mock_glob:
