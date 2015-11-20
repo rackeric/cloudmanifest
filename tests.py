@@ -118,10 +118,17 @@ class ManifestTestCase(unittest.TestCase):
         role = {
                 "name": "role1",
                 "playHosts": "all",
-                "user_id": "simplelogin:11"
+                "user_id": "simplelogin:11",
                 "modules":
                     {
-                    "module1": {"name": "install_vim", "option": "yum", "order": 1, "user_id": "simplelogin:11", "options": [{"comment": "this is a comment", "paramater": "name", "required": "yes", "value": "vim"}]}
+                    "module1":
+                        {
+                        "name": "install_vim",
+                        "option": "yum",
+                        "order": 1,
+                        "user_id": "simplelogin:11",
+                        "options": [{"comment": "this is a comment", "paramater": "name", "required": "yes", "value": "vim"}]
+                        }
                     }
                 }
         sshkey = None
