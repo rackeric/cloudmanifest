@@ -17,6 +17,8 @@ import shutil
 from mock import MagicMock
 import json
 import ansible.runner
+from git import Repo
+
 
 class ManifestTestCase(unittest.TestCase):
 
@@ -190,7 +192,6 @@ class ManifestTestCase(unittest.TestCase):
         assert mock_ansibleRunner.called
 
 
-
     @patch.object(FirebaseApplication, 'get')
     def test_run_ansible_playbook_git(self, mock_FirebaseApplication_get):
         extData = {
@@ -216,16 +217,18 @@ class ManifestTestCase(unittest.TestCase):
         name = 'real_lamp'
         url = 'https://github.com/rackeric/ansible_lamp_simple'
         sshkey = None
-        list_of_return_values = [extData, name, url, inventory, playbook, sshkey]
+        list_of_return_values = [extData, name, url, inventory, sshkey]
 
         mock_FirebaseApplication_get.side_effect = list_of_return_values
 
         with patch.object(FirebaseApplication, 'patch', return_value=None) as mock_FirebaseApplication_patch:
             with patch.object(FirebaseApplication, 'post', return_value=None) as mock_FirebaseApplication_post:
-                with patch.object(ansible.runner.Runner, 'run', return_value=inventory) as mock_ansibleRunner:
-                    mock_FirebaseAuthentication = FirebaseAuthentication("secret", True, True)
-                    mock_FirebaseAuthentication.__main__ = MagicMock(return_value="myauth")
-                    run_ansible_playbook_git(11, 'proj123', name, 'site.yml')
+                with patch.object(git, 'Repo', return_value=None) as mock_gitRepo:
+                    with patch.object(os, 'chdir', return_value=None) as mock_chdir:
+                        with patch.object(ansible.runner.Runner, 'run', return_value=inventory) as mock_ansibleRunner:
+                            mock_FirebaseAuthentication = FirebaseAuthentication("secret", True, True)
+                            mock_FirebaseAuthentication.__main__ = MagicMock(return_value="myauth")
+                            run_ansible_playbook_git(11, 'proj123', name, 'site.yml')
 
         assert mock_FirebaseApplication_get.called
         assert mock_FirebaseApplication_patch.called
