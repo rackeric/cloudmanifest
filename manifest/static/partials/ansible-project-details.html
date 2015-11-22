@@ -219,9 +219,9 @@
                     <button type="button" class="btn btn-danger btn-xs" ng-click="removeRoleGit(role.$id)">Delete</button>
                 </td>
                 <td>
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                       <select class="form-control input-sm">
-                        <option ng-repeat="role in getPlaybooks(role.$id)" value="{{ role }}">{{ role }}</option>
+                        <option ng-model="playbookSelect" ng-repeat="role in getPlaybooks(role.$id)" value="{{ role }}">{{ role }}</option>
                       </select>
                     </div>
                     <button type="button" class="btn btn-success btn-xs" ng-click="ansible_playbook_git(role.$id, playbookSelect)">Run Playbook</button>
