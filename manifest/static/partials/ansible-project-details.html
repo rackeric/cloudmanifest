@@ -220,8 +220,8 @@
                 </td>
                 <td>
                     <div class="col-md-6">
-                      <select class="form-control input-sm">
-                        <option ng-model="playbookSelect" ng-repeat="role in getPlaybooks(role.$id)" value="{{ role }}">{{ role }}</option>
+                      <select class="form-control input-sm" ng-model="playbookSelect">
+                        <option ng-repeat="role in getPlaybooks(role.$id)" value="{{ role }}">{{ role }}</option>
                       </select>
                     </div>
                     <button type="button" class="btn btn-success btn-xs" ng-click="ansible_playbook_git(role.$id, playbookSelect)">Run Playbook</button>
