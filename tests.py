@@ -227,7 +227,7 @@ class ManifestTestCase(unittest.TestCase):
             with patch.object(FirebaseApplication, 'post', return_value=None) as mock_FirebaseApplication_post:
                 with patch.object(Repo, 'clone_from', return_value=None) as mock_Repo_clone_from:
                     with patch.object(os, 'chdir', return_value=None) as mock_chdir:
-                        with patch.object(PlayBook, 'run', return_value=None) as mock_ansiblePlaybook:
+                        with patch.object(ansible.playbook.PlayBook, 'run', return_value=None) as mock_ansiblePlaybook:
                             with patch.object(shutil, 'rmtree', return_value='nothing') as mock_shutil:
                                 mock_FirebaseAuthentication = FirebaseAuthentication("secret", True, True)
                                 mock_FirebaseAuthentication.__main__ = MagicMock(return_value="myauth")
