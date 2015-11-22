@@ -707,7 +707,7 @@ def run_ansible_playbook_git(user_id, project_id, playbook_id, play_name):
         # set end timestamp
         myExternalData.patch(playbook_id, {"endedAt": {".sv": "timestamp"}})
         # clean up
-        os.chdir('/tmp')
+        #os.chdir('/tmp')
         # remove git project directory
         shutil.rmtree('/tmp/' + project_id + git_name)
 
