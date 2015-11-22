@@ -223,17 +223,21 @@ class ManifestTestCase(unittest.TestCase):
 
         with patch.object(FirebaseApplication, 'patch', return_value=None) as mock_FirebaseApplication_patch:
             with patch.object(FirebaseApplication, 'post', return_value=None) as mock_FirebaseApplication_post:
-                with patch.object(git, 'Repo', return_value=None) as mock_gitRepo:
+                with patch.object(Repo, 'clone_from', return_value=None) as mock_Repo_clone_from:
                     with patch.object(os, 'chdir', return_value=None) as mock_chdir:
                         with patch.object(ansible.runner.Runner, 'run', return_value=inventory) as mock_ansibleRunner:
                             mock_FirebaseAuthentication = FirebaseAuthentication("secret", True, True)
                             mock_FirebaseAuthentication.__main__ = MagicMock(return_value="myauth")
                             run_ansible_playbook_git(11, 'proj123', name, 'site.yml')
 
+        project_id = 'proj123'
+        git_dir = '/tmp/' + project_id + name
         assert mock_FirebaseApplication_get.called
+        mock_Repo.assert_called_once_with(url, git_dir)
+        mock_chdir.assert_called_once_with(git_dir)
+        assert mock_ansibleRunner.called
         assert mock_FirebaseApplication_patch.called
         assert mock_FirebaseApplication_post.called
-        assert mock_ansibleRunner.called
 
 
 if __name__ == '__main__':
