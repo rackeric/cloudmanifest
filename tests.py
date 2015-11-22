@@ -218,6 +218,7 @@ class ManifestTestCase(unittest.TestCase):
         url = 'https://github.com/rackeric/ansible_lamp_simple'
         sshkey = None
         list_of_return_values = [extData, name, url, inventory, sshkey]
+        project_id = 'proj123'
 
         mock_FirebaseApplication_get.side_effect = list_of_return_values
 
@@ -229,12 +230,11 @@ class ManifestTestCase(unittest.TestCase):
                             with patch.object(shutil, 'rmtree', return_value='nothing') as mock_shutil:
                                 mock_FirebaseAuthentication = FirebaseAuthentication("secret", True, True)
                                 mock_FirebaseAuthentication.__main__ = MagicMock(return_value="myauth")
-                                run_ansible_playbook_git(11, 'proj123', name, 'site.yml')
+                                run_ansible_playbook_git(11, project_id, name, 'site.yml')
 
-        project_id = 'proj123'
         git_dir = '/tmp/' + project_id + name
         assert mock_FirebaseApplication_get.called
-        mock_Repo.assert_called_once_with(url, git_dir)
+        mock_Repo_clone_from.assert_called_once_with(url, git_dir)
         mock_chdir.assert_called_once_with(git_dir)
         assert mock_ansibleRunner.called
         mock_shutil.assert_called_once_with(git_dir)
