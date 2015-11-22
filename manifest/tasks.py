@@ -581,83 +581,6 @@ def run_ansible_playbook_manual(user_id, project_id, playbook_id):
     return
 
 @task()
-def run_rax_create_server(user_id, project_id, job_id):
-
-    # firebase authentication
-    SECRET = os.environ['SECRET']
-    authentication = FirebaseAuthentication(SECRET, True, True)
-
-    # set the specific job from firebase with user
-    user = 'simplelogin:' + str(user_id)
-    URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id + '/external_data/'
-    myExternalData = FirebaseApplication(URL, authentication)
-
-    # update status to RUNNING in firebase
-    myExternalData.patch(job_id, {"status":"BUILDING"})
-
-    # finally, get the actual job and set ansible options
-    job = myExternalData.get(URL, job_id)
-
-    tmpUsername = job['rax_username']
-    tmpAPIkey = job['rax_apikey']
-    tmpFlavor = job['flavor']
-    tmpImage = job['image']
-    tmpServerName = job['servername']
-    tmpGroup = job['group']
-    tmpRegion = job['region']
-
-    # set RAX cloud authentication
-    pyrax.set_setting("identity_type", "rackspace")
-    try:
-        pyrax.set_credentials(job['rax_username'], job['rax_apikey'])
-    except:
-        pass
-    try:
-        pyrax.set_credentials(str(job['rax_username']), str(job['rax_apikey']))
-    except:
-        pass
-
-    # set region
-    cs = pyrax.connect_to_cloudservers(tmpRegion)
-
-    # create objects
-    #cs = pyrax.cloudservers
-
-    # create cloud server
-    server = cs.servers.create(tmpServerName, tmpImage, tmpFlavor)
-
-    # add return object to firebase, but wait for networks
-    myExternalData.patch(job_id, {'password': server.adminPass})
-
-    # wait for networks then add to firebase
-    #while not (server.networks):
-    #    server = cs.servers.get(server.id)
-    newServer = pyrax.utils.wait_for_build(server)
-
-    # write results to firebase
-    myExternalData.patch(job_id, {'networks':newServer.networks})
-
-    # update firebase, add new server to inventory list
-    URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id + '/'
-    myInventory = FirebaseApplication(URL, authentication)
-    if ':' in newServer.networks['public'][0]:
-        myNetwork = newServer.networks['public'][1]
-    else:
-        myNetwork = newServer.networks['public'][0]
-    myInventory.post('inventory', {'user_id': user,
-			                          'name': tmpServerName,
-			                          'group': tmpGroup,
-			                          'ansible_ssh_host': myNetwork,
-			                          'ansible_ssh_user': 'root',
-			                          'ansible_ssh_pass': server.adminPass })
-
-
-    # update firebase with status COMPLETE
-    myExternalData.patch(job_id, {"status":"COMPLETE"})
-
-    return
-
-@task()
 def run_ansible_playbook_git(user_id, project_id, playbook_id, play_name):
 
     # firebase authentication
@@ -787,5 +710,82 @@ def run_ansible_playbook_git(user_id, project_id, playbook_id, play_name):
         os.chdir('/tmp')
         # remove git project directory
         shutil.rmtree('/tmp/' + project_id + git_name)
+
+    return
+
+@task()
+def run_rax_create_server(user_id, project_id, job_id):
+
+    # firebase authentication
+    SECRET = os.environ['SECRET']
+    authentication = FirebaseAuthentication(SECRET, True, True)
+
+    # set the specific job from firebase with user
+    user = 'simplelogin:' + str(user_id)
+    URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id + '/external_data/'
+    myExternalData = FirebaseApplication(URL, authentication)
+
+    # update status to RUNNING in firebase
+    myExternalData.patch(job_id, {"status":"BUILDING"})
+
+    # finally, get the actual job and set ansible options
+    job = myExternalData.get(URL, job_id)
+
+    tmpUsername = job['rax_username']
+    tmpAPIkey = job['rax_apikey']
+    tmpFlavor = job['flavor']
+    tmpImage = job['image']
+    tmpServerName = job['servername']
+    tmpGroup = job['group']
+    tmpRegion = job['region']
+
+    # set RAX cloud authentication
+    pyrax.set_setting("identity_type", "rackspace")
+    try:
+        pyrax.set_credentials(job['rax_username'], job['rax_apikey'])
+    except:
+        pass
+    try:
+        pyrax.set_credentials(str(job['rax_username']), str(job['rax_apikey']))
+    except:
+        pass
+
+    # set region
+    cs = pyrax.connect_to_cloudservers(tmpRegion)
+
+    # create objects
+    #cs = pyrax.cloudservers
+
+    # create cloud server
+    server = cs.servers.create(tmpServerName, tmpImage, tmpFlavor)
+
+    # add return object to firebase, but wait for networks
+    myExternalData.patch(job_id, {'password': server.adminPass})
+
+    # wait for networks then add to firebase
+    #while not (server.networks):
+    #    server = cs.servers.get(server.id)
+    newServer = pyrax.utils.wait_for_build(server)
+
+    # write results to firebase
+    myExternalData.patch(job_id, {'networks':newServer.networks})
+
+    # update firebase, add new server to inventory list
+    URL = 'https://deploynebula.firebaseio.com/users/' + user + '/projects/' + project_id + '/'
+    myInventory = FirebaseApplication(URL, authentication)
+    if ':' in newServer.networks['public'][0]:
+        myNetwork = newServer.networks['public'][1]
+    else:
+        myNetwork = newServer.networks['public'][0]
+    myInventory.post('inventory', {'user_id': user,
+			                          'name': tmpServerName,
+			                          'group': tmpGroup,
+			                          'ansible_ssh_host': myNetwork,
+			                          'ansible_ssh_user': 'root',
+			                          'ansible_ssh_pass': server.adminPass })
+
+
+    # update firebase with status COMPLETE
+    myExternalData.patch(job_id, {"status":"COMPLETE"})
 
     return

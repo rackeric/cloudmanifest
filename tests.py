@@ -7,6 +7,7 @@ from manifest.tasks import populate_playbooks
 from manifest.tasks import run_ansible_jeneric
 from manifest.tasks import run_ansible_playbook
 from manifest.tasks import run_ansible_playbook_manual
+from manifest.tasks import run_ansible_playbook_git
 from mock import patch
 from firebase import FirebaseApplication
 from firebase import FirebaseAuthentication
@@ -182,6 +183,49 @@ class ManifestTestCase(unittest.TestCase):
                     mock_FirebaseAuthentication = FirebaseAuthentication("secret", True, True)
                     mock_FirebaseAuthentication.__main__ = MagicMock(return_value="myauth")
                     run_ansible_playbook_manual(11, 'proj123', 'job123')
+
+        assert mock_FirebaseApplication_get.called
+        assert mock_FirebaseApplication_patch.called
+        assert mock_FirebaseApplication_post.called
+        assert mock_ansibleRunner.called
+
+
+
+    @patch.object(FirebaseApplication, 'get')
+    def test_run_ansible_playbook_git(self, mock_FirebaseApplication_get):
+        extData = {
+                   "name" : "real_lamp",
+                   "playbooks" : {
+                     "playbook1_id" : {
+                       "name" : "site.yml"
+                     }
+                   },
+                   "url" : "https://github.com/rackeric/ansible_lamp_simple",
+                   "user_id" : "simplelogin:11"
+                  }
+        inventory = {
+                     "key1" :
+                        {
+                         "name": "host1",
+                         "group": "group1",
+                         "ansible_ssh_host": "host1",
+                         "ansible_ssh_user": "root",
+                         "ansible_ssh_pass": "lkjlkjljk"
+                        }
+                    }
+        name = 'real_lamp'
+        url = 'https://github.com/rackeric/ansible_lamp_simple'
+        sshkey = None
+        list_of_return_values = [extData, name, url, inventory, playbook, sshkey]
+
+        mock_FirebaseApplication_get.side_effect = list_of_return_values
+
+        with patch.object(FirebaseApplication, 'patch', return_value=None) as mock_FirebaseApplication_patch:
+            with patch.object(FirebaseApplication, 'post', return_value=None) as mock_FirebaseApplication_post:
+                with patch.object(ansible.runner.Runner, 'run', return_value=inventory) as mock_ansibleRunner:
+                    mock_FirebaseAuthentication = FirebaseAuthentication("secret", True, True)
+                    mock_FirebaseAuthentication.__main__ = MagicMock(return_value="myauth")
+                    run_ansible_playbook_git(11, 'proj123', name, 'site.yml')
 
         assert mock_FirebaseApplication_get.called
         assert mock_FirebaseApplication_patch.called
