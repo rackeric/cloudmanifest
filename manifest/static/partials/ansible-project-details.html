@@ -492,7 +492,7 @@
                             <a href="#" editable-text="item.ansible_ssh_pass">Change Password</a>
                         </td>
                         <td>
-                            <input class="form-control input-sm" ng-model="commandToRun" placeholder="command"> <button class="btn btn-sm btn-primary" ng-click="ansibleJeneric(item.$id, 'command', commandToRun)"><i class="fa fa-play"></i> Run Command</button>
+                            <input class="input-sm" ng-model="commandToRun" placeholder="command"> <button class="btn btn-sm btn-primary" ng-click="ansibleJeneric(item.$id, 'command', commandToRun)"><i class="fa fa-play"></i> Run Command</button>
                             <button class="btn btn-sm btn-info" ng-click="ansibleJeneric(item.$id, 'ping', '')"><i class="fa fa-bullseye"></i> Ping</button>
                             <button class="btn btn-sm btn-danger" ng-click="removeHost(item.$id)"><i class="fa fa-trash"></i> Delete</button>
                         </td>
