@@ -138,7 +138,7 @@ class ManifestTestCase(unittest.TestCase):
                         }
                     }
                 }
-        sshkey = None
+        sshkey = ""
         list_of_return_values = [extData, inventory, role, sshkey]
 
         mock_FirebaseApplication_get.side_effect = list_of_return_values
@@ -175,7 +175,7 @@ class ManifestTestCase(unittest.TestCase):
                         }
                     }
         playbook = "---\n- name: install_vim\n  hosts: all\n  gather_facts: yes\n  remote_user: root\n  \n  \n  tasks:\n\n    - name: install_vim\n      yum: name=vim\n\n    - name: install_ansible\n      yum: name=ansible\n\n    - name: install_elinks\n      yum: name=elinks"
-        sshkey = None
+        sshkey = ""
         list_of_return_values = [extData, inventory, playbook, sshkey]
 
         mock_FirebaseApplication_get.side_effect = list_of_return_values
@@ -216,7 +216,7 @@ class ManifestTestCase(unittest.TestCase):
                     }
         name = 'real_lamp'
         url = 'https://github.com/rackeric/ansible_lamp_simple'
-        sshkey = None
+        sshkey = ""
         list_of_return_values = [extData, name, url, inventory, sshkey]
         project_id = 'proj123'
 
@@ -237,7 +237,7 @@ class ManifestTestCase(unittest.TestCase):
         mock_Repo_clone_from.assert_called_once_with(url, git_dir)
         mock_chdir.assert_called_once_with(git_dir)
         # WTF, WHY DOESN'T THIS RUN IN JENKINS!
-        #assert mock_ansiblePlaybook.called
+        assert mock_ansiblePlaybook.called
         mock_shutil.assert_called_once_with(git_dir)
         assert mock_FirebaseApplication_patch.called
         assert mock_FirebaseApplication_post.called
