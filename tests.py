@@ -84,7 +84,7 @@ class ManifestTestCase(unittest.TestCase):
                          "ansible_ssh_user": "root"
                         }
                     }
-        sshkey = None
+        sshkey = ""
         list_of_return_values = [extData, inventory, sshkey]
 
         mock_FirebaseApplication_get.side_effect = list_of_return_values
