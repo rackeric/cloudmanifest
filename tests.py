@@ -230,7 +230,8 @@ class ManifestTestCase(unittest.TestCase):
                             with patch.object(shutil, 'rmtree', return_value='nothing') as mock_shutil:
                                 mock_FirebaseAuthentication = FirebaseAuthentication("secret", True, True)
                                 mock_FirebaseAuthentication.__main__ = MagicMock(return_value="myauth")
-                                run_ansible_playbook_git(11, project_id, name, 'site.yml')
+                                #run_ansible_playbook_git(11, project_id, name, 'site.yml')
+                                run_ansible_playbook_git(11, 'proj123', 'real_lamp', 'site.yml')
 
         git_dir = '/tmp/' + project_id + name
         assert mock_FirebaseApplication_get.called
