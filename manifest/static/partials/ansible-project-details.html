@@ -47,17 +47,17 @@
                 <td>
                     <!-- Split button -->
                     <div class="btn-group">
-                      <button type="button" class="btn btn-info btn-sm">Manage</button>
+                      <button type="button" class="btn btn-info btn-sm"><i class="fa fa-cogs"></i> Manage</button>
                       <button type="button" class="btn btn-info dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
                       </button>
                       <ul class="dropdown-menu">
-                        <li><a href="#/projects/Ansible/{{ projectID }}/roles/{{ role.$id }}">Edit</a></li>
-                        <li><a ng-click="cloneRole(projectID, role.$id)">Clone</a></li>
-                        <li><a ng-click="submitToRepo(projectID, role.$id)">Submit to Repo</a></li
+                        <li><a href="#/projects/Ansible/{{ projectID }}/roles/{{ role.$id }}"><i class="fa fa-pencil-square-o"></i> Edit</a></li>
+                        <li><a ng-click="cloneRole(projectID, role.$id)"><i class="fa fa-files-o"></i> Clone</a></li>
+                        <li><a ng-click="submitToRepo(projectID, role.$id)"><i class="fa fa-cloud-upload"></i> Submit to Repo</a></li
                         <li role="separator" class="divider"></li>
-                        <li><a ng-click="removeRole(role.$id)">Delete</a></li>
+                        <li><a ng-click="removeRole(role.$id)"><i class="fa fa-trash"></i> Delete</a></li>
                       </ul>
                     </div>
 
@@ -125,17 +125,17 @@
                 <td>
                   <!-- Split button -->
                   <div class="btn-group">
-                    <button type="button" class="btn btn-info btn-sm">Manage</button>
+                    <button type="button" class="btn btn-info btn-sm"><i class="fa fa-cogs"></i> Manage</button>
                     <button type="button" class="btn btn-info dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <span class="caret"></span>
                       <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <ul class="dropdown-menu">
-                      <li><a href="#/projects/Ansible/{{ projectID }}/rolesmanual/{{ role.$id }}">Edit</a></li>
-                      <li><a ng-click="cloneRoleManual(projectID, role.$id)">Clone</a></li>
-                      <li><a ng-click="submitToRepoManual(projectID, role.$id)">Submit to Repo</a></li
+                      <li><a href="#/projects/Ansible/{{ projectID }}/rolesmanual/{{ role.$id }}"><i class="fa fa-pencil-square-o"></i> Edit</a></li>
+                      <li><a ng-click="cloneRoleManual(projectID, role.$id)"><i class="fa fa-files-o"></i> Clone</a></li>
+                      <li><a ng-click="submitToRepoManual(projectID, role.$id)"><i class="fa fa-cloud-upload"></i> Submit to Repo</a></li
                       <li role="separator" class="divider"></li>
-                      <li><a ng-click="removeRoleManual(role.$id)">Delete</a></li>
+                      <li><a ng-click="removeRoleManual(role.$id)"><i class="fa fa-trash"></i> Delete</a></li>
                     </ul>
                   </div>
                 </td>
