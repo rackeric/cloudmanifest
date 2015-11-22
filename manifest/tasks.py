@@ -183,13 +183,13 @@ def run_ansible_jeneric(user_id, project_id, job_id):
     ssh_key = myExternalData.get(URL, '/ssh_key')
 
     # run ansible module
-    if ssh_key is not None:
+    if ssh_key is not None or ssh_key is not "":
         # set up ssh key in tmp
-        tmpKey = open("/tmp/" + project_id + '_key', "w")
+        tmpKey = open("/tmp/" + project_id + '_key' + job_id, "w")
         tmpKey.write(ssh_key)
             # close file
         tmpKey.close()
-        os.chmod("/tmp/" + project_id + '_key', 0600)
+        os.chmod("/tmp/" + project_id + '_key' + job_id, 0600)
 
         # now the ansible runner
         results = ansible.runner.Runner(
@@ -199,12 +199,12 @@ def run_ansible_jeneric(user_id, project_id, job_id):
         module_args=myModuleArgs,
     	    #remote_user=myRemoteUser,
     	    #remote_pass=myRemotePass,
-            private_key_file='/tmp/' + project_id + '_key',
+            private_key_file='/tmp/' + project_id + '_key' + job_id,
     	inventory=myInventory,
         ).run()
         # remove the tmp key
         try:
-            os.remove('/tmp/' + project_id + '_key')
+            os.remove('/tmp/' + project_id + '_key' + job_id)
 
         except OSError as e:
             myExternalData.patch(job_id, {"status":"ERROR"})
