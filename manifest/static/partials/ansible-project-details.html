@@ -68,9 +68,9 @@
                         {{ role.status }}
                       </div>
                     </div>
-                    Started: {{ getDate(role.startedAt) }}
+                    <i class="fa fa-hourglass-start"></i> {{ getDate(role.startedAt) }}
                     <br>
-                    Ended: {{ getDate(role.endedAt) }}
+                    <i class="fa fa-hourglass-end"></i> {{ getDate(role.endedAt) }}
                 </td>
                 <td>
                     <ul ng-repeat="(key_alpha, return) in role.returns">
@@ -142,9 +142,9 @@
                         {{ role.status }}
                       </div>
                     </div>
-                    Started: {{ getDate(role.startedAt) }}
+                    <i class="fa fa-hourglass-start"></i> {{ getDate(role.startedAt) }}
                     <br>
-                    Ended: {{ getDate(role.endedAt) }}
+                    <i class="fa fa-hourglass-end"></i> {{ getDate(role.endedAt) }}
                 </td>
                 <td>
                     <ul ng-repeat="(key_alpha, return) in role.returns">
