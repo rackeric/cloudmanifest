@@ -237,10 +237,11 @@ class ManifestTestCase(unittest.TestCase):
         assert mock_FirebaseApplication_get.called
         mock_Repo_clone_from.assert_called_once_with(url, git_dir)
         mock_chdir.assert_called_once_with(git_dir)
-        assert mock_ansiblePlaybook.called
+
         mock_shutil.assert_called_once_with(git_dir)
         assert mock_FirebaseApplication_patch.called
         assert mock_FirebaseApplication_post.called
+        assert mock_ansiblePlaybook.called
 
 
 if __name__ == '__main__':
