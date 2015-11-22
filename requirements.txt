@@ -4,5 +4,5 @@ python-firebase
 PyYaml
 pyrax
 gitpython
-#ansible
+ansible
 mock
