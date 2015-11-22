@@ -18,6 +18,7 @@ from mock import MagicMock
 import json
 import ansible.runner
 from git import Repo
+import ansible.playbook
 
 
 class ManifestTestCase(unittest.TestCase):
@@ -226,7 +227,7 @@ class ManifestTestCase(unittest.TestCase):
             with patch.object(FirebaseApplication, 'post', return_value=None) as mock_FirebaseApplication_post:
                 with patch.object(Repo, 'clone_from', return_value=None) as mock_Repo_clone_from:
                     with patch.object(os, 'chdir', return_value=None) as mock_chdir:
-                        with patch.object(ansible.runner.Runner, 'run', return_value=inventory) as mock_ansibleRunner:
+                        with patch.object(ansible.playbook.Playbook, 'run', return_value=inventory) as mock_ansiblePlaybook:
                             with patch.object(shutil, 'rmtree', return_value='nothing') as mock_shutil:
                                 mock_FirebaseAuthentication = FirebaseAuthentication("secret", True, True)
                                 mock_FirebaseAuthentication.__main__ = MagicMock(return_value="myauth")
@@ -236,7 +237,7 @@ class ManifestTestCase(unittest.TestCase):
         assert mock_FirebaseApplication_get.called
         mock_Repo_clone_from.assert_called_once_with(url, git_dir)
         mock_chdir.assert_called_once_with(git_dir)
-        assert mock_ansibleRunner.called
+        assert mock_ansiblePlaybook.called
         mock_shutil.assert_called_once_with(git_dir)
         assert mock_FirebaseApplication_patch.called
         assert mock_FirebaseApplication_post.called
