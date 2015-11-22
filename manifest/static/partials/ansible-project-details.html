@@ -213,7 +213,7 @@
                 <td>
                     {{ role.name }}
                     <br>
-                    {{ role.url }}
+                    <i class="fa fa-github"></i> {{ role.url }}
                 </td>
                 <td>
                     <button type="button" class="btn btn-danger btn-xs" ng-click="removeRoleGit(role.$id)">Delete</button>
@@ -233,9 +233,9 @@
                         {{ role.status }}
                       </div>
                     </div>
-                    Started: {{ getDate(role.startedAt) }}
+                    <i class="fa fa-hourglass-start"></i> {{ getDate(role.startedAt) }}
                     <br>
-                    Ended: {{ getDate(role.endedAt) }}
+                    <i class="fa fa-hourglass-end"></i> {{ getDate(role.endedAt) }}
                 </td>
                 <td>
                     <ul ng-repeat="(key_alpha, return) in role.returns">
