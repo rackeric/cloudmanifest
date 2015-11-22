@@ -91,7 +91,7 @@ class ManifestTestCase(unittest.TestCase):
 
         with patch.object(FirebaseApplication, 'patch', return_value=None) as mock_FirebaseApplication_patch:
             with patch.object(FirebaseApplication, 'post', return_value=None) as mock_FirebaseApplication_post:
-                with patch.object(ansible.runner.Runner, 'run', return_value=inventory) as mock_ansibleRunner:
+                with patch.object(ansible.runner.Runner, 'run', return_value=None) as mock_ansibleRunner:
                     mock_FirebaseAuthentication = FirebaseAuthentication("secret", True, True)
                     mock_FirebaseAuthentication.__main__ = MagicMock(return_value="myauth")
                     run_ansible_jeneric(11, 'proj123', 'job123')
@@ -145,7 +145,7 @@ class ManifestTestCase(unittest.TestCase):
 
         with patch.object(FirebaseApplication, 'patch', return_value=None) as mock_FirebaseApplication_patch:
             with patch.object(FirebaseApplication, 'post', return_value=None) as mock_FirebaseApplication_post:
-                with patch.object(ansible.runner.Runner, 'run', return_value=inventory) as mock_ansibleRunner:
+                with patch.object(ansible.runner.Runner, 'run', return_value=None) as mock_ansibleRunner:
                     mock_FirebaseAuthentication = FirebaseAuthentication("secret", True, True)
                     mock_FirebaseAuthentication.__main__ = MagicMock(return_value="myauth")
                     run_ansible_playbook(11, 'proj123', 'job123')
@@ -182,7 +182,7 @@ class ManifestTestCase(unittest.TestCase):
 
         with patch.object(FirebaseApplication, 'patch', return_value=None) as mock_FirebaseApplication_patch:
             with patch.object(FirebaseApplication, 'post', return_value=None) as mock_FirebaseApplication_post:
-                with patch.object(ansible.runner.Runner, 'run', return_value=inventory) as mock_ansibleRunner:
+                with patch.object(ansible.runner.Runner, 'run', return_value=None) as mock_ansibleRunner:
                     mock_FirebaseAuthentication = FirebaseAuthentication("secret", True, True)
                     mock_FirebaseAuthentication.__main__ = MagicMock(return_value="myauth")
                     run_ansible_playbook_manual(11, 'proj123', 'job123')
@@ -236,7 +236,7 @@ class ManifestTestCase(unittest.TestCase):
         assert mock_FirebaseApplication_get.called
         mock_Repo_clone_from.assert_called_once_with(url, git_dir)
         mock_chdir.assert_called_once_with(git_dir)
-        #assert mock_ansiblePlaybook.called
+        assert mock_ansiblePlaybook.called
         mock_shutil.assert_called_once_with(git_dir)
         assert mock_FirebaseApplication_patch.called
         assert mock_FirebaseApplication_post.called
