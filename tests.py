@@ -19,7 +19,7 @@ import json
 import ansible.runner
 from git import Repo
 import ansible.playbook
-from StringIO import StringIO
+import StringIO
 
 
 class ManifestTestCase(unittest.TestCase):
