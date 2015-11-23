@@ -4,10 +4,9 @@
   <li><a href="#/projects">Projects</a></li>
   <li class="active">{{ project.name }}</li>
 </ol>
+<div class="page-header"><h2><a href="#" editable-text="project.name">{{ project.name }}</a><br><small>{{ project.type }}</small></h2></div>
 
 <div class="container-fluid">
-  <div class="page-header"><h2><a href="#" editable-text="project.name">{{ project.name }}</a><br><small>{{ project.type }}</small></h2></div>
-
   <div class="row">
        <div class="col-md-12">
           <div class="panel panel-default">
@@ -515,102 +514,101 @@
           </div>
       </div>
   </div>
+</div>
 
-
-  <!-- Modal -->
-  <div class="modal fade" id="myModal_sshkey" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-          <h4 class="modal-title" id="myModalLabel">SSH Key File</h4>
-        </div>
-        <div class="modal-body">
-          <textarea class="form-control" rows="30" ng-model="project.ssh_key">{{ project.ssh_key }}</textarea>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
+<!-- Modal -->
+<div class="modal fade" id="myModal_sshkey" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">SSH Key File</h4>
+      </div>
+      <div class="modal-body">
+        <textarea class="form-control" rows="30" ng-model="project.ssh_key">{{ project.ssh_key }}</textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
+</div>
 
 
-  <div class="row">
-      <div class="col-md-12">
-          <div class="panel panel-default">
-              <div class="panel-heading">
-                  <h3 class="panel-title">Jobs<button class="btn btn-xs btn-danger pull-right" ng-click="clearTasks()"><i class="fa fa-eraser"></i> Clear</button></h3>
-              </div>
-              <div class="panel-body">
-                  <table class="table">
-                      <tr>
-                          <th>Pattern</th>
-                          <th>Module</th>
-                          <th>Module Args</th>
-                          <th>Status</th>
-                          <th>Returns</th>
-                      </tr>
-                      <tr ng-model="external_data" ng-repeat="(key_alpha, item) in external_data | orderByPriority">
-                          <td>
-                              {{ item.pattern }}
-                          </td>
-                          <td>
-                              {{ item.module_name }}
-                          </td>
-                          <td>
-                              {{ item.module_args }}
-                          </td>
-                          <td>
-                              {{ item.status }}
-                          </td>
-                          <td>
-                              <ul ng-repeat="return in item.returns">
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Jobs<button class="btn btn-xs btn-danger pull-right" ng-click="clearTasks()"><i class="fa fa-eraser"></i> Clear</button></h3>
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                    <tr>
+                        <th>Pattern</th>
+                        <th>Module</th>
+                        <th>Module Args</th>
+                        <th>Status</th>
+                        <th>Returns</th>
+                    </tr>
+                    <tr ng-model="external_data" ng-repeat="(key_alpha, item) in external_data | orderByPriority">
+                        <td>
+                            {{ item.pattern }}
+                        </td>
+                        <td>
+                            {{ item.module_name }}
+                        </td>
+                        <td>
+                            {{ item.module_args }}
+                        </td>
+                        <td>
+                            {{ item.status }}
+                        </td>
+                        <td>
+                            <ul ng-repeat="return in item.returns">
 
-                                <li ng-repeat="(key, value) in return">
-                                  {{ key }}
+                              <li ng-repeat="(key, value) in return">
+                                {{ key }}
 
-                                  <ul ng-repeat="(key2, inner) in value">
+                                <ul ng-repeat="(key2, inner) in value">
 
-                                      <li>
-                                        <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal_tasks_{{key_alpha}}_{{key}}_{{key2}}">
-                                          <i class="fa fa-desktop"></i> {{ key2 }}
-                                        </button>
-                                      </li>
+                                    <li>
+                                      <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal_tasks_{{key_alpha}}_{{key}}_{{key2}}">
+                                        <i class="fa fa-desktop"></i> {{ key2 }}
+                                      </button>
+                                    </li>
 
-                                      <!-- Modal -->
-                                      <div class="modal fade" id="myModal_tasks_{{key_alpha}}_{{key}}_{{key2}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg">
-                                          <div class="modal-content">
-                                            <div class="modal-header">
-                                              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                              <h4 class="modal-title" id="myModalLabel">Ansible Run Results</h4>
-                                            </div>
-                                            <div class="modal-body">
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="myModal_tasks_{{key_alpha}}_{{key}}_{{key2}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                      <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                            <h4 class="modal-title" id="myModalLabel">Ansible Run Results</h4>
+                                          </div>
+                                          <div class="modal-body">
 
-                                              <ul ng-repeat="(key3, inner2) in inner">
-                                                  <li>{{ key3 }}: <pre>{{ inner2 }}</pre></li>
-                                              </ul>
+                                            <ul ng-repeat="(key3, inner2) in inner">
+                                                <li>{{ key3 }}: <pre>{{ inner2 }}</pre></li>
+                                            </ul>
 
-                                            </div>
-                                            <div class="modal-footer">
-                                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                            </div>
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                           </div>
                                         </div>
                                       </div>
+                                    </div>
 
 
-                                  </ul>
+                                </ul>
 
-                                </li>
+                              </li>
 
-                              </ul>
-                          </td>
-                      </tr>
-                  </table>
-              </div>
-          </div>
-      </div>
-  </div>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
