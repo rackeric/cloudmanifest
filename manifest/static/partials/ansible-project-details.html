@@ -220,7 +220,7 @@
                 <td>
                     {{ role.name }}
                     <br>
-                    <i class="fa fa-github"></i> {{ role.url }}
+                    <i class="fa fa-github"></i> <a href="{{ role.url }}">{{ role.url }}</a>
                 </td>
                 <td>
                     <button type="button" class="btn btn-danger btn-sm" ng-click="removeRoleGit(role.$id)"><i class="fa fa-trash"></i> Delete</button>
@@ -451,7 +451,7 @@
                         <input class="input-xs" ng-model="inventoryPattern" placeholder="pattern, * for all">
                         <input class="input-xs" ng-model="inventoryModuleToRun" placeholder="module">
                         <input class="input-xs" ng-model="inventoryModuleArgs" placeholder="args">
-                        <button class="btn btn-xs btn-warning" ng-click="ansibleJenericInventory_run(projectID, inventoryPattern, inventoryModuleToRun, inventoryModuleArgs)">Run</button>
+                        <button class="btn btn-xs btn-success" ng-click="ansibleJenericInventory_run(projectID, inventoryPattern, inventoryModuleToRun, inventoryModuleArgs)">Run</button>
                         </font>
                     </small>
                 </div>
@@ -494,7 +494,7 @@
                         <td>
                           <form class="form-inline">
                             <div class="form-group">
-                              <input class="form-control input-sm" ng-model="commandToRun" placeholder="command"> <button class="btn btn-sm btn-primary" ng-click="ansibleJeneric(item.$id, 'command', commandToRun)"><i class="fa fa-play"></i> Run Command</button>
+                              <input class="form-control input-sm" ng-model="commandToRun" placeholder="command"> <button class="btn btn-sm btn-success" ng-click="ansibleJeneric(item.$id, 'command', commandToRun)"><i class="fa fa-play"></i> Run</button>
                               <button class="btn btn-sm btn-info" ng-click="ansibleJeneric(item.$id, 'ping', '')"><i class="fa fa-bullseye"></i> Ping</button>
                               <button class="btn btn-sm btn-danger" ng-click="removeHost(item.$id)"><i class="fa fa-trash"></i> Delete</button>
                             </div>
