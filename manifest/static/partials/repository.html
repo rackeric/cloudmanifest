@@ -1,40 +1,41 @@
-<div class="page-header">
-    <h2>Repository of Ansible Playbooks</h2>
-</div>
+<div class="container-fluid">
+  <div class="page-header">
+      <h2>Repository of Ansible Playbooks</h2>
+  </div>
 
-<div>
-  <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
-</div>
+  <div>
+    <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+  </div>
 
-<table class="table table-hover"  id="roles" ng-show="ansiblePublicRepo">
-    <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Actions</th>
-    </tr>
-    <tr ng-repeat="(key, role) in ansiblePublicRepo | orderByPriority | filter:searchText">
-        <td>
-            <a href="#/repository/{{ role.$id }}">{{ role.name }}</a>
-        </td>
-        <td>
-            {{ role.description }}
-        </td>
-        <td>
-            <a href="#/repository/{{ role.$id }}" class="btn btn-info btn-xs" role="button">View</a>
-            <!-- Single button -->
-            <div class="btn-group">
-              <button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown">
-                Clone to Project <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu" role="menu">
-                <li ng-repeat="project in projects | orderByPriority">
-                  <a ng-click="cloneRoleToProject(role.$id, project.$id)">{{ project.name }}</a>
-                </li>
-              </ul>
-            </div>
+  <table class="table table-hover"  id="roles" ng-show="ansiblePublicRepo">
+      <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Actions</th>
+      </tr>
+      <tr ng-repeat="(key, role) in ansiblePublicRepo | orderByPriority | filter:searchText">
+          <td>
+              <a href="#/repository/{{ role.$id }}">{{ role.name }}</a>
+          </td>
+          <td>
+              {{ role.description }}
+          </td>
+          <td>
+              <a href="#/repository/{{ role.$id }}" class="btn btn-info btn-xs" role="button">View</a>
+              <!-- Single button -->
+              <div class="btn-group">
+                <button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown">
+                  Clone to Project <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li ng-repeat="project in projects | orderByPriority">
+                    <a ng-click="cloneRoleToProject(role.$id, project.$id)">{{ project.name }}</a>
+                  </li>
+                </ul>
+              </div>
 
-        </td>
-        
-    </tr>
-</table>
-        
+          </td>
+
+      </tr>
+  </table>
+</div>          
