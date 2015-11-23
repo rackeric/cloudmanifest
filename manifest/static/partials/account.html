@@ -1,51 +1,53 @@
-<div class="page-header"><h2>Account Settings</h2></div>
+<div class="container-fluid">
+  <div class="page-header"><h2>Account Settings</h2></div>
 
-<div class="row">
-  <div class="col-md-4">
+  <div class="row">
+    <div class="col-md-4">
 
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Profile</h3>
+        </div>
+        <div class="panel-body">
+                  Name:<input class="form-control" type="text" name="name" ng-model="user.name"/>
+                  <br />
+                  <span>Email:</span>
+                  <input class="form-control" type="text" name="name" ng-model="user.email"/>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-4">
 
     <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Profile</h3>
-      </div>
-      <div class="panel-body">
-                Name:<input class="form-control" type="text" name="name" ng-model="user.name"/>
-                <br />
-                <span>Email:</span>
-                <input class="form-control" type="text" name="name" ng-model="user.email"/>
-      </div>
+        <div class="panel-heading">
+          <h3 class="panel-title">Change Password</h3>
+        </div>
+        <div class="panel-body">
+          <form>
+                  <span>Old Password:</span>
+                  <input class="form-control" type="password" ng-keypress="reset()" ng-model="oldpass"/>
+                  <br />
+                  <span>New Password:</span>
+                  <input class="form-control" type="password" ng-keypress="reset()" ng-model="newpass"/>
+                  <br />
+                  <span>Confirm Password:</span>
+                  <input class="form-control" type="password" ng-keypress="reset()" ng-model="confirm"/>
+                  <br />
+                  <div class="pull-right">
+                    <button class="btn btn-warning" ng-click="updatePassword()">Update Password</button>
+
+                    <p class="error" ng-show="err">{{err}}</p>
+                    <p class="good" ng-show="msg">{{msg}}</p>
+                  </div>
+          </form>
+        </div>
     </div>
 
-  </div>
-  <div class="col-md-4">
-
-  <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Change Password</h3>
-      </div>
-      <div class="panel-body">
-        <form>
-                <span>Old Password:</span>
-                <input class="form-control" type="password" ng-keypress="reset()" ng-model="oldpass"/>
-                <br />
-                <span>New Password:</span>
-                <input class="form-control" type="password" ng-keypress="reset()" ng-model="newpass"/>
-                <br />
-                <span>Confirm Password:</span>
-                <input class="form-control" type="password" ng-keypress="reset()" ng-model="confirm"/>
-                <br />
-                <div class="pull-right">
-                  <button class="btn btn-warning" ng-click="updatePassword()">Update Password</button>
-
-                  <p class="error" ng-show="err">{{err}}</p>
-                  <p class="good" ng-show="msg">{{msg}}</p>
-                </div>
-        </form>
-      </div>
-  </div>
-
-  </div>
-  <div class="col-md-4">
-    <button class="btn btn-default" ng-click="logout()">Log Out</button>
+    </div>
+    <div class="col-md-4">
+      <button class="btn btn-default" ng-click="logout()">Log Out</button>
+    </div>
   </div>
 </div>
