@@ -4,8 +4,9 @@
   <li><a href="#/projects">Projects</a></li>
   <li class="active">{{ project.name }}</li>
 </ol>
-<div class="page-header"><h2><a href="#" editable-text="project.name">{{ project.name }}</a><br><small>{{ project.type }}</small></h2></div>
 
+<div class="container-fluid">
+<div class="page-header"><h2><a href="#" editable-text="project.name">{{ project.name }}</a><br><small>{{ project.type }}</small></h2></div>
 <div class="row">
      <div class="col-md-12">
         <div class="panel panel-default">
@@ -40,17 +41,95 @@
                 <th>Description</th>
                 <th>Manage</th>
                 <th>Actions</th>
-                <th>Last Run</th>
-                <th>Returns</th>
-            </tr>
-            <tr ng-repeat="(key, role) in roles | orderByPriority | filter:gitSearchText">
-                <td>
-                    <a href="#/projects/Ansible/{{ projectID }}/roles/{{ role.$id }}" tooltip="{{ role.description }}" tooltip-trigger="hover">{{ role.name }}</a>
-                </td>
-                <td>
-                    {{ role.description }}
-                </td>
-                <td>
+                  <th>Last Run</th>
+                  <th>Returns</th>
+              </tr>
+              <tr ng-repeat="(key, role) in roles | orderByPriority | filter:gitSearchText">
+                  <td>
+                      <a href="#/projects/Ansible/{{ projectID }}/roles/{{ role.$id }}" tooltip="{{ role.description }}" tooltip-trigger="hover">{{ role.name }}</a>
+                  </td>
+                  <td>
+                      {{ role.description }}
+                  </td>
+                  <td>
+                      <!-- Split button -->
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-info btn-sm"><i class="fa fa-cogs"></i> Manage</button>
+                        <button type="button" class="btn btn-info dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span class="caret"></span>
+                          <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li><a href="#/projects/Ansible/{{ projectID }}/roles/{{ role.$id }}"><i class="fa fa-pencil-square-o"></i> Edit</a></li>
+                          <li><a ng-click="cloneRole(projectID, role.$id)"><i class="fa fa-files-o"></i> Clone</a></li>
+                          <li><a ng-click="submitToRepo(projectID, role.$id)"><i class="fa fa-cloud-upload"></i> Submit to Repo</a></li
+                          <li role="separator" class="divider"></li>
+                          <li><a ng-click="removeRole(role.$id)"><i class="fa fa-trash"></i> Delete</a></li>
+                        </ul>
+                      </div>
+
+                  </td>
+                  <td>
+                      <button type="button" class="btn btn-success btn-sm" ng-click="ansible_playbook(role.$id)"><i class="fa fa-play"></i> Run</button>
+                      <button type="button" class="btn btn-danger btn-sm" ng-click="clear_playbook_returns(role.$id)"><i class="fa fa-eraser"></i> Clear</button>
+                  </td>
+                  <td>
+                      <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ getValue(role.status) }}" aria-valuemin="0" aria-valuemax="100" style="width: {{getValue(role.status)}}">
+                          {{ role.status }}
+                        </div>
+                      </div>
+                      <i class="fa fa-hourglass-start"></i> {{ getDate(role.startedAt) }}
+                      <br>
+                      <i class="fa fa-hourglass-end"></i> {{ getDate(role.endedAt) }}
+                  </td>
+                  <td>
+                      <ul ng-repeat="(key_alpha, return) in role.returns">
+
+                        <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal_{{key_alpha}}">
+                          <i class="fa fa-list-alt"></i> Results
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal_{{key_alpha}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Ansible Run Results</h4>
+                              </div>
+                              <div class="modal-body">
+
+                                <ul ng-repeat="(key, value) in return.stats">
+                                  <li>{{ key }}: {{ value }}</li>
+                                </ul>
+
+                                <hr>
+                                <pre>{{ return.stdout }}</pre>
+
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </ul>
+                  </td>
+
+              </tr>
+
+
+
+              <tr ng-repeat="(key, role) in rolesmanual | orderByPriority | filter:searchText">
+                  <td>
+                      <a href="#/projects/Ansible/{{ projectID }}/rolesmanual/{{ role.$id }}" tooltip="{{ role.description }}" tooltip-trigger="hover">{{ role.name }}</a>
+                  </td>
+                  <td>
+                      {{ role.description }}
+                  </td>
+                  <td>
                     <!-- Split button -->
                     <div class="btn-group">
                       <button type="button" class="btn btn-info btn-sm"><i class="fa fa-cogs"></i> Manage</button>
@@ -59,555 +138,478 @@
                         <span class="sr-only">Toggle Dropdown</span>
                       </button>
                       <ul class="dropdown-menu">
-                        <li><a href="#/projects/Ansible/{{ projectID }}/roles/{{ role.$id }}"><i class="fa fa-pencil-square-o"></i> Edit</a></li>
-                        <li><a ng-click="cloneRole(projectID, role.$id)"><i class="fa fa-files-o"></i> Clone</a></li>
-                        <li><a ng-click="submitToRepo(projectID, role.$id)"><i class="fa fa-cloud-upload"></i> Submit to Repo</a></li
+                        <li><a href="#/projects/Ansible/{{ projectID }}/rolesmanual/{{ role.$id }}"><i class="fa fa-pencil-square-o"></i> Edit</a></li>
+                        <li><a ng-click="cloneRoleManual(projectID, role.$id)"><i class="fa fa-files-o"></i> Clone</a></li>
+                        <li><a ng-click="submitToRepoManual(projectID, role.$id)"><i class="fa fa-cloud-upload"></i> Submit to Repo</a></li
                         <li role="separator" class="divider"></li>
-                        <li><a ng-click="removeRole(role.$id)"><i class="fa fa-trash"></i> Delete</a></li>
+                        <li><a ng-click="removeRoleManual(role.$id)"><i class="fa fa-trash"></i> Delete</a></li>
                       </ul>
                     </div>
-
-                </td>
-                <td>
-                    <button type="button" class="btn btn-success btn-sm" ng-click="ansible_playbook(role.$id)"><i class="fa fa-play"></i> Run</button>
-                    <button type="button" class="btn btn-danger btn-sm" ng-click="clear_playbook_returns(role.$id)"><i class="fa fa-eraser"></i> Clear</button>
-                </td>
-                <td>
-                    <div class="progress">
-                      <div class="progress-bar" role="progressbar" aria-valuenow="{{ getValue(role.status) }}" aria-valuemin="0" aria-valuemax="100" style="width: {{getValue(role.status)}}">
-                        {{ role.status }}
+                  </td>
+                  <td>
+                      <button type="button" class="btn btn-success btn-sm" ng-click="ansible_playbook_manual(role.$id)"><i class="fa fa-play"></i> Run</button>
+                      <button type="button" class="btn btn-danger btn-sm" ng-click="clear_playbook_manual_returns(role.$id)"><i class="fa fa-eraser"></i> Clear</button>
+                  </td>
+                  <td>
+                      <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ getValue(role.status) }}" aria-valuemin="0" aria-valuemax="100" style="width: {{getValue(role.status)}}">
+                          {{ role.status }}
+                        </div>
                       </div>
-                    </div>
-                    <i class="fa fa-hourglass-start"></i> {{ getDate(role.startedAt) }}
-                    <br>
-                    <i class="fa fa-hourglass-end"></i> {{ getDate(role.endedAt) }}
-                </td>
-                <td>
-                    <ul ng-repeat="(key_alpha, return) in role.returns">
+                      <i class="fa fa-hourglass-start"></i> {{ getDate(role.startedAt) }}
+                      <br>
+                      <i class="fa fa-hourglass-end"></i> {{ getDate(role.endedAt) }}
+                  </td>
+                  <td>
+                      <ul ng-repeat="(key_alpha, return) in role.returns">
 
-                      <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal_{{key_alpha}}">
-                        <i class="fa fa-list-alt"></i> Results
-                      </button>
+                        <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal_manual_{{key_alpha}}">
+                          <i class="fa fa-list-alt"></i> Results
+                        </button>
 
-                      <!-- Modal -->
-                      <div class="modal fade" id="myModal_{{key_alpha}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                              <h4 class="modal-title" id="myModalLabel">Ansible Run Results</h4>
-                            </div>
-                            <div class="modal-body">
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal_manual_{{key_alpha}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Ansible Run Results</h4>
+                              </div>
+                              <div class="modal-body">
 
-                              <ul ng-repeat="(key, value) in return.stats">
-                                <li>{{ key }}: {{ value }}</li>
-                              </ul>
+                                <ul ng-repeat="(key, value) in return.stats">
+                                  <li>{{ key }}: {{ value }}</li>
+                                </ul>
 
-                              <hr>
-                              <pre>{{ return.stdout }}</pre>
+                                <hr>
 
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <pre>{{ return.stdout }}</pre>
+
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
 
-                    </ul>
-                </td>
+                      </ul>
+                  </td>
 
-            </tr>
+              </tr>
+          </table>
+      </div>
+  </div>
 
-
-
-            <tr ng-repeat="(key, role) in rolesmanual | orderByPriority | filter:searchText">
-                <td>
-                    <a href="#/projects/Ansible/{{ projectID }}/rolesmanual/{{ role.$id }}" tooltip="{{ role.description }}" tooltip-trigger="hover">{{ role.name }}</a>
-                </td>
-                <td>
-                    {{ role.description }}
-                </td>
-                <td>
-                  <!-- Split button -->
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-info btn-sm"><i class="fa fa-cogs"></i> Manage</button>
-                    <button type="button" class="btn btn-info dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <span class="caret"></span>
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu">
-                      <li><a href="#/projects/Ansible/{{ projectID }}/rolesmanual/{{ role.$id }}"><i class="fa fa-pencil-square-o"></i> Edit</a></li>
-                      <li><a ng-click="cloneRoleManual(projectID, role.$id)"><i class="fa fa-files-o"></i> Clone</a></li>
-                      <li><a ng-click="submitToRepoManual(projectID, role.$id)"><i class="fa fa-cloud-upload"></i> Submit to Repo</a></li
-                      <li role="separator" class="divider"></li>
-                      <li><a ng-click="removeRoleManual(role.$id)"><i class="fa fa-trash"></i> Delete</a></li>
-                    </ul>
-                  </div>
-                </td>
-                <td>
-                    <button type="button" class="btn btn-success btn-sm" ng-click="ansible_playbook_manual(role.$id)"><i class="fa fa-play"></i> Run</button>
-                    <button type="button" class="btn btn-danger btn-sm" ng-click="clear_playbook_manual_returns(role.$id)"><i class="fa fa-eraser"></i> Clear</button>
-                </td>
-                <td>
-                    <div class="progress">
-                      <div class="progress-bar" role="progressbar" aria-valuenow="{{ getValue(role.status) }}" aria-valuemin="0" aria-valuemax="100" style="width: {{getValue(role.status)}}">
-                        {{ role.status }}
-                      </div>
-                    </div>
-                    <i class="fa fa-hourglass-start"></i> {{ getDate(role.startedAt) }}
-                    <br>
-                    <i class="fa fa-hourglass-end"></i> {{ getDate(role.endedAt) }}
-                </td>
-                <td>
-                    <ul ng-repeat="(key_alpha, return) in role.returns">
-
-                      <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal_manual_{{key_alpha}}">
-                        <i class="fa fa-list-alt"></i> Results
-                      </button>
-
-                      <!-- Modal -->
-                      <div class="modal fade" id="myModal_manual_{{key_alpha}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                              <h4 class="modal-title" id="myModalLabel">Ansible Run Results</h4>
-                            </div>
-                            <div class="modal-body">
-
-                              <ul ng-repeat="(key, value) in return.stats">
-                                <li>{{ key }}: {{ value }}</li>
-                              </ul>
-
-                              <hr>
-
-                              <pre>{{ return.stdout }}</pre>
-
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                    </ul>
-                </td>
-
-            </tr>
-        </table>
-    </div>
-</div>
-
-<div class="panel panel-default">
-    <div class="panel-heading">
-      <div class="panel-title">Git Projects
-      <small><font color="black"><input class="input-xs pull-right" ng-model="searchText" placeholder="Search" /></font></small></div>
-    </div>
-    <div class="panel-body">
-        <form class="form-inline">
-          <div class="form-group">
-              <input type="text" class="form-control input-sm" placeholder="Name" ng-model="newRepoName">
-              <input type="text" class="form-control input-sm" placeholder="Git Url" ng-model="newRepoUrl">
-              <button class="btn btn-default btn-sm" type="submit" ng-click="addRoleGit()">Add Git Repo</button>
-          </div>
-        </form>
-        <br>
-        <table class="table table-hover"  id="roles" ng-show="roles">
-            <tr>
-                <th>Name</th>
-                <th>Manage</th>
-                <th>Actions</th>
-                <th>Last Run</th>
-                <th>Returns</th>
-            </tr>
-            <tr ng-repeat="(key, role) in rolesgit | orderByPriority | filter:searchText">
-                <td>
-                    {{ role.name }}
-                    <br>
-                    <i class="fa fa-github"></i> <a href="{{ role.url }}" target="_blank">{{ role.url }}</a>
-                </td>
-                <td>
-                    <button type="button" class="btn btn-danger btn-sm" ng-click="removeRoleGit(role.$id)"><i class="fa fa-trash"></i> Delete</button>
-                </td>
-                <td>
-                    <div class="col-md-5">
-                      <select class="form-control input-sm" ng-model="playbookSelect">
-                        <option ng-repeat="role in getPlaybooks(role.$id)" value="{{ role }}">{{ role }}</option>
-                      </select>
-                    </div>
-                    <button type="button" class="btn btn-success btn-sm" ng-click="ansible_playbook_git(role.$id, playbookSelect)"><i class="fa fa-play"></i> Run</button>
-                    <button type="button" class="btn btn-danger btn-sm" ng-click="clear_playbook_git_returns(role.$id)"><i class="fa fa-eraser"></i> Clear</button>
-                </td>
-                <td>
-                    <div class="progress">
-                      <div class="progress-bar" role="progressbar" aria-valuenow="{{ getValue(role.status) }}" aria-valuemin="0" aria-valuemax="100" style="width: {{getValue(role.status)}}">
-                        {{ role.status }}
-                      </div>
-                    </div>
-                    <i class="fa fa-hourglass-start"></i> {{ getDate(role.startedAt) }}
-                    <br>
-                    <i class="fa fa-hourglass-end"></i> {{ getDate(role.endedAt) }}
-                </td>
-                <td>
-                    <ul ng-repeat="(key_alpha, return) in role.returns">
-
-                      <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal_{{key_alpha}}">
-                        <i class="fa fa-list-alt"></i> Results
-                      </button>
-
-                      <!-- Modal -->
-                      <div class="modal fade" id="myModal_{{key_alpha}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                              <h4 class="modal-title" id="myModalLabel">Ansible Run Results</h4>
-                            </div>
-                            <div class="modal-body">
-
-                              <ul ng-repeat="(key, value) in return.stats">
-                                <li>{{ key }}: {{ value }}</li>
-                              </ul>
-
-                              <hr>
-                              <pre>{{ return.stdout }}</pre>
-
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                    </ul>
-                </td>
-
-            </tr>
-
-        </table>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title"><a data-toggle="collapse" data-target="#add_host">Add Host</a></h3>
+  <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="panel-title">Git Projects
+        <small><font color="black"><input class="input-xs pull-right" ng-model="searchText" placeholder="Search" /></font></small></div>
+      </div>
+      <div class="panel-body">
+          <form class="form-inline">
+            <div class="form-group">
+                <input type="text" class="form-control input-sm" placeholder="Name" ng-model="newRepoName">
+                <input type="text" class="form-control input-sm" placeholder="Git Url" ng-model="newRepoUrl">
+                <button class="btn btn-default btn-sm" type="submit" ng-click="addRoleGit()">Add Git Repo</button>
             </div>
+          </form>
+          <br>
+          <table class="table table-hover"  id="roles" ng-show="roles">
+              <tr>
+                  <th>Name</th>
+                  <th>Manage</th>
+                  <th>Actions</th>
+                  <th>Last Run</th>
+                  <th>Returns</th>
+              </tr>
+              <tr ng-repeat="(key, role) in rolesgit | orderByPriority | filter:searchText">
+                  <td>
+                      {{ role.name }}
+                      <br>
+                      <i class="fa fa-github"></i> <a href="{{ role.url }}" target="_blank">{{ role.url }}</a>
+                  </td>
+                  <td>
+                      <button type="button" class="btn btn-danger btn-sm" ng-click="removeRoleGit(role.$id)"><i class="fa fa-trash"></i> Delete</button>
+                  </td>
+                  <td>
+                      <div class="col-md-5">
+                        <select class="form-control input-sm" ng-model="playbookSelect">
+                          <option ng-repeat="role in getPlaybooks(role.$id)" value="{{ role }}">{{ role }}</option>
+                        </select>
+                      </div>
+                      <button type="button" class="btn btn-success btn-sm" ng-click="ansible_playbook_git(role.$id, playbookSelect)"><i class="fa fa-play"></i> Run</button>
+                      <button type="button" class="btn btn-danger btn-sm" ng-click="clear_playbook_git_returns(role.$id)"><i class="fa fa-eraser"></i> Clear</button>
+                  </td>
+                  <td>
+                      <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ getValue(role.status) }}" aria-valuemin="0" aria-valuemax="100" style="width: {{getValue(role.status)}}">
+                          {{ role.status }}
+                        </div>
+                      </div>
+                      <i class="fa fa-hourglass-start"></i> {{ getDate(role.startedAt) }}
+                      <br>
+                      <i class="fa fa-hourglass-end"></i> {{ getDate(role.endedAt) }}
+                  </td>
+                  <td>
+                      <ul ng-repeat="(key_alpha, return) in role.returns">
 
-            <div id="add_host" class="collapse"><!-- for collapse -->
-            <div class="panel-body">
-                <div class="row">
+                        <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal_{{key_alpha}}">
+                          <i class="fa fa-list-alt"></i> Results
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal_{{key_alpha}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Ansible Run Results</h4>
+                              </div>
+                              <div class="modal-body">
+
+                                <ul ng-repeat="(key, value) in return.stats">
+                                  <li>{{ key }}: {{ value }}</li>
+                                </ul>
+
+                                <hr>
+                                <pre>{{ return.stdout }}</pre>
+
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </ul>
+                  </td>
+
+              </tr>
+
+          </table>
+      </div>
+  </div>
+
+  <div class="row">
+      <div class="col-md-12">
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title"><a data-toggle="collapse" data-target="#add_host">Add Host</a></h3>
+              </div>
+
+              <div id="add_host" class="collapse"><!-- for collapse -->
+              <div class="panel-body">
+                  <div class="row">
+                      <div class="col-md-12">
+                        <div>
+                          <alert ng-repeat="alert in newHostAlerts" type="alert.type" close="newHostCloseAlert($index)">{{alert.msg}}</alert>
+                        </div>
+                      </div>
+                    </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                        <div class="col-md-6">
+                          <input type="text" class="form-control" ng-model="newHostName">
+                          <span class="help-block">New HostName / IP Address</span>
+                        </div>
+                        <div class="col-md-6">
+                          <input class="form-control" type="text" ng-model="ansible_group">
+                          <span class="help-block">Group</span>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                        <div><!-- <div ng-model="inventoryOptions" ng-repeat="option in inventoryOptions | orderByPriority"> -->
+                          <div class="col-md-2 form-group has-error">
+                            <!-- <input type="hidden" ng-model="option.name" value="{{ option.name }}"> -->
+                            <!-- <input class="form-control" type="text" ng-model="option.value" tooltip="{{ option.description }}" tooltip-trigger="focus" tooltip-placement="above"> -->
+                            <!-- <span class="help-block">{{ option.name }}</span> -->
+                            <input class="form-control" type="text" ng-model="ansible_ssh_host">
+                            <span class="help-block">ansible_ssh_host</span>
+                          </div>
+                          <div class="col-md-2 form-group">
+                            <input class="form-control" type="text" ng-model="ansible_ssh_port">
+                            <span class="help-block">ansible_ssh_port</span>
+                          </div>
+                          <div class="col-md-2 form-group has-error">
+                            <input class="form-control" type="text" ng-model="ansible_ssh_user">
+                            <span class="help-block">ansible_ssh_user</span>
+                          </div>
+                          <div class="col-md-2 form-group has-error">
+                            <input class="form-control" type="password" ng-model="ansible_ssh_pass">
+                            <span class="help-block">ansible_ssh_pass</span>
+                          </div>
+                          <div class="col-md-2 form-group">
+                            <input class="form-control" type="password" ng-model="ansible_sudo_pass">
+                            <span class="help-block">ansible_sudo_pass</span>
+                          </div>
+                          <div class="col-md-2 form-group">
+                            <input class="form-control" type="text" ng-model="ansible_connection">
+                            <span class="help-block">ansible_connection</span>
+                          </div>
+                          <div class="col-md-2 form-group">
+                            <input class="form-control" type="text" ng-model="ansible_ssh_private_key_file">
+                            <span class="help-block">ansible_ssh_private_key_file</span>
+                          </div>
+                          <div class="col-md-2 form-group">
+                            <input class="form-control" type="text" ng-model="ansible_python_interpreter">
+                            <span class="help-block">ansible_python_interpreter</span>
+                          </div>
+                          <div class="col-md-2 form-group">
+                            <input class="form-control" type="text" ng-model="ansible_interpreter">
+                            <span class="help-block">ansible\_\*\_interpreter</span>
+                          </div>
+                          <div class="col-md-12 form-group">
+                            <button class="btn btn-primary btn pull-right" type="submit" ng-click="addHost()">Add Host</button>
+                          </div>
+
+                        </div><!-- </div> -->
+                    </div>
+                  </div>
+
+                  </div><!-- for collaspe -->
+
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="row">
+      <div class="col-md-12">
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">
+                  <a data-toggle="collapse" data-target="#rax_cloud">Rackspace Cloud</a>
+                  <div class="pull-right">
+                      <small>
+                          <font color="black">
+                          <input class="input-xs" ng-model="rax_username" placeholder="Username">
+                          <input class="input-xs" ng-model="rax_apikey" placeholder="API Key">
+                          </font>
+                      </small>
+                  </div>
+                </h3>
+              </div>
+
+              <div id="rax_cloud" class="collapse"><!-- for collapse -->
+              <div class="panel-body">
+                  <div class="row">
                     <div class="col-md-12">
                       <div>
-                        <alert ng-repeat="alert in newHostAlerts" type="alert.type" close="newHostCloseAlert($index)">{{alert.msg}}</alert>
+                        <alert ng-repeat="alert in newServerAlerts" type="alert.type" close="newServerCloseAlert($index)">{{alert.msg}}</alert>
                       </div>
                     </div>
                   </div>
-                <div class="row">
-                  <div class="col-md-6">
-                      <div class="col-md-6">
-                        <input type="text" class="form-control" ng-model="newHostName">
-                        <span class="help-block">New HostName / IP Address</span>
-                      </div>
-                      <div class="col-md-6">
-                        <input class="form-control" type="text" ng-model="ansible_group">
-                        <span class="help-block">Group</span>
-                      </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+                          <input type="text" class="form-control" ng-model="newServerName">
+                          <span class="help-block">New Server Name</span>
+                        </div>
+                        <div class="col-md-4">
+                          <input class="form-control" type="text" ng-model="ansible_group">
+                          <span class="help-block">Group</span>
+                        </div>
+                        <div class="col-md-4">
+                          <input class="form-control" type="text" ng-model="region">
+                          <span class="help-block">Region</span>
+                        </div>
+                    </div>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-12">
-                      <div><!-- <div ng-model="inventoryOptions" ng-repeat="option in inventoryOptions | orderByPriority"> -->
-                        <div class="col-md-2 form-group has-error">
-                          <!-- <input type="hidden" ng-model="option.name" value="{{ option.name }}"> -->
-                          <!-- <input class="form-control" type="text" ng-model="option.value" tooltip="{{ option.description }}" tooltip-trigger="focus" tooltip-placement="above"> -->
-                          <!-- <span class="help-block">{{ option.name }}</span> -->
-                          <input class="form-control" type="text" ng-model="ansible_ssh_host">
-                          <span class="help-block">ansible_ssh_host</span>
-                        </div>
-                        <div class="col-md-2 form-group">
-                          <input class="form-control" type="text" ng-model="ansible_ssh_port">
-                          <span class="help-block">ansible_ssh_port</span>
-                        </div>
-                        <div class="col-md-2 form-group has-error">
-                          <input class="form-control" type="text" ng-model="ansible_ssh_user">
-                          <span class="help-block">ansible_ssh_user</span>
-                        </div>
-                        <div class="col-md-2 form-group has-error">
-                          <input class="form-control" type="password" ng-model="ansible_ssh_pass">
-                          <span class="help-block">ansible_ssh_pass</span>
-                        </div>
-                        <div class="col-md-2 form-group">
-                          <input class="form-control" type="password" ng-model="ansible_sudo_pass">
-                          <span class="help-block">ansible_sudo_pass</span>
-                        </div>
-                        <div class="col-md-2 form-group">
-                          <input class="form-control" type="text" ng-model="ansible_connection">
-                          <span class="help-block">ansible_connection</span>
-                        </div>
-                        <div class="col-md-2 form-group">
-                          <input class="form-control" type="text" ng-model="ansible_ssh_private_key_file">
-                          <span class="help-block">ansible_ssh_private_key_file</span>
-                        </div>
-                        <div class="col-md-2 form-group">
-                          <input class="form-control" type="text" ng-model="ansible_python_interpreter">
-                          <span class="help-block">ansible_python_interpreter</span>
-                        </div>
-                        <div class="col-md-2 form-group">
-                          <input class="form-control" type="text" ng-model="ansible_interpreter">
-                          <span class="help-block">ansible\_\*\_interpreter</span>
-                        </div>
-                        <div class="col-md-12 form-group">
-                          <button class="btn btn-primary btn pull-right" type="submit" ng-click="addHost()">Add Host</button>
-                        </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                          <div class="col-md-6 form-group">
+                            <input class="form-control" type="text" ng-model="rax_flavor">
+                            <span class="help-block">Flavor ID</span>
+                          </div>
+                          <div class="col-md-6 form-group">
+                            <input class="form-control" type="text" ng-model="rax_image">
+                            <span class="help-block">Image UUID</span>
+                          </div>
+                          <!-- {{ images }}
+                          <button class="btn btn-primary pull-right" type="submit" ng-click="getServerImages()">List Images</button>  -->
+                          <button class="btn btn-primary pull-right" type="submit" ng-click="rax_createServer()">Create Server</button>
+                          </div>
+                        </div><!-- </div> -->
 
-                      </div><!-- </div> -->
+                    </div>
                   </div>
-                </div>
 
                 </div><!-- for collaspe -->
 
-            </div>
-        </div>
-    </div>
-</div>
+              </div><!-- body -->
+          </div>
+      </div>
+  </div>
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">
-                <a data-toggle="collapse" data-target="#rax_cloud">Rackspace Cloud</a>
-                <div class="pull-right">
-                    <small>
-                        <font color="black">
-                        <input class="input-xs" ng-model="rax_username" placeholder="Username">
-                        <input class="input-xs" ng-model="rax_apikey" placeholder="API Key">
-                        </font>
-                    </small>
-                </div>
-              </h3>
-            </div>
-
-            <div id="rax_cloud" class="collapse"><!-- for collapse -->
-            <div class="panel-body">
-                <div class="row">
-                  <div class="col-md-12">
-                    <div>
-                      <alert ng-repeat="alert in newServerAlerts" type="alert.type" close="newServerCloseAlert($index)">{{alert.msg}}</alert>
-                    </div>
+  <div class="row">
+       <div class="col-md-12">
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                <div class="panel-title">
+                  Inventory
+                  <div class="pull-right">
+                      <small>
+                          <font color="black">
+                          <input class="input-xs" ng-model="inventoryPattern" placeholder="pattern, * for all">
+                          <input class="input-xs" ng-model="inventoryModuleToRun" placeholder="module">
+                          <input class="input-xs" ng-model="inventoryModuleArgs" placeholder="args">
+                          <button class="btn btn-xs btn-success" ng-click="ansibleJenericInventory_run(projectID, inventoryPattern, inventoryModuleToRun, inventoryModuleArgs)"><i class="fa fa-play"></i> Run</button>
+                          </font>
+                      </small>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-12">
-                      <div class="col-md-4">
-                        <input type="text" class="form-control" ng-model="newServerName">
-                        <span class="help-block">New Server Name</span>
-                      </div>
-                      <div class="col-md-4">
-                        <input class="form-control" type="text" ng-model="ansible_group">
-                        <span class="help-block">Group</span>
-                      </div>
-                      <div class="col-md-4">
-                        <input class="form-control" type="text" ng-model="region">
-                        <span class="help-block">Region</span>
-                      </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-12">
-                      <div>
-                        <div class="col-md-6 form-group">
-                          <input class="form-control" type="text" ng-model="rax_flavor">
-                          <span class="help-block">Flavor ID</span>
-                        </div>
-                        <div class="col-md-6 form-group">
-                          <input class="form-control" type="text" ng-model="rax_image">
-                          <span class="help-block">Image UUID</span>
-                        </div>
-                        <!-- {{ images }}
-                        <button class="btn btn-primary pull-right" type="submit" ng-click="getServerImages()">List Images</button>  -->
-                        <button class="btn btn-primary pull-right" type="submit" ng-click="rax_createServer()">Create Server</button>
-                        </div>
-                      </div><!-- </div> -->
-
-                  </div>
-                </div>
-
-              </div><!-- for collaspe -->
-
-            </div><!-- body -->
-        </div>
-    </div>
-</div>
-
-<div class="row">
-     <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-              <div class="panel-title">
-                Inventory
-                <div class="pull-right">
-                    <small>
-                        <font color="black">
-                        <input class="input-xs" ng-model="inventoryPattern" placeholder="pattern, * for all">
-                        <input class="input-xs" ng-model="inventoryModuleToRun" placeholder="module">
-                        <input class="input-xs" ng-model="inventoryModuleArgs" placeholder="args">
-                        <button class="btn btn-xs btn-success" ng-click="ansibleJenericInventory_run(projectID, inventoryPattern, inventoryModuleToRun, inventoryModuleArgs)"><i class="fa fa-play"></i> Run</button>
-                        </font>
-                    </small>
                 </div>
               </div>
-            </div>
-            <div class="panel-body">
+              <div class="panel-body">
 
-                <!-- Button trigger modal -->
-                <button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#myModal_sshkey">
-                  <i class="fa fa-key"></i> SSH Key
-                </button>
+                  <!-- Button trigger modal -->
+                  <button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#myModal_sshkey">
+                    <i class="fa fa-key"></i> SSH Key
+                  </button>
 
-                <br><br>
+                  <br><br>
 
-                <table class="table" ng-model="inventorylist">
-                    <tr>
-                        <th>Name</th>
-                        <th>Group</th>
-                        <th>Host</th>
-                        <th>User</th>
-                        <th>Password</th>
-                        <th>Actions</th>
-                    </tr>
-                    <tr ng-repeat="(key, item) in inventoryBinded | orderByPriority">
-                        <td>
-                            <a href="#" editable-text="item.name">{{ item.name }}</a>
-                        </td>
-                        <td>
-                            <a href="#" editable-text="item.group">{{ item.group }}</a>
-                        </td>
-                        <td>
-                            <a href="#" editable-text="item.ansible_ssh_host">{{ item.ansible_ssh_host }}</a>
-                        </td>
-                        <td>
-                            <a href="#" editable-text="item.ansible_ssh_user">{{ item.ansible_ssh_user }}</a>
-                        </td>
-                        <td>
-                            <a href="#" editable-text="item.ansible_ssh_pass">Change Password</a>
-                        </td>
-                        <td>
-                          <form class="form-inline">
-                            <div class="form-group">
-                              <input class="form-control input-sm" ng-model="commandToRun" placeholder="command"> <button class="btn btn-sm btn-success" ng-click="ansibleJeneric(item.$id, 'command', commandToRun)"><i class="fa fa-play"></i> Run</button>
-                              <button class="btn btn-sm btn-info" ng-click="ansibleJeneric(item.$id, 'ping', '')"><i class="fa fa-bullseye"></i> Ping</button>
-                              <button class="btn btn-sm btn-danger" ng-click="removeHost(item.$id)"><i class="fa fa-trash"></i> Delete</button>
-                            </div>
-                          </form>
-                        </td>
-                    </tr>
-                </table>
+                  <table class="table" ng-model="inventorylist">
+                      <tr>
+                          <th>Name</th>
+                          <th>Group</th>
+                          <th>Host</th>
+                          <th>User</th>
+                          <th>Password</th>
+                          <th>Actions</th>
+                      </tr>
+                      <tr ng-repeat="(key, item) in inventoryBinded | orderByPriority">
+                          <td>
+                              <a href="#" editable-text="item.name">{{ item.name }}</a>
+                          </td>
+                          <td>
+                              <a href="#" editable-text="item.group">{{ item.group }}</a>
+                          </td>
+                          <td>
+                              <a href="#" editable-text="item.ansible_ssh_host">{{ item.ansible_ssh_host }}</a>
+                          </td>
+                          <td>
+                              <a href="#" editable-text="item.ansible_ssh_user">{{ item.ansible_ssh_user }}</a>
+                          </td>
+                          <td>
+                              <a href="#" editable-text="item.ansible_ssh_pass">Change Password</a>
+                          </td>
+                          <td>
+                            <form class="form-inline">
+                              <div class="form-group">
+                                <input class="form-control input-sm" ng-model="commandToRun" placeholder="command"> <button class="btn btn-sm btn-success" ng-click="ansibleJeneric(item.$id, 'command', commandToRun)"><i class="fa fa-play"></i> Run</button>
+                                <button class="btn btn-sm btn-info" ng-click="ansibleJeneric(item.$id, 'ping', '')"><i class="fa fa-bullseye"></i> Ping</button>
+                                <button class="btn btn-sm btn-danger" ng-click="removeHost(item.$id)"><i class="fa fa-trash"></i> Delete</button>
+                              </div>
+                            </form>
+                          </td>
+                      </tr>
+                  </table>
 
-            </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal_sshkey" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title" id="myModalLabel">SSH Key File</h4>
         </div>
-    </div>
-</div>
-
-
-<!-- Modal -->
-<div class="modal fade" id="myModal_sshkey" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel">SSH Key File</h4>
-      </div>
-      <div class="modal-body">
-        <textarea class="form-control" rows="30" ng-model="project.ssh_key">{{ project.ssh_key }}</textarea>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <div class="modal-body">
+          <textarea class="form-control" rows="30" ng-model="project.ssh_key">{{ project.ssh_key }}</textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Jobs<button class="btn btn-xs btn-danger pull-right" ng-click="clearTasks()"><i class="fa fa-eraser"></i> Clear</button></h3>
-            </div>
-            <div class="panel-body">
-                <table class="table">
-                    <tr>
-                        <th>Pattern</th>
-                        <th>Module</th>
-                        <th>Module Args</th>
-                        <th>Status</th>
-                        <th>Returns</th>
-                    </tr>
-                    <tr ng-model="external_data" ng-repeat="(key_alpha, item) in external_data | orderByPriority">
-                        <td>
-                            {{ item.pattern }}
-                        </td>
-                        <td>
-                            {{ item.module_name }}
-                        </td>
-                        <td>
-                            {{ item.module_args }}
-                        </td>
-                        <td>
-                            {{ item.status }}
-                        </td>
-                        <td>
-                            <ul ng-repeat="return in item.returns">
+  <div class="row">
+      <div class="col-md-12">
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                  <h3 class="panel-title">Jobs<button class="btn btn-xs btn-danger pull-right" ng-click="clearTasks()"><i class="fa fa-eraser"></i> Clear</button></h3>
+              </div>
+              <div class="panel-body">
+                  <table class="table">
+                      <tr>
+                          <th>Pattern</th>
+                          <th>Module</th>
+                          <th>Module Args</th>
+                          <th>Status</th>
+                          <th>Returns</th>
+                      </tr>
+                      <tr ng-model="external_data" ng-repeat="(key_alpha, item) in external_data | orderByPriority">
+                          <td>
+                              {{ item.pattern }}
+                          </td>
+                          <td>
+                              {{ item.module_name }}
+                          </td>
+                          <td>
+                              {{ item.module_args }}
+                          </td>
+                          <td>
+                              {{ item.status }}
+                          </td>
+                          <td>
+                              <ul ng-repeat="return in item.returns">
 
-                              <li ng-repeat="(key, value) in return">
-                                {{ key }}
+                                <li ng-repeat="(key, value) in return">
+                                  {{ key }}
 
-                                <ul ng-repeat="(key2, inner) in value">
+                                  <ul ng-repeat="(key2, inner) in value">
 
-                                    <li>
-                                      <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal_tasks_{{key_alpha}}_{{key}}_{{key2}}">
-                                        <i class="fa fa-desktop"></i> {{ key2 }}
-                                      </button>
-                                    </li>
+                                      <li>
+                                        <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal_tasks_{{key_alpha}}_{{key}}_{{key2}}">
+                                          <i class="fa fa-desktop"></i> {{ key2 }}
+                                        </button>
+                                      </li>
 
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="myModal_tasks_{{key_alpha}}_{{key}}_{{key2}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                      <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                          <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <h4 class="modal-title" id="myModalLabel">Ansible Run Results</h4>
-                                          </div>
-                                          <div class="modal-body">
+                                      <!-- Modal -->
+                                      <div class="modal fade" id="myModal_tasks_{{key_alpha}}_{{key}}_{{key2}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                          <div class="modal-content">
+                                            <div class="modal-header">
+                                              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                              <h4 class="modal-title" id="myModalLabel">Ansible Run Results</h4>
+                                            </div>
+                                            <div class="modal-body">
 
-                                            <ul ng-repeat="(key3, inner2) in inner">
-                                                <li>{{ key3 }}: <pre>{{ inner2 }}</pre></li>
-                                            </ul>
+                                              <ul ng-repeat="(key3, inner2) in inner">
+                                                  <li>{{ key3 }}: <pre>{{ inner2 }}</pre></li>
+                                              </ul>
 
-                                          </div>
-                                          <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
                                           </div>
                                         </div>
                                       </div>
-                                    </div>
 
 
-                                </ul>
+                                  </ul>
 
-                              </li>
+                                </li>
 
-                            </ul>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </div>
+                              </ul>
+                          </td>
+                      </tr>
+                  </table>
+              </div>
+          </div>
+      </div>
+  </div>
 </div>
