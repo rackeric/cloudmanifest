@@ -1089,6 +1089,9 @@ angular.module('myApp.controllers', [])
 	  $scope.roleID = $routeParams.roleId;
     $scope.projectID = $routeParams.projectId;
 
+    // set project name
+    syncData('users/' + $scope.auth.user.uid + '/projects/' + $scope.projectID + '/name').$bind($scope, 'projectName');
+
     serviceRoleManual($scope.projectID, $scope.roleID).$bind($scope, "role");
     //$scope.role = serviceRoleManual($scope.projectID, $scope.roleID);
 
