@@ -1,8 +1,74 @@
 'use strict';
 
-/* Controllers */
-
+/* AngularJS Controllers */
 angular.module('myApp.controllers', [])
+
+  /* User Section */
+  .controller('HomeCtrl', ['$scope', 'syncData', function($scope, syncData) {}])
+
+  .controller('ProjectCtrl', ['$scope', '$http', '$routeParams', 'syncData', 'serviceProjects', function($scope, $http, $routeParams, syncData, serviceProjects) {
+    $scope.newProject = null;
+
+    syncData('users/' + $scope.auth.user.uid + '/description').$bind($scope, "description");
+
+    // types
+    $scope.types = ['Ansible', 'Salt'];
+
+    // set projects
+
+    // works!
+    $scope.projects = serviceProjects;
+
+    // using this method makes my delete function not work
+    //$scope.projects = syncData('users/' + $scope.auth.user.uid + '/projects');
+
+    // using the this way causes a weird "does not load stuff" on next page loads
+    //serviceProjects.$bind($scope, "projects");
+
+    // rename input button
+    $scope.renameInput = "Click project name at top of project page to rename.";
+
+    // get project name for rename button
+    $scope.getProjectName = function(key) {
+        return "some name";
+    }
+
+    // to set navbar to active
+    $scope.isActive = function (viewLocation) {
+      var active = (viewLocation === $location.path());
+      return active;
+    };
+
+    // add new project
+    $scope.addProject = function() {
+    if ( $scope.newProjectName && $scope.newProjectType) {
+      $scope.projects.$add({user_id: $scope.auth.user.uid, name: $scope.newProjectName, type: $scope.newProjectType, description: $scope.newProjectDescription});
+      $scope.newProjectName = null;
+      $scope.newProjectType = null;
+      $scope.newProjectDescription = null;
+    }
+    }
+
+    // copy project
+    $scope.cloneProject = function(key) {
+      var projectRef = new Firebase('https://deploynebula.firebaseio.com/users/' + $scope.auth.user.uid + '/projects/' + key);
+      projectRef.once('value', function(dataSnapshot) {
+        // store dataSnapshot for use in below examples.
+        var projectSnapshot = dataSnapshot;
+        $scope.projects.$add(projectSnapshot.val());
+      });
+    }
+
+    // remove project
+    // argument 'item' is the key of the db
+    $scope.removeProject = function(item) {
+      var deleteUser = confirm('Are you absolutely sure you want to delete?');
+      if (deleteUser) {
+      //alert('Going to delete the user');
+      $scope.projects.$remove(item);
+      }
+    }
+  }])
 
   .controller('foot', ['$scope', '$location', 'syncData', 'serviceFeedbacklist', function($scope, $location, syncData, serviceFeedbacklist) {
 
@@ -38,9 +104,7 @@ angular.module('myApp.controllers', [])
 
   }])
 
-  .controller('GettingStartedAnsibleCtrl', ['$scope', 'syncData', function($scope, syncData) {
-
-  }])
+  .controller('GettingStartedAnsibleCtrl', ['$scope', 'syncData', function($scope, syncData) {}])
 
   .controller('RepositoryCtrl', ['$scope', 'syncData', '$http', 'serviceAnsibleRepo', 'serviceProjects', 'serviceProject', 'serviceRoles', function($scope, syncData, $http, serviceAnsibleRepo, serviceProjects, serviceProject, serviceRoles) {
       // ansible public repo
@@ -152,6 +216,7 @@ angular.module('myApp.controllers', [])
 
   }])
 
+  /* Admin Sections */
   .controller('AdminCtrl', ['$scope', 'syncData', 'serviceFeedbacklist', 'serviceUserlist', function($scope, syncData, serviceFeedbacklist, serviceUserlist) {
       // sync the feedback list
       //$scope.feedbacklist = syncData('feedbacklist');
@@ -173,7 +238,6 @@ angular.module('myApp.controllers', [])
     	}
 
   }])
-
 
   .controller('AnsibleInventoryOptionsCtrl', ['$scope', 'syncData', function($scope, syncData) {
     $scope.ansibleinventoryoptions = syncData('hostoptions/ansible');
@@ -220,7 +284,6 @@ angular.module('myApp.controllers', [])
 
   }])
 
-
   .controller('AnsibleModuleListCtrl', ['$scope', 'syncData', function($scope, syncData) {
     $scope.moduleslist = syncData('moduleslist/ansible');
     $scope.choices = [];
@@ -258,13 +321,13 @@ angular.module('myApp.controllers', [])
     }
 
     // remove ansible module
-	$scope.removeModule = function(key) {
-	  var deleteModule = confirm('Are you absolutely sure you want to delete?');
-      if (deleteModule) {
-      //alert('Going to delete the user');
-      $scope.moduleslist.$remove(key);
-      }
-	}
+  	$scope.removeModule = function(key) {
+  	  var deleteModule = confirm('Are you absolutely sure you want to delete?');
+        if (deleteModule) {
+        //alert('Going to delete the user');
+        $scope.moduleslist.$remove(key);
+        }
+  	}
 
   }])
 
@@ -305,13 +368,13 @@ angular.module('myApp.controllers', [])
     }
 
     // remove ansible module
-	$scope.removeModule = function(key) {
-	  var deleteModule = confirm('Are you absolutely sure you want to delete?');
-      if (deleteModule) {
-      //alert('Going to delete the user');
-      $scope.moduleslist.$remove(key);
-      }
-	}
+  	$scope.removeModule = function(key) {
+  	  var deleteModule = confirm('Are you absolutely sure you want to delete?');
+        if (deleteModule) {
+        //alert('Going to delete the user');
+        $scope.moduleslist.$remove(key);
+        }
+  	}
 
   }])
 
@@ -352,119 +415,17 @@ angular.module('myApp.controllers', [])
     }
 
     // remove salt module
-	$scope.removeModule = function(key) {
-	  var deleteModule = confirm('Are you absolutely sure you want to delete?');
-      if (deleteModule) {
-      //alert('Going to delete the user');
-      $scope.moduleslist.$remove(key);
-      }
-	}
+  	$scope.removeModule = function(key) {
+  	  var deleteModule = confirm('Are you absolutely sure you want to delete?');
+        if (deleteModule) {
+        //alert('Going to delete the user');
+        $scope.moduleslist.$remove(key);
+        }
+  	}
 
   }])
 
-  .controller('HomeCtrl', ['$scope', 'syncData', function($scope, syncData) {
-
-    $scope.myInterval = 5000;
-    var slides = $scope.slides = [];
-    $scope.addSlide = function() {
-        var newWidth = 600 + slides.length;
-
-        slides.push({
-          image: 'https://c5c763d43bcb0cbf38a3-5343f0b2d7b0e3b66bc3dbb0378e6de3.ssl.cf1.rackcdn.com/misc.png'
-        });
-        slides.push({
-            image: 'https://c5c763d43bcb0cbf38a3-5343f0b2d7b0e3b66bc3dbb0378e6de3.ssl.cf1.rackcdn.com/jobs.png'
-        });
-        slides.push({
-            image: 'https://c5c763d43bcb0cbf38a3-5343f0b2d7b0e3b66bc3dbb0378e6de3.ssl.cf1.rackcdn.com/addhost.png'
-        });
-        slides.push({
-            image: 'https://c5c763d43bcb0cbf38a3-5343f0b2d7b0e3b66bc3dbb0378e6de3.ssl.cf1.rackcdn.com/inventory.png'
-        });
-        slides.push({
-            image: 'https://c5c763d43bcb0cbf38a3-5343f0b2d7b0e3b66bc3dbb0378e6de3.ssl.cf1.rackcdn.com/addtasks.png'
-        });
-        slides.push({
-            image: 'https://c5c763d43bcb0cbf38a3-5343f0b2d7b0e3b66bc3dbb0378e6de3.ssl.cf1.rackcdn.com/tasks.png'
-        });
-        slides.push({
-            image: 'https://c5c763d43bcb0cbf38a3-5343f0b2d7b0e3b66bc3dbb0378e6de3.ssl.cf1.rackcdn.com/rax.png'
-        });
-        slides.push({
-            image: 'https://c5c763d43bcb0cbf38a3-5343f0b2d7b0e3b66bc3dbb0378e6de3.ssl.cf1.rackcdn.com/playbooks.png'
-        });
-    };
-    $scope.addSlide();
-  }])
-
-  .controller('ProjectCtrl', ['$scope', '$http', '$routeParams', 'syncData', 'serviceProjects', function($scope, $http, $routeParams, syncData, serviceProjects) {
-    $scope.newProject = null;
-
-    syncData('users/' + $scope.auth.user.uid + '/description').$bind($scope, "description");
-
-    // types
-    $scope.types = ['Ansible', 'Salt'];
-
-    // set projects
-
-    // works!
-    $scope.projects = serviceProjects;
-
-    // using this method makes my delete function not work
-    //$scope.projects = syncData('users/' + $scope.auth.user.uid + '/projects');
-
-    // using the this way causes a weird "does not load stuff" on next page loads
-    //serviceProjects.$bind($scope, "projects");
-
-    // rename input button
-    $scope.renameInput = "Click project name at top of project page to rename.";
-
-    // get project name for rename button
-    $scope.getProjectName = function(key) {
-        return "some name";
-    }
-
-    // to set navbar to active
-    $scope.isActive = function (viewLocation) {
-      var active = (viewLocation === $location.path());
-      return active;
-    };
-
-    // add new project
-    $scope.addProject = function() {
-	  if ( $scope.newProjectName && $scope.newProjectType) {
-	    $scope.projects.$add({user_id: $scope.auth.user.uid, name: $scope.newProjectName, type: $scope.newProjectType, description: $scope.newProjectDescription});
-	    $scope.newProjectName = null;
-	    $scope.newProjectType = null;
-	    $scope.newProjectDescription = null;
-	  }
-    }
-
-    // copy project
-    $scope.cloneProject = function(key) {
-      var projectRef = new Firebase('https://deploynebula.firebaseio.com/users/' + $scope.auth.user.uid + '/projects/' + key);
-      projectRef.once('value', function(dataSnapshot) {
-        // store dataSnapshot for use in below examples.
-        var projectSnapshot = dataSnapshot;
-        $scope.projects.$add(projectSnapshot.val());
-      });
-    }
-
-    // remove project
-    // argument 'item' is the key of the db
-    $scope.removeProject = function(item) {
-      var deleteUser = confirm('Are you absolutely sure you want to delete?');
-      if (deleteUser) {
-      //alert('Going to delete the user');
-      $scope.projects.$remove(item);
-      }
-    }
-  }])
-
-
-  //
-  //  START Ansible CONTROLLERS
-  //
+  /* Ansible Controllers */
   .controller('AnsibleProjectDetailsCtrl',
     ['$scope', '$rootScope', '$http', '$routeParams', 'syncData', 'serviceProject', 'serviceRolesGit', 'serviceRoleGit', 'serviceRoles', 'serviceRolesManual', 'serviceRole', 'serviceRoleManual', 'serviceInventoryHost', 'serviceAnsibleRepo', '$firebase',
       function($scope, $rootScope, $http, $routeParams, syncData, serviceProject, serviceRolesGit, serviceRoleGit, serviceRoles, serviceRolesManual, serviceRole, serviceRoleManual, serviceInventoryHost, serviceAnsibleRepo, $firebase) {
@@ -1074,16 +1035,6 @@ angular.module('myApp.controllers', [])
 
 	}])
 
-
-
-	//
-	//
-	//
-	//  ansible role details controller
-	//
-	//
-	//
-
 	.controller('AnsibleRoleManualDetailsCtrl', ['$scope', '$http', '$routeParams', 'syncData', 'serviceRoleManual', function($scope, $http, $routeParams, syncData, serviceRoleManual) {
 
 	  $scope.roleID = $routeParams.roleId;
@@ -1534,9 +1485,7 @@ angular.module('myApp.controllers', [])
 
 	}])
 
-	//
-	//  START SALT CONTROLLERS
-	//
+	/* SaltStack Controllers */
 	.controller('SaltProjectDetailsCtrl', ['$scope', '$http', '$routeParams', 'syncData', function($scope, $http, $routeParams, syncData) {
 	  // set projectID from URL
       $scope.projectID = $routeParams.projectId;
@@ -1836,7 +1785,7 @@ angular.module('myApp.controllers', [])
 
 	}])
 
-
+  /* Misc Controllers */
   .controller('ChatCtrl', ['$scope', 'syncData', function($scope, syncData) {
 	  $scope.newMessage = null;
 
@@ -1933,7 +1882,6 @@ angular.module('myApp.controllers', [])
 
     };
 
-
     $scope.$on('angularFireAuth:login', function() {
       if ($scope.disassociateUserData) {
           $scope.disassociateUserData();
@@ -1942,7 +1890,6 @@ angular.module('myApp.controllers', [])
           $scope.disassociateUserData = disassociate;
       });
     });
-
 
     $scope.oldpass = null;
     $scope.newpass = null;

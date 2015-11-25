@@ -1,12 +1,8 @@
 (function() {
    'use strict';
 
-   /* Services */
-
+   /* AngularJS Services */
    angular.module('myApp.services', ['myApp.service.login', 'myApp.service.firebase'])
-
-      // put your services here!
-      // .service('serviceName', ['dependency', function(dependency) {}]);
 
       .service('serviceUserlist', ["$firebase", function($firebase) {
           var ref = new Firebase("https://deploynebula.firebaseio.com/users");
