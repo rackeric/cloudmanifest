@@ -15,11 +15,17 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      '../tests/jquery-1.9.1.js',
+      '../tests/jquery-ui.js',
       '../tests/angular.js',
       '../tests/angular-route.js',
       '../tests/angular-mocks.js',
       '../manifest/static/js/*.js',
-      '../tests/*.js'
+      '../tests/angular-ui.min.js',
+      '../tests/firebase.js',
+      '../tests/firebase-simple-login.js',
+      '../tests/angularfire.js',
+      '../tests/routes.tests.js'
     ],
 
 
