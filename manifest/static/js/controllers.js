@@ -3,7 +3,9 @@
 /* AngularJS Controllers */
 angular.module('myApp.controllers', [])
   /* User Sections */
-  .controller('HomeCtrl', ['$scope', 'syncData', function($scope, syncData) {}])
+  .controller('HomeCtrl', ['$scope', 'syncData', function($scope, syncData) {
+    $scope.myName = "manifest";
+  }])
 
   .controller('ProjectCtrl', ['$scope', '$http', '$routeParams', 'syncData', 'serviceProjects', function($scope, $http, $routeParams, syncData, serviceProjects) {
     $scope.newProject = null;

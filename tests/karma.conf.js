@@ -25,7 +25,8 @@ module.exports = function(config) {
       '../tests/firebase-simple-login.js',
       '../tests/angularfire.js',
       '../manifest/static/js/*.js',
-      '../tests/routes.tests.js'
+      //'../tests/routes.tests.js'
+      '../tests/controllers.tests.js'
     ],
 
 
