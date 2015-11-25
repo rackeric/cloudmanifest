@@ -1,6 +1,6 @@
 describe('Routes test', function() {
     // Mock our module in our tests
-    beforeEach(module('pivotApp'));
+    beforeEach(module('myApp'));
 
     // We want to store a copy of the three services we'll use in our tests
     // so we can later reference these services in our tests.
