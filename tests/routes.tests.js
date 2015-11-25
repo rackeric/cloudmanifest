@@ -32,19 +32,19 @@ describe('Routes test', function() {
         // and check that the controller is as expected.
         $rootScope.$digest();
 
-        expect($location.path()).toBe( '/' );
+        expect($location.path()).toBe( '/home' );
         expect($route.current.controller).toBe('HomeCtrl');
     });
 
     it('should redirect to the index path on non-existent route', function(){
-        $httpBackend.expectGET('static/partials/index.html').respond(200, 'index HTML');
+        $httpBackend.expectGET('static/partials/home.html').respond(200, 'index HTML');
         expect($location.path()).toBe('');
 
         $location.path('/a/non-existent/route');
 
         $rootScope.$digest();
 
-        expect($location.path()).toBe( '/' );
+        expect($location.path()).toBe( '/home' );
         expect($route.current.controller).toBe('HomeCtrl');
     });
 

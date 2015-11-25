@@ -25,7 +25,7 @@ module.exports = function(config) {
       '../tests/firebase-simple-login.js',
       '../tests/angularfire.js',
       '../manifest/static/js/*.js',
-      //'../tests/routes.tests.js'
+      '../tests/routes.tests.js',
       '../tests/controllers.tests.js'
     ],
 
@@ -39,7 +39,8 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       '*.html': ['ng-html2js'],
-      '*.js': ['coverage']
+      '../manifest/static/js/controllers.js': ['coverage'],
+      '../manifest/static/js/routes.js': ['coverage']
     },
 
     ngHtml2JsPreprocessor: {
@@ -53,7 +54,8 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['spec', 'progress', 'coverage', 'dots', 'junit'],
+    //reporters: ['spec', 'progress', 'coverage', 'dots', 'junit'],
+    reporters: ['spec', 'progress', 'dots', 'coverage', 'junit'],
 
     coverageReporter: {
       type : 'html',
@@ -85,7 +87,8 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'],
+    //browsers: ['PhantomJS'],
+    browsers: ['PhantomJS2'],
 
 
     // Continuous Integration mode

@@ -1,4 +1,4 @@
-describe('HomeCtrl', function(){
+describe('HomeCtrl Tests', function(){
 
     // we'll use this scope in our tests
     var $rootScope, createController;
