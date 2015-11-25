@@ -20,11 +20,11 @@ module.exports = function(config) {
       '../tests/angular.js',
       '../tests/angular-route.js',
       '../tests/angular-mocks.js',
-      '../manifest/static/js/*.js',
       '../tests/angular-ui.min.js',
       '../tests/firebase.js',
       '../tests/firebase-simple-login.js',
       '../tests/angularfire.js',
+      '../manifest/static/js/*.js',
       '../tests/routes.tests.js'
     ],
 
