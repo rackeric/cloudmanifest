@@ -369,7 +369,7 @@ angular.module('myApp.controllers', [])
         return viewLocation === $location.path();
     };
 
-  }]);
+  }])
 
   /* Admin Sections */
   .controller('AdminCtrl', ['$scope', 'syncData', 'serviceFeedbacklist', 'serviceUserlist', function($scope, syncData, serviceFeedbacklist, serviceUserlist) {
