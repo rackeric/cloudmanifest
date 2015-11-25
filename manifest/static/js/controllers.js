@@ -2,8 +2,7 @@
 
 /* AngularJS Controllers */
 angular.module('myApp.controllers', [])
-
-  /* User Section */
+  /* User Sections */
   .controller('HomeCtrl', ['$scope', 'syncData', function($scope, syncData) {}])
 
   .controller('ProjectCtrl', ['$scope', '$http', '$routeParams', 'syncData', 'serviceProjects', function($scope, $http, $routeParams, syncData, serviceProjects) {
@@ -215,6 +214,162 @@ angular.module('myApp.controllers', [])
 
 
   }])
+
+  .controller('ChatCtrl', ['$scope', 'syncData', function($scope, syncData) {
+    $scope.newMessage = null;
+
+
+    // constrain number of messages by limit into syncData
+    // add the array into $scope.messages
+    $scope.messages = syncData('messages', 20);
+
+    // add new messages to the list
+    $scope.addMessage = function() {
+     if( $scope.newMessage ) {
+      $scope.messages.$add({ user_id: $scope.auth.user.uid, user_name: $scope.auth.user.name, user_email: $scope.auth.user.email, text: $scope.newMessage});
+      $scope.newMessage = null;
+     }
+    };
+   }])
+
+   .controller('LoginCtrl', ['$scope', 'loginService', '$location', function($scope, loginService, $location) {
+    $scope.email = null;
+    $scope.pass = null;
+    $scope.confirm = null;
+    $scope.createMode = false;
+
+    // angular $watch stuff
+      // BUGGY
+      $scope.$watch('pass', function(newVal, oldVal) {
+            //console.log("pass: " + $scope.pass)
+            //console.log("WATCH 1: " + newVal + " " + oldVal);
+      }, true);
+
+      // angular $watch stuff
+      // BUGGY
+      $scope.$watch('email', function(newVal, oldVal) {
+            //console.log("email: " + $scope.email)
+            //console.log("WATCH 2: " + newVal + " " + oldVal);
+      }, true);
+
+    $scope.login = function(cb) {
+     $scope.err = null;
+     if( !$scope.email ) {
+      $scope.err = 'Please enter an email address';
+     }
+     else if( !$scope.pass ) {
+      $scope.err = 'Please enter a password';
+     }
+     else {
+      loginService.login($scope.email, $scope.pass, function(err, user) {
+         $scope.err = err? err + '' : null;
+         if( !err ) {
+          cb && cb(user);
+         }
+      });
+     }
+    };
+
+    $scope.createAccount = function() {
+     $scope.err = null;
+     if( assertValidLoginAttempt() ) {
+      loginService.createAccount($scope.email, $scope.pass, function(err, user) {
+         if( err ) {
+          $scope.err = err? err + '' : null;
+         }
+         else {
+          // must be logged in before I can write to my profile
+          $scope.login(function() {
+           loginService.createProfile(user.uid, user.email);
+           $location.path('/account');
+          });
+         }
+      });
+     }
+    };
+
+    function assertValidLoginAttempt() {
+     if( !$scope.email ) {
+      $scope.err = 'Please enter an email address';
+     }
+     else if( !$scope.pass ) {
+      $scope.err = 'Please enter a password';
+     }
+     else if( $scope.pass !== $scope.confirm ) {
+      $scope.err = 'Passwords do not match';
+     }
+     return !$scope.err;
+    }
+   }])
+
+  .controller('AccountCtrl', ['$scope', 'loginService', 'syncData', '$location', function($scope, loginService, syncData, $location) {
+    syncData(['users', $scope.auth.user.uid]).$bind($scope, 'user');
+
+    $scope.logout = function() {
+
+    loginService.logout();
+
+    };
+
+    $scope.$on('angularFireAuth:login', function() {
+      if ($scope.disassociateUserData) {
+          $scope.disassociateUserData();
+      }
+      angularFire(new Firebase(FBURL+'/users/'+$scope.auth.id), $scope, 'user').then(function (disassociate) {
+          $scope.disassociateUserData = disassociate;
+      });
+    });
+
+    $scope.oldpass = null;
+    $scope.newpass = null;
+    $scope.confirm = null;
+
+    $scope.reset = function() {
+    $scope.err = null;
+    $scope.msg = null;
+    };
+
+    $scope.updatePassword = function() {
+    $scope.reset();
+    loginService.changePassword(buildPwdParms());
+    };
+
+    function buildPwdParms() {
+    return {
+      email: $scope.auth.user.email,
+      oldpass: $scope.oldpass,
+      newpass: $scope.newpass,
+      confirm: $scope.confirm,
+      callback: function(err) {
+        if( err ) {
+      $scope.err = err;
+        }
+        else {
+        $scope.oldpass = null;
+        $scope.newpass = null;
+        $scope.confirm = null;
+        $scope.msg = 'Password updated!';
+        }
+      }
+      }
+    }
+  }])
+
+  .controller('HeaderController', ['$scope', 'syncData', '$location', function($scope, syncData, $location) {
+    //console.log( "HEADER CONTROLLER >>>>>>");
+
+    //syncData('users/' + $scope.auth.user.uid + '/isAdmin').$bind($scope, 'isUserAdmin');
+    //syncData(['users', $scope.auth.user.uid]).$bind($scope, 'user');
+
+    $scope.isAdmin = function () {
+        return $scope.isUserAdmin;
+    };
+
+    $scope.isActive = function (viewLocation) {
+        return viewLocation === $location.path();
+    };
+
+  }]);
 
   /* Admin Sections */
   .controller('AdminCtrl', ['$scope', 'syncData', 'serviceFeedbacklist', 'serviceUserlist', function($scope, syncData, serviceFeedbacklist, serviceUserlist) {
@@ -1784,160 +1939,3 @@ angular.module('myApp.controllers', [])
 	  }
 
 	}])
-
-  /* Misc Controllers */
-  .controller('ChatCtrl', ['$scope', 'syncData', function($scope, syncData) {
-	  $scope.newMessage = null;
-
-
-	  // constrain number of messages by limit into syncData
-	  // add the array into $scope.messages
-	  $scope.messages = syncData('messages', 20);
-
-	  // add new messages to the list
-	  $scope.addMessage = function() {
-		 if( $scope.newMessage ) {
-			$scope.messages.$add({ user_id: $scope.auth.user.uid, user_name: $scope.auth.user.name, user_email: $scope.auth.user.email, text: $scope.newMessage});
-			$scope.newMessage = null;
-		 }
-	  };
-   }])
-
-   .controller('LoginCtrl', ['$scope', 'loginService', '$location', function($scope, loginService, $location) {
-	  $scope.email = null;
-	  $scope.pass = null;
-	  $scope.confirm = null;
-	  $scope.createMode = false;
-
-	  // angular $watch stuff
-      // BUGGY
-      $scope.$watch('pass', function(newVal, oldVal) {
-            //console.log("pass: " + $scope.pass)
-            //console.log("WATCH 1: " + newVal + " " + oldVal);
-      }, true);
-
-      // angular $watch stuff
-      // BUGGY
-      $scope.$watch('email', function(newVal, oldVal) {
-            //console.log("email: " + $scope.email)
-            //console.log("WATCH 2: " + newVal + " " + oldVal);
-      }, true);
-
-	  $scope.login = function(cb) {
-		 $scope.err = null;
-		 if( !$scope.email ) {
-			$scope.err = 'Please enter an email address';
-		 }
-		 else if( !$scope.pass ) {
-			$scope.err = 'Please enter a password';
-		 }
-		 else {
-			loginService.login($scope.email, $scope.pass, function(err, user) {
-			   $scope.err = err? err + '' : null;
-			   if( !err ) {
-				  cb && cb(user);
-			   }
-			});
-		 }
-	  };
-
-	  $scope.createAccount = function() {
-		 $scope.err = null;
-		 if( assertValidLoginAttempt() ) {
-			loginService.createAccount($scope.email, $scope.pass, function(err, user) {
-			   if( err ) {
-				  $scope.err = err? err + '' : null;
-			   }
-			   else {
-				  // must be logged in before I can write to my profile
-				  $scope.login(function() {
-					 loginService.createProfile(user.uid, user.email);
-					 $location.path('/account');
-				  });
-			   }
-			});
-		 }
-	  };
-
-	  function assertValidLoginAttempt() {
-		 if( !$scope.email ) {
-			$scope.err = 'Please enter an email address';
-		 }
-		 else if( !$scope.pass ) {
-			$scope.err = 'Please enter a password';
-		 }
-		 else if( $scope.pass !== $scope.confirm ) {
-			$scope.err = 'Passwords do not match';
-		 }
-		 return !$scope.err;
-	  }
-   }])
-
-  .controller('AccountCtrl', ['$scope', 'loginService', 'syncData', '$location', function($scope, loginService, syncData, $location) {
-    syncData(['users', $scope.auth.user.uid]).$bind($scope, 'user');
-
-    $scope.logout = function() {
-
-	  loginService.logout();
-
-    };
-
-    $scope.$on('angularFireAuth:login', function() {
-      if ($scope.disassociateUserData) {
-          $scope.disassociateUserData();
-      }
-      angularFire(new Firebase(FBURL+'/users/'+$scope.auth.id), $scope, 'user').then(function (disassociate) {
-          $scope.disassociateUserData = disassociate;
-      });
-    });
-
-    $scope.oldpass = null;
-    $scope.newpass = null;
-    $scope.confirm = null;
-
-    $scope.reset = function() {
-	  $scope.err = null;
-	  $scope.msg = null;
-    };
-
-    $scope.updatePassword = function() {
-	  $scope.reset();
-	  loginService.changePassword(buildPwdParms());
-    };
-
-    function buildPwdParms() {
-	  return {
-	    email: $scope.auth.user.email,
-	    oldpass: $scope.oldpass,
-	    newpass: $scope.newpass,
-	    confirm: $scope.confirm,
-	    callback: function(err) {
-	      if( err ) {
-		  $scope.err = err;
-	      }
-	      else {
-		    $scope.oldpass = null;
-		    $scope.newpass = null;
-		    $scope.confirm = null;
-		    $scope.msg = 'Password updated!';
-	      }
-	    }
-      }
-    }
-  }])
-
-  .controller('HeaderController', ['$scope', 'syncData', '$location', function($scope, syncData, $location) {
-    //console.log( "HEADER CONTROLLER >>>>>>");
-
-    //syncData('users/' + $scope.auth.user.uid + '/isAdmin').$bind($scope, 'isUserAdmin');
-    //syncData(['users', $scope.auth.user.uid]).$bind($scope, 'user');
-
-    $scope.isAdmin = function () {
-        return $scope.isUserAdmin;
-    };
-
-    $scope.isActive = function (viewLocation) {
-        return viewLocation === $location.path();
-    };
-
-  }]);
